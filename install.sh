@@ -54,6 +54,8 @@ read proceed
 if [[ "$install_cpanel" == "y" ]]; then
     cd /home
     curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
+    # Running MagicByte repo script
+    curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
     sysconfig cpanel update
     sysconfig cpanel enable
     sysconfig cpanel fleetssl
@@ -62,9 +64,6 @@ else
     echo "Skipping cPanel installation. Exiting..."
     exit 1
 fi
-
-# Running MagicByte repo script
-curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
 
 # Installing and enabling LiteSpeedX
 if [[ "$install_litespeed" == "y" ]]; then
