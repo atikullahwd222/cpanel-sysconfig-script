@@ -34,7 +34,10 @@ iptables-save > ~/firewall.rules
 systemctl stop firewalld.service
 systemctl disable firewalld.service
 
+clear
+
 # Confirm installation choices
+echo "================================================================================================================="
 install_cpanel=$(prompt_input "Do you want to install cPanel? (y/n)")
 install_litespeed=$(prompt_input "Do you want to install and activate LiteSpeed License? (y/n)")
 install_softaculous=$(prompt_input "Do you want to install Softaculous? (y/n)")
@@ -43,6 +46,19 @@ install_whmreseller=$(prompt_input "Do you want to install WHMReseller? (y/n)")
 install_sitepad=$(prompt_input "Do you want to install SitePad? (y/n)")
 install_im360=$(prompt_input "Do you want to install Imunify360? (y/n)")
 install_cloudlinux=$(prompt_input "Do you want to install CloudLinux? (y/n)")
+echo "================================================================================================================="
+
+# Wait for 30 seconds before proceeding
+echo "You have 30 seconds to decide whether to start the installation or not..."
+sleep 30
+
+# Ask user again to confirm if they want to start the installation
+echo "Do you want to proceed with the installation? (y/n)"
+read proceed
+if [[ "$proceed" != "y" ]]; then
+    echo "Installation cancelled. Exiting..."
+    exit 1
+fi
 
 # Installing cPanel
 if [[ "$install_cpanel" == "y" ]]; then
