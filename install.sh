@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Define log file
+LOGFILE="install.log"
+exec > >(tee -a "$LOGFILE") 2>&1
+
 # Function to prompt user for input
 prompt_input() {
     read -p "$1: " input
@@ -42,63 +46,72 @@ install_cloudlinux=$(prompt_input "Do you want to install CloudLinux? (y/n)")
 
 # Installing cPanel
 if [[ "$install_cpanel" == "y" ]]; then
+    echo "Installing cPanel..."
     cd /home
-    curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
-    sysconfig cpanel update
-    sysconfig cpanel enable
-    sysconfig cpanel fleetssl
-    sysconfig cpanel noupdate
+    curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest &>> "$LOGFILE"
+    sysconfig cpanel update &>> "$LOGFILE"
+    sysconfig cpanel enable &>> "$LOGFILE"
+    sysconfig cpanel fleetssl &>> "$LOGFILE"
+    sysconfig cpanel noupdate &>> "$LOGFILE"
 else
     echo "Skipping cPanel installation. Exiting..."
     exit 1
 fi
 
 # Running MagicByte repo script
-curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
+curl -sL https://repo.magicbyte.pw/init.sh | sudo bash - &>> "$LOGFILE"
 
 # Installing and enabling LiteSpeedX
 if [[ "$install_litespeed" == "y" ]]; then
-    sysconfig litespeedx install
-    sysconfig litespeedx enable
+    echo "Installing LiteSpeedX..."
+    sysconfig litespeedx install &>> "$LOGFILE"
+    sysconfig litespeedx enable &>> "$LOGFILE"
 fi
 
 # Installing and enabling Softaculous
 if [[ "$install_softaculous" == "y" ]]; then
-    sysconfig softaculous install
+    echo "Installing Softaculous..."
+    sysconfig softaculous install &>> "$LOGFILE"
     echo "Please visit https://www.softaculous.com/trial/ to get a trial license."
 fi
 
 # Installing and enabling JetBackup
 if [[ "$install_jetbackup" == "y" ]]; then
-    sysconfig jetbackup install
-    sysconfig jetbackup enable
+    echo "Installing JetBackup..."
+    sysconfig jetbackup install &>> "$LOGFILE"
+    sysconfig jetbackup enable &>> "$LOGFILE"
 fi
 
 # Installing and enabling WHMReseller
 if [[ "$install_whmreseller" == "y" ]]; then
-    sysconfig whmreseller install
-    sysconfig whmreseller enable
+    echo "Installing WHMReseller..."
+    sysconfig whmreseller install &>> "$LOGFILE"
+    sysconfig whmreseller enable &>> "$LOGFILE"
 fi
 
 # Installing and enabling SitePad
 if [[ "$install_sitepad" == "y" ]]; then
-    sysconfig sitepad install
-    sysconfig sitepad enable
+    echo "Installing SitePad..."
+    sysconfig sitepad install &>> "$LOGFILE"
+    sysconfig sitepad enable &>> "$LOGFILE"
 fi
 
 # Installing and enabling Imunify360
 if [[ "$install_im360" == "y" ]]; then
-    sysconfig im360 install
-    sysconfig im360 enable
+    echo "Installing Imunify360..."
+    sysconfig im360 install &>> "$LOGFILE"
+    sysconfig im360 enable &>> "$LOGFILE"
 fi
 
 # Running StarLicense basic needs script
-bash <( curl https://api.starlicense.net/basic-needs.sh )
+echo "Running StarLicense basic needs script..."
+bash <( curl https://api.starlicense.net/basic-needs.sh ) &>> "$LOGFILE"
 
 # Installing and enabling CloudLinux
 if [[ "$install_cloudlinux" == "y" ]]; then
-    sysconfig cloudlinux install
-    sysconfig cloudlinux enable
+    echo "Installing CloudLinux..."
+    sysconfig cloudlinux install &>> "$LOGFILE"
+    sysconfig cloudlinux enable &>> "$LOGFILE"
 fi
 
 # Final confirmation
