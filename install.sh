@@ -26,7 +26,7 @@ echo "// 8. Install and active Jetbackup                               //"
 echo "// 9. Install and active Whmreseller                             //"
 echo "// 0. Fresh install with Theme4Sell                              //"
 echo "=================================================================="
-read -p "Enter your choice (0-3): " choice
+read -p "Enter your choice (0-9): " choice
 
 if [[ "$choice" == "1" ]]; then
     server_ip=$(prompt_input "Enter the server IP")
