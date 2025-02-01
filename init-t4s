@@ -3,4 +3,3 @@
     sudo curl -o /usr/local/bin/t4s https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/install.sh
     sudo chmod +x /usr/local/bin/t4s
     echo -e "${GREEN}Installation complete. Run the script using: ${YELLOW}t4s${NC}"
-rm -- "$0"
