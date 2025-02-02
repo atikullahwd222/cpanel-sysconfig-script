@@ -28,7 +28,7 @@ echo -e "                                                     "
 
 echo "=================== BH System v1.2 ============================"
 echo "Select an installation option:                                "
-echo -e "${RED}1. Ready the server for WHM (Important)            ${NC}"
+echo -e "${RED}1. Ready the server for WHM ${NC} ${GREEN}(Important)${NC}           "
 echo "2. Install WHM                                                "
 echo "3. Initialize Theme4Sell                                      "
 echo "4. Activate or Fix WHM Lic. with Theme4Sell                   "
