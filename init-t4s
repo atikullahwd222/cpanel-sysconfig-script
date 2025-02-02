@@ -5,6 +5,14 @@ GREEN="\033[0;32m"
 YELLOW="\033[0;33m"
 NC="\033[0m"
 
+# Function to prompt for user input
+prompt_input() {
+    local prompt=$1
+    echo -e "${GREEN}$prompt:${NC}"
+    read input
+    echo "$input"
+}
+
 echo -e "${GREEN}Initializing script installation...${NC}"
 
 # Create /usr/local/bin and download the script
@@ -13,7 +21,6 @@ sudo curl -o /usr/local/bin/t4s https://raw.githubusercontent.com/atikullahwd222
 sudo chmod +x /usr/local/bin/t4s
 
 echo -e "${GREEN}Installation complete. Run the script using: ${YELLOW}t4s${NC}"
-
 
 # Ask for user confirmation
 echo "Do you want to ready the server for WHM installation with Theme4Sell? (yes/no)"
