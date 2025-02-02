@@ -26,6 +26,9 @@ echo -e "${GREEN}Installation complete. Run the script using: ${YELLOW}t4s${NC}"
 echo "Do you want to ready the server for WHM installation with Theme4Sell? (yes/no)"
 read confirmation
 
+# Debugging line to see the input value
+echo "Debug: User input was: '$confirmation'"
+
 # Check the user response
 if [[ "$confirmation" == "yes" || "$confirmation" == "y" ]]; then
     # User input for configuration
