@@ -140,31 +140,6 @@ elif [[ "$choice" == "15" ]]; then
         reboot
 
 elif [[ "$choice" == "0" ]]; then
-    # Get user input
-    server_ip=$(prompt_input "Enter the server IP")
-    hostname=$(prompt_input "Enter the hostname")
-    hostname_prefix=$(prompt_input "Enter the hostname prefix")
-
-    # Update /etc/hosts
-    echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
-
-    # Setting up DNS resolvers
-    echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
-    echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
-
-    # Installing nano text editor
-    yum install nano -y
-
-    # Updating system and installing AlmaLinux release
-    yum update -y
-    yum install almalinux-release -y
-
-    # Disabling firewalld
-    iptables-save > ~/firewall.rules
-    systemctl stop firewalld.service
-    systemctl disable firewalld.service
-
-    clear
     # Confirm installation choices
     echo "===================================================================================================="
     install_cpanel=$(prompt_input "Do you want to install cPanel? (y/n)")
