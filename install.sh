@@ -42,7 +42,7 @@ echo "11. Install and Active Im360                                  "
 echo "12. Install and CSF                                           "
 echo "13. Install Cloudlinux                                        "
 echo "14. Install Enable Cloudlinux                                 "
-echo -e "${RED} 15. Ready the server for WHM                           ${NC}"
+echo -e "${RED}15. Ready the server for WHM                           ${NC}"
 echo "0. Fresh install with Theme4Sell                              "
 echo "=================== BH System v1.2 ============================"
 read -p "Enter your choice (0-3): " choice
@@ -137,6 +137,7 @@ elif [[ "$choice" == "15" ]]; then
         iptables-save > ~/firewall.rules
         systemctl stop firewalld.service
         systemctl disable firewalld.service
+        reboot
 
 elif [[ "$choice" == "0" ]]; then
     # Get user input
