@@ -5,25 +5,6 @@ GREEN="\033[0;32m"
 YELLOW="\033[0;33m"
 NC="\033[0m"
 
-# Prompt input function
-prompt_input() {
-    local prompt="$1"
-    read -p "$prompt: " user_input
-    echo "$user_input"
-}
-
-# Confirmation function for yes/no
-confirm_action() {
-    local prompt="$1"
-    read -p "$prompt (y/n): " confirm
-    if [[ "$confirm" =~ ^[Yy]$ ]]; then
-        return 0  # Yes
-    else
-        return 1  # No
-    fi
-}
-
-# Installation message
 echo -e "${GREEN}Initializing script installation...${NC}"
 
 # Create /usr/local/bin and download the script
@@ -33,8 +14,13 @@ sudo chmod +x /usr/local/bin/t4s
 
 echo -e "${GREEN}Installation complete. Run the script using: ${YELLOW}t4s${NC}"
 
-# Ask if the user wants to ready the server for WHM
-if confirm_action "Do you want to ready the server for WHM?"; then
+
+# Ask for user confirmation
+echo "Do you want to ready the server for WHM installation with Theme4Sell? (yes/no)"
+read answer
+
+# Check the user response
+if [[ "$answer" == "yes" || "$answer" == "y" ]]; then
     # User input for configuration
     server_ip=$(prompt_input "Enter the server IP")
     hostname=$(prompt_input "Enter the hostname")
@@ -69,16 +55,7 @@ if confirm_action "Do you want to ready the server for WHM?"; then
     sudo systemctl disable firewalld.service
 
     # Confirm completion
-    echo -e "${GREEN}System setup complete.${NC}"
-
-    # Ask if the user wants to ready the server for WHM
-    if confirm_action "Do you want to prepare the server for WHM?"; then
-        echo -e "${GREEN}Preparing the server for WHM...${NC}"
-        # Add commands to prepare the server for WHM here
-        # For example, installing cPanel/WHM, configuring firewall rules, etc.
-    else
-        echo -e "${YELLOW}Skipping WHM preparation.${NC}"
-    fi
+    echo -e "${GREEN}System setup complete.${NC}"    
 else
     echo -e "${YELLOW}Configuration aborted. Please restart the script with the correct settings.${NC}"
     exit 1
