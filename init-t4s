@@ -33,17 +33,19 @@ sudo chmod +x /usr/local/bin/t4s
 
 echo -e "${GREEN}Installation complete. Run the script using: ${YELLOW}t4s${NC}"
 
-# User input for configuration
-server_ip=$(prompt_input "Enter the server IP")
-hostname=$(prompt_input "Enter the hostname")
-hostname_prefix=$(prompt_input "Enter the hostname prefix")
+# Ask if the user wants to ready the server for WHM
+if confirm_action "Do you want to ready the server for WHM?"; then
+    # User input for configuration
+    server_ip=$(prompt_input "Enter the server IP")
+    hostname=$(prompt_input "Enter the hostname")
+    hostname_prefix=$(prompt_input "Enter the hostname prefix")
 
-if confirm_action "Do you want ready the server for WHM?"; then
     # Confirm details
     echo -e "${GREEN}You entered the following details:${NC}"
     echo "Server IP: $server_ip"
     echo "Hostname: $hostname"
     echo "Hostname Prefix: $hostname_prefix"
+    
     # Update /etc/hosts
     echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
 
@@ -68,9 +70,9 @@ if confirm_action "Do you want ready the server for WHM?"; then
 
     # Confirm completion
     echo -e "${GREEN}System setup complete.${NC}"
-    
+
     # Ask if the user wants to ready the server for WHM
-    if confirm_action "Do you want to ready the server for WHM?"; then
+    if confirm_action "Do you want to prepare the server for WHM?"; then
         echo -e "${GREEN}Preparing the server for WHM...${NC}"
         # Add commands to prepare the server for WHM here
         # For example, installing cPanel/WHM, configuring firewall rules, etc.
