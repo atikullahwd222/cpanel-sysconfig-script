@@ -5,71 +5,7 @@ GREEN="\033[0;32m"
 YELLOW="\033[0;33m"
 NC="\033[0m"
 
-# Function to prompt for user input
-prompt_input() {
-    local prompt=$1
-    echo -e "${GREEN}$prompt:${NC}"
-    read input
-    input=$(echo "$input" | xargs)  # Remove leading/trailing whitespace
-    echo "$input"
-}
-# Ask for user confirmation
-echo "Do you want to ready the server for WHM installation with Theme4Sell? (yes/no)"
-read confirmation
 
-# Check the user response
-if [[ "$confirmation" == "yes" || "$confirmation" == "y" ]]; then
-
-echo -e "${GREEN}Initializing script installation...${NC}"
-
-# Create /usr/local/bin and download the script
 sudo mkdir -p /usr/local/bin
 sudo curl -o /usr/local/bin/t4s https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/install.sh
 sudo chmod +x /usr/local/bin/t4s
-
-echo -e "${GREEN}Installation complete. Run the script using: ${YELLOW}t4s${NC}"
-
-    # User input for configuration
-    server_ip=$(prompt_input "Enter the server IP")
-    hostname=$(prompt_input "Enter the hostname")
-    hostname_prefix=$(prompt_input "Enter the hostname prefix")
-
-    # Confirm details
-    echo -e "${GREEN}You entered the following details:${NC}"
-    echo "Server IP: $server_ip"
-    echo "Hostname: $hostname"
-    echo "Hostname Prefix: $hostname_prefix"
-    
-    # Update /etc/hosts
-    echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
-
-    # Set DNS resolvers
-    echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
-    echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
-
-    # Install nano text editor
-    echo -e "${GREEN}Installing nano...${NC}"
-    sudo yum install nano -y
-
-    # Update system and install AlmaLinux release
-    echo -e "${GREEN}Updating system...${NC}"
-    sudo yum update -y
-    sudo yum install almalinux-release -y
-
-    # Disable firewalld (save rules first)
-    echo -e "${GREEN}Disabling firewalld...${NC}"
-    sudo iptables-save > ~/firewall.rules
-    sudo systemctl stop firewalld.service
-    sudo systemctl disable firewalld.service
-
-    # Confirm completion
-    echo -e "${GREEN}System setup complete.${NC}"    
-else
-    # Create /usr/local/bin and download the script
-    sudo mkdir -p /usr/local/bin
-    sudo curl -o /usr/local/bin/t4s https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/install.sh
-    sudo chmod +x /usr/local/bin/t4s
-
-    echo -e "${GREEN}Installation complete. Run the script using: ${YELLOW}t4s${NC}"
-    exit 1
-fi
