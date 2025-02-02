@@ -38,12 +38,12 @@ server_ip=$(prompt_input "Enter the server IP")
 hostname=$(prompt_input "Enter the hostname")
 hostname_prefix=$(prompt_input "Enter the hostname prefix")
 
-# Confirm details
-echo -e "${GREEN}You entered the following details:${NC}"
-echo "Server IP: $server_ip"
-echo "Hostname: $hostname"
-echo "Hostname Prefix: $hostname_prefix"
-if confirm_action "Do you want to proceed with these settings?"; then
+if confirm_action "Do you want ready the server for WHM?"; then
+    # Confirm details
+    echo -e "${GREEN}You entered the following details:${NC}"
+    echo "Server IP: $server_ip"
+    echo "Hostname: $hostname"
+    echo "Hostname Prefix: $hostname_prefix"
     # Update /etc/hosts
     echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
 
