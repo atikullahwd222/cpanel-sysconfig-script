@@ -70,7 +70,7 @@ if [[ "$choice" == "1" ]]; then
         echo -e "${RED}The Server need a reboot.....${NC}"
         echo -e "${RED}ctrl+c${NC} ${GREEN}To avoid restart${NC}"
         sleep 30
-        echo -e "${RED}After Reboot run t4s again to continue ${NC}"
+        echo -e "${GREEN}After Reboot run t4s again to continue ${NC}"
         echo -e "${RED}Rebooting ${NC}"
         sleep 3
 
