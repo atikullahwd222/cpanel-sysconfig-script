@@ -28,41 +28,66 @@ echo -e "                                                     "
 
 echo "=================== BH System v1.2 ============================"
 echo "Select an installation option:                                "
-echo "1. Install WHM                                                "
-echo "2. Initialize Theme4Sell                                      "
-echo "3. Activate or Fix WHM Lic. with Theme4Sell                   "
-echo "4. Install and Active LiteSpeedX                              "
-echo "5. Tweak Settings                                             "
-echo "6. Install Softaculous                                        "
-echo "7. Active Softaculous                                         "
-echo "8. Install and active Jetbackup                               "
-echo "9. Install and active Whmreseller                             "
-echo "10. Install and Active sitepad                                "
-echo "11. Install and Active Im360                                  "
-echo "12. Install and CSF                                           "
-echo "13. Install Cloudlinux                                        "
-echo "14. Install Enable Cloudlinux                                 "
-echo -e "${RED}15. Ready the server for WHM                           ${NC}"
+echo -e "${RED} 1. Ready the server for WHM                           ${NC}"
+echo "2. Install WHM                                                "
+echo "3. Initialize Theme4Sell                                      "
+echo "4. Activate or Fix WHM Lic. with Theme4Sell                   "
+echo "5. Install and Active LiteSpeedX                              "
+echo "6. Tweak Settings                                             "
+echo "7. Install Softaculous                                        "
+echo "8. Active Softaculous                                         "
+echo "9. Install and active Jetbackup                               "
+echo "10. Install and active Whmreseller                             "
+echo "11. Install and Active sitepad                                "
+echo "12. Install and Active Im360                                  "
+echo "13. Install and CSF                                           "
+echo "14. Install Cloudlinux                                        "
+echo "15. Install Enable Cloudlinux                                 "
 echo "0. Fresh install with Theme4Sell                              "
 echo "=================== BH System v1.2 ============================"
 read -p "Enter your choice (0-3): " choice
 
-if [[ "$choice" == "1" ]]; then
+elif [[ "$choice" == "1" ]]; then
+        server_ip=$(prompt_input "Enter the server IP")
+        hostname=$(prompt_input "Enter the hostname")
+        hostname_prefix=$(prompt_input "Enter the hostname prefix")
+
+        echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
+
+        echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+        echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
+
+        yum install nano -y
+        yum update -y
+        yum install almalinux-release -y
+        iptables-save > ~/firewall.rules
+        systemctl stop firewalld.service
+        systemctl disable firewalld.service
+
+
+        clear
+
+        echo "${RED}The Server need a reboot..... ${NC}"
+        echo -e "${RED}Rebooting ${NC}"
+
+        reboot now
+
+if [[ "$choice" == "2" ]]; then
     cd /home
     curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
 
-elif [[ "$choice" == "2" ]]; then
+elif [[ "$choice" == "3" ]]; then
     curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
 
-elif [[ "$choice" == "3" ]]; then
+elif [[ "$choice" == "4" ]]; then
     sysconfig cpanel update
     sysconfig cpanel enable
 
-elif [[ "$choice" == "4" ]]; then
+elif [[ "$choice" == "5" ]]; then
     sysconfig litespeedx install
     sysconfig litespeedx enable
 
-elif [[ "$choice" == "5" ]]; then
+elif [[ "$choice" == "6" ]]; then
     echo "===================================================================="
     echo "${GREEN} Enable Tweak settings.... ${NC}"
 
@@ -90,57 +115,38 @@ elif [[ "$choice" == "5" ]]; then
     echo "${GREEN} Tweak settings Successfull ${NC}"
     echo "===================================================================="
 
-elif [[ "$choice" == "6" ]]; then
+elif [[ "$choice" == "7" ]]; then
     sysconfig softaculous install
 
-elif [[ "$choice" == "7" ]]; then
+elif [[ "$choice" == "8" ]]; then
     sysconfig softaculous enable
 
-elif [[ "$choice" == "8" ]]; then
+elif [[ "$choice" == "9" ]]; then
     sysconfig jetbackup install
     sysconfig jetbackup enable
 
-elif [[ "$choice" == "9" ]]; then
+elif [[ "$choice" == "10" ]]; then
     sysconfig whmreseller install
     sysconfig whmreseller enable
 
-elif [[ "$choice" == "10" ]]; then
+elif [[ "$choice" == "11" ]]; then
     sysconfig sitepad install
     sysconfig sitepad enable
 
-elif [[ "$choice" == "11" ]]; then
+elif [[ "$choice" == "12" ]]; then
     sysconfig im360 install
     sysconfig im360 enable
 
-elif [[ "$choice" == "12" ]]; then
+elif [[ "$choice" == "13" ]]; then
     bash <( curl https://api.starlicense.net/basic-needs.sh )
 
-elif [[ "$choice" == "13" ]]; then
+elif [[ "$choice" == "14" ]]; then
     sysconfig cloudlinux install
 
-elif [[ "$choice" == "14" ]]; then
+elif [[ "$choice" == "15" ]]; then
     sysconfig cloudlinux enable
 
-elif [[ "$choice" == "15" ]]; then
-        server_ip=$(prompt_input "Enter the server IP")
-        hostname=$(prompt_input "Enter the hostname")
-        hostname_prefix=$(prompt_input "Enter the hostname prefix")
-
-        echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
-
-        echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
-        echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
-
-        yum install nano -y
-        yum update -y
-        yum install almalinux-release -y
-        iptables-save > ~/firewall.rules
-        systemctl stop firewalld.service
-        systemctl disable firewalld.service
-        reboot
-
 elif [[ "$choice" == "0" ]]; then
-    # Confirm installation choices
     echo "===================================================================================================="
     install_cpanel=$(prompt_input "Do you want to install cPanel? (y/n)")
     install_litespeed=$(prompt_input "Do you want to install and activate LiteSpeed License? (y/n)")
