@@ -10,6 +10,7 @@ prompt_input() {
     local prompt=$1
     echo -e "${GREEN}$prompt:${NC}"
     read input
+    input=$(echo "$input" | xargs)  # Remove leading/trailing whitespace
     echo "$input"
 }
 
@@ -27,6 +28,7 @@ echo "Do you want to ready the server for WHM installation with Theme4Sell? (yes
 read confirmation
 
 # Debugging line to see the input value
+confirmation=$(echo "$confirmation" | xargs)  # Remove leading/trailing whitespace
 echo "Debug: User input was: '$confirmation'"
 
 # Check the user response
