@@ -24,6 +24,7 @@ echo -e "${GREEN}#  | |/ / / / __/                                       "
 echo -e "${GREEN}#  |___/_(_)____/                                       "
 echo -e "${GREEN}#                                                       "
 echo -e "${GREEN}#${NC}"
+
                                                   
 
 echo "=================== BH System v1.2 ============================"
@@ -42,6 +43,7 @@ echo "${GREEN} 11. ${NC} Install and Active Im360                               
 echo "${GREEN} 12. ${NC} Install and CSF                                           "
 echo "${GREEN} 13. ${NC} Install Cloudlinux                                        "
 echo "${GREEN} 14. ${NC} Install Enable Cloudlinux                                 "
+echo "${RED} 15. ${NC} Ready the server for WHM                                  "
 echo "${GREEN} 0. ${NC} Fresh install with Theme4Sell                              "
 echo "=================== BH System v1.2 ============================"
 read -p "Enter your choice (0-3): " choice
@@ -140,6 +142,23 @@ elif [[ "$choice" == "13" ]]; then
 
 elif [[ "$choice" == "14" ]]; then
     sysconfig cloudlinux enable
+
+elif [[ "$choice" == "15" ]]; then
+        server_ip=$(prompt_input "Enter the server IP")
+        hostname=$(prompt_input "Enter the hostname")
+        hostname_prefix=$(prompt_input "Enter the hostname prefix")
+
+        echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
+
+        echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+        echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
+
+        yum install nano -y
+        yum update -y
+        yum install almalinux-release -y
+        iptables-save > ~/firewall.rules
+        systemctl stop firewalld.service
+        systemctl disable firewalld.service
 
 elif [[ "$choice" == "0" ]]; then
     # Get user input
