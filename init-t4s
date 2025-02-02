@@ -13,6 +13,12 @@ prompt_input() {
     input=$(echo "$input" | xargs)  # Remove leading/trailing whitespace
     echo "$input"
 }
+# Ask for user confirmation
+echo "Do you want to ready the server for WHM installation with Theme4Sell? (yes/no)"
+read confirmation
+
+# Check the user response
+if [[ "$confirmation" == "yes" || "$confirmation" == "y" ]]; then
 
 echo -e "${GREEN}Initializing script installation...${NC}"
 
@@ -23,16 +29,6 @@ sudo chmod +x /usr/local/bin/t4s
 
 echo -e "${GREEN}Installation complete. Run the script using: ${YELLOW}t4s${NC}"
 
-# Ask for user confirmation
-echo "Do you want to ready the server for WHM installation with Theme4Sell? (yes/no)"
-read confirmation
-
-# Debugging line to see the input value
-confirmation=$(echo "$confirmation" | xargs)  # Remove leading/trailing whitespace
-echo "Debug: User input was: '$confirmation'"
-
-# Check the user response
-if [[ "$confirmation" == "yes" || "$confirmation" == "y" ]]; then
     # User input for configuration
     server_ip=$(prompt_input "Enter the server IP")
     hostname=$(prompt_input "Enter the hostname")
@@ -69,6 +65,11 @@ if [[ "$confirmation" == "yes" || "$confirmation" == "y" ]]; then
     # Confirm completion
     echo -e "${GREEN}System setup complete.${NC}"    
 else
-    echo -e "${YELLOW}Configuration aborted. Please restart the script with the correct settings.${NC}"
+    # Create /usr/local/bin and download the script
+    sudo mkdir -p /usr/local/bin
+    sudo curl -o /usr/local/bin/t4s https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/install.sh
+    sudo chmod +x /usr/local/bin/t4s
+
+    echo -e "${GREEN}Installation complete. Run the script using: ${YELLOW}t4s${NC}"
     exit 1
 fi
