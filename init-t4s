@@ -17,10 +17,10 @@ echo -e "${GREEN}Installation complete. Run the script using: ${YELLOW}t4s${NC}"
 
 # Ask for user confirmation
 echo "Do you want to ready the server for WHM installation with Theme4Sell? (yes/no)"
-read answer
+read confirmation
 
 # Check the user response
-if [[ "$answer" == "yes" || "$answer" == "y" ]]; then
+if [[ "$confirmation" == "yes" || "$confirmation" == "y" ]]; then
     # User input for configuration
     server_ip=$(prompt_input "Enter the server IP")
     hostname=$(prompt_input "Enter the hostname")
