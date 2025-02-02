@@ -78,6 +78,10 @@ elif [[ "$choice" == "5" ]]; then
     whmapi1 set_tweaksetting key=resetpass value=0
 
     whmapi1 set_tweaksetting key=resetpass_sub value=0
+    
+    mkdir /etc/cpanel/ea4/profiles/custom
+
+    sudo wget https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json -O /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json
 
     echo "${GREEN} Tweak settings Successfull ${NC}"
     echo "===================================================================="
