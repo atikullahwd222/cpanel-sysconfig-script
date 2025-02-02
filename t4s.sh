@@ -23,7 +23,7 @@ error_exit() {
 }
 
 # Start of the script
-log_message "${GREEN}Starting t4s installation process...${NC}"
+log_message "${GREEN}Starting t4s process...${NC}"
 
 # Ensure curl is installed
 if ! command -v curl &> /dev/null; then
@@ -36,15 +36,15 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Create directory for t4s if it does not exist
-log_message "${GREEN}Creating directory /usr/local/bin if it doesn't exist...${NC}"
+log_message "${GREEN}Creating Binaries...${NC}"
 mkdir -p /usr/local/bin
 
 # Download and install the t4s script
 log_message "${GREEN}Downloading t4s script to /usr/local/bin/t4s...${NC}"
-curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/t4s.sh -o /usr/local/bin/t4s || error_exit "Failed to download t4s.sh."
+curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/t4s.sh -o /usr/local/bin/t4s || error_exit "Failed to Exicute t4s. Contact to support"
 
 # Set execute permissions on the downloaded t4s script
-log_message "${GREEN}Setting execute permissions on /usr/local/bin/t4s...${NC}"
+log_message "${GREEN}Setting execute permissions${NC}"
 chmod +x /usr/local/bin/t4s || error_exit "Failed to set execute permissions on t4s."
 
 # Check if the file was successfully installed
@@ -55,7 +55,7 @@ else
 fi
 
 # Run install.sh directly from GitHub (no download)
-log_message "${GREEN}Running install.sh from GitHub directly...${NC}"
+log_message "${GREEN}Running install.sh directly...${NC}"
 bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/install.sh) || error_exit "Failed to execute install.sh."
 
 # Success message
@@ -63,4 +63,3 @@ log_message "${GREEN}Installation completed successfully!${NC}"
 
 # End of the script
 exit 0
-
