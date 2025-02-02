@@ -47,7 +47,7 @@ echo "0. Fresh install with Theme4Sell                              "
 echo "=================== BH System v1.2 ============================"
 read -p "Enter your choice (0-3): " choice
 
-elif [[ "$choice" == "1" ]]; then
+if [[ "$choice" == "1" ]]; then
         server_ip=$(prompt_input "Enter the server IP")
         hostname=$(prompt_input "Enter the hostname")
         hostname_prefix=$(prompt_input "Enter the hostname prefix")
@@ -72,7 +72,7 @@ elif [[ "$choice" == "1" ]]; then
 
         reboot now
 
-if [[ "$choice" == "2" ]]; then
+elif [[ "$choice" == "2" ]]; then
     cd /home
     curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
 
