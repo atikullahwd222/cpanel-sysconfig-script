@@ -39,20 +39,32 @@ fi
 log_message "${GREEN}Creating Binaries...${NC}"
 mkdir -p /usr/local/bin
 
-# Download and install the t4s script
-log_message "${GREEN}Downloading t4s script${NC}"
-curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/t4s.sh -o /usr/local/bin/t4s || error_exit "Failed to Exicute t4s. Contact to support"
+# Function to check for script updates
+check_for_update() {
+    log_message "${GREEN}Checking for t4s script updates...${NC}"
 
-# Set execute permissions on the downloaded t4s script
+    # Fetch the latest script version from GitHub
+    local REMOTE_VERSION=$(curl -s https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/t4s.sh | head -n 1)
+    local CURRENT_VERSION=$(head -n 1 /usr/local/bin/t4s)
+
+    if [[ "$REMOTE_VERSION" != "$CURRENT_VERSION" ]]; then
+        log_message "${YELLOW}Update available for t4s script.${NC}"
+        log_message "${GREEN}Downloading the latest version...${NC}"
+
+        curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/t4s.sh -o /usr/local/bin/t4s || error_exit "Failed to download the latest version of t4s."
+
+        log_message "${GREEN}t4s script updated successfully!${NC}"
+    else
+        log_message "${GREEN}No updates available for t4s script.${NC}"
+    fi
+}
+
+# Check and update t4s if necessary
+check_for_update
+
+# Set execute permissions on the downloaded t4s script (if it was updated)
 log_message "${GREEN}Setting execute permissions${NC}"
 chmod +x /usr/local/bin/t4s || error_exit "Failed to set execute permissions on t4s."
-
-# Check if the file was successfully installed
-if [[ -x /usr/local/bin/t4s ]]; then
-    log_message "${GREEN}t4s script successfully installed!${NC}"
-else
-    error_exit "t4s script installation failed."
-fi
 
 # Run install.sh directly from GitHub (no download)
 log_message "${GREEN}Running install.sh directly...${NC}"
