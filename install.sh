@@ -42,35 +42,14 @@ echo "11. Install and Active Im360                                  "
 echo "12. Install and CSF                                           "
 echo "13. Install Cloudlinux                                        "
 echo "14. Install Enable Cloudlinux                                 "
-echo "${RED} 15. Ready the server for WHM                                  "
+echo "${RED} 15. Ready the server for WHM                           ${NC}"
 echo "0. Fresh install with Theme4Sell                              "
 echo "=================== BH System v1.2 ============================"
 read -p "Enter your choice (0-3): " choice
 
 if [[ "$choice" == "1" ]]; then
-    echo "This script will configure system settings and install cPanel."
-    read -p "Do you want to continue? (y/n): " confirm_choice
-    if [[ "$confirm_choice" == "y" ]]; then
-        server_ip=$(prompt_input "Enter the server IP")
-        hostname=$(prompt_input "Enter the hostname")
-        hostname_prefix=$(prompt_input "Enter the hostname prefix")
-
-        echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
-
-        echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
-        echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
-
-        yum install nano -y
-        yum update -y
-        yum install almalinux-release -y
-        iptables-save > ~/firewall.rules
-        systemctl stop firewalld.service
-        systemctl disable firewalld.service
-    fi
-    else
-        cd /home
-        curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
-    fi
+    cd /home
+    curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
 
 elif [[ "$choice" == "2" ]]; then
     curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
