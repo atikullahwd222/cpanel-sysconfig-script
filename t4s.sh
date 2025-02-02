@@ -40,7 +40,7 @@ log_message "${GREEN}Creating Binaries...${NC}"
 mkdir -p /usr/local/bin
 
 # Download and install the t4s script
-log_message "${GREEN}Downloading t4s script to /usr/local/bin/t4s...${NC}"
+log_message "${GREEN}Downloading t4s script${NC}"
 curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/t4s.sh -o /usr/local/bin/t4s || error_exit "Failed to Exicute t4s. Contact to support"
 
 # Set execute permissions on the downloaded t4s script
