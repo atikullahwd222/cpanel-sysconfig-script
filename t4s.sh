@@ -16,8 +16,5 @@ if [[ $EUID -ne 0 ]]; then
     echo -e "${YELLOW}Warning: You are not running as root. You may need to enter sudo passwords during installation.${NC}"
 fi
 
-# Always fetch and run the latest script
-SCRIPT_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh"
-
 echo -e "${GREEN}Fetching the latest script version...${NC}"
-exec bash <(curl -fsSL "$SCRIPT_URL")
+bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh) || error_exit "Failed to execute install.sh."
