@@ -20,6 +20,8 @@ fi
 echo -e "${GREEN}Creating Binaries...${NC}"
 mkdir -p /usr/local/bin
 
+clear
+
 # Interactive menu
 echo "Which License are you using?"
 echo "1 - Theme4Sell v2"
