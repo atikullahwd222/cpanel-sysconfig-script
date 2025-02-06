@@ -19,30 +19,33 @@ echo -e "  / __  / /_/ /   \__ \/ / / / ___/ __/ _ \/ __ \`__ \\ "
 echo -e " / /_/ / __  /   ___/ / /_/ (__  ) /_/  __/ / / / / /"
 echo -e "/_____/_/_/_/_  /____/\__, /____/\__/\___/_/ /_/ /_/ "
 echo -e "                     /____/                          "
-
+echo -e ""
+echo -e ""
+echo -e ""
                                                   
 
-echo "=================== BH System v1.4 ============================"
+echo "=================== BH System v1.3 ============================"
 echo "Select an installation option:                                "
+echo "0. Fresh install with Theme4Sell                              "
 echo -e "${RED}1. Ready the server for WHM ${NC} ${GREEN}(Important)${NC}           "
 echo "2. Install WHM                                                "
 echo "3. Initialize Theme4Sell                                      "
 echo "4. Activate or Fix WHM Lic. with Theme4Sell                   "
-echo "5. Install and Active LiteSpeedX                              "
-echo "6. Tweak Settings                                             "
-echo "7. Install Softaculous                                        "
-echo "8. Active Softaculous                                         "
-echo "9. Install and active Jetbackup                               "
-echo "10. Install and active Whmreseller                            "
-echo "11. Install and Active sitepad                                "
-echo "12. Install and Active Im360                                  "
-echo "13. Install and CSF                                           "
-echo "14. Active all CSF Rules                                      "
-echo "15. Install Cloudlinux                                        "
-echo "16. Install Enable Cloudlinux                                 "
-echo "0. Fresh install with Theme4Sell                              "
-echo "=================== BH System v1.4 ============================"
-read -p "Enter your choice (0-16): " choice
+echo "5. Fix WHM Lic. with Theme4Sell                   "
+echo "6. Install and Active LiteSpeedX                              "
+echo "7. Tweak Settings                                             "
+echo "8. Install Softaculous                                        "
+echo "9. Active Softaculous                                         "
+echo "10. Install and active Jetbackup                               "
+echo "11. Install and active Whmreseller                            "
+echo "12. Install and Active sitepad                                "
+echo "13. Install and Active Im360                                  "
+echo "14. Install and CSF                                           "
+echo "15. Active all CSF Rules                                      "
+echo "16. Install Cloudlinux                                        "
+echo "17. Install Enable Cloudlinux                                 "
+echo "=================== BH System v1.3 ============================"
+read -p "Enter your choice (0-3): " choice
 
 if [[ "$choice" == "1" ]]; then
         server_ip=$(prompt_input "Enter the server IP")
@@ -85,10 +88,13 @@ elif [[ "$choice" == "4" ]]; then
     sysconfig cpanel enable
 
 elif [[ "$choice" == "5" ]]; then
+    sysconfig cpanel enable
+
+elif [[ "$choice" == "6" ]]; then
     sysconfig litespeedx install
     sysconfig litespeedx enable
 
-elif [[ "$choice" == "6" ]]; then
+elif [[ "$choice" == "7" ]]; then
     echo "===================================================================="
     echo "${GREEN} Enable Tweak settings.... ${NC}"
 
@@ -126,32 +132,32 @@ elif [[ "$choice" == "6" ]]; then
     echo "${GREEN} Tweak settings Successfull ${NC}"
     echo "===================================================================="
 
-elif [[ "$choice" == "7" ]]; then
+elif [[ "$choice" == "8" ]]; then
     sysconfig softaculous install
 
-elif [[ "$choice" == "8" ]]; then
+elif [[ "$choice" == "9" ]]; then
     sysconfig softaculous enable
 
-elif [[ "$choice" == "9" ]]; then
+elif [[ "$choice" == "10" ]]; then
     sysconfig jetbackup install
     sysconfig jetbackup enable
 
-elif [[ "$choice" == "10" ]]; then
+elif [[ "$choice" == "11" ]]; then
     sysconfig whmreseller install
     sysconfig whmreseller enable
 
-elif [[ "$choice" == "11" ]]; then
+elif [[ "$choice" == "12" ]]; then
     sysconfig sitepad install
     sysconfig sitepad enable
 
-elif [[ "$choice" == "12" ]]; then
+elif [[ "$choice" == "13" ]]; then
     sysconfig im360 install
     sysconfig im360 enable
 
-elif [[ "$choice" == "13" ]]; then
+elif [[ "$choice" == "14" ]]; then
     bash <( curl https://api.starlicense.net/basic-needs.sh )
 
-elif [[ "$choice" == "14" ]]; then
+elif [[ "$choice" == "15" ]]; then
     sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini
     sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini
     sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini
@@ -160,10 +166,10 @@ elif [[ "$choice" == "14" ]]; then
     /bin/systemctl stop rpcbind
     /bin/systemctl disable rpcbind
 
-elif [[ "$choice" == "15" ]]; then
+elif [[ "$choice" == "16" ]]; then
     sysconfig cloudlinux install
 
-elif [[ "$choice" == "16" ]]; then
+elif [[ "$choice" == "17" ]]; then
     sysconfig cloudlinux enable
 
 elif [[ "$choice" == "0" ]]; then
@@ -189,15 +195,28 @@ elif [[ "$choice" == "0" ]]; then
     if [[ "$install_cpanel" == "y" ]]; then
         cd /home
         curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
+        sleep 2
+        echo -e "${GREEN}Installing Our License System .....${NC}"
+        sleep 2
         # Running MagicByte repo script
         curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
+        clear
+        echo -e "${GREEN}License System Installed Successfully.. ${NC}"    
+        sleep 2        
+        echo -e "${GREEN}License System Installed Successfully.. ${NC}"
+        echo -e "${GREEN}========================================${NC}"
+        echo -e "${GREEN}Activating License ...........${NC}"
+        sleep 2
         sysconfig cpanel update
         sysconfig cpanel enable
         sysconfig cpanel fleetssl
         sysconfig cpanel noupdate
-
-    echo "===================================================================="
+    
+    
+    sleep 2
     echo "${GREEN} Enable Tweak settings.... ${NC}"
+    sleep 2
+    echo "===================================================================="
 
     whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
 
