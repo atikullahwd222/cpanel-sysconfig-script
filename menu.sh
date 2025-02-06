@@ -43,9 +43,15 @@ case $choice in
         ;;
     2)
         echo -e "${GREEN}You selected GB Lic.${NC}"
+        echo -e "${GREEN}We are Still working on it${NC}"
+        sleep 3
+        t4s
         ;;
     3)
         echo -e "${GREEN}You selected WHM and Tweaks installation.${NC}"
+        echo -e "${GREEN}We are Still working on it${NC}"
+        sleep 3
+        t4s
         ;;
     4)
         echo -e "${GREEN}Exiting...${NC}"
@@ -53,6 +59,7 @@ case $choice in
         ;;
     *)
         echo -e "${RED}Invalid option! Please select 1-4.${NC}"
-        exit 1
+        clear
+        t4s
         ;;
 esac
