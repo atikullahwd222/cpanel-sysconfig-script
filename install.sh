@@ -18,15 +18,11 @@ echo -e "   / __ )/ / / /  / ___/__  _______/ /____  ____ ___ "
 echo -e "  / __  / /_/ /   \__ \/ / / / ___/ __/ _ \/ __ \`__ \\ "
 echo -e " / /_/ / __  /   ___/ / /_/ (__  ) /_/  __/ / / / / /"
 echo -e "/_____/_/_/_/_  /____/\__, /____/\__/\___/_/ /_/ /_/ "
-echo -e " _   _<  /|__ \      /____/                          "
-echo -e "| | / / / __/ /                                      "
-echo -e "| |/ / / / __/                                       "
-echo -e "|___/_(_)____/                                       "
-echo -e "                                                     "
+echo -e "                     /____/                          "
 
                                                   
 
-echo "=================== BH System v1.2 ============================"
+echo "=================== BH System v1.3 ============================"
 echo "Select an installation option:                                "
 echo -e "${RED}1. Ready the server for WHM ${NC} ${GREEN}(Important)${NC}           "
 echo "2. Install WHM                                                "
@@ -41,10 +37,11 @@ echo "10. Install and active Whmreseller                             "
 echo "11. Install and Active sitepad                                "
 echo "12. Install and Active Im360                                  "
 echo "13. Install and CSF                                           "
-echo "14. Install Cloudlinux                                        "
-echo "15. Install Enable Cloudlinux                                 "
+echo "14. Active all CSF Rules                                      "
+echo "15. Install Cloudlinux                                        "
+echo "16. Install Enable Cloudlinux                                 "
 echo "0. Fresh install with Theme4Sell                              "
-echo "=================== BH System v1.2 ============================"
+echo "=================== BH System v1.3 ============================"
 read -p "Enter your choice (0-3): " choice
 
 if [[ "$choice" == "1" ]]; then
@@ -113,6 +110,16 @@ elif [[ "$choice" == "6" ]]; then
 
     whmapi1 set_tweaksetting key=allowremotedomains value=1
 
+    whmapi1 set_tweaksetting key=referrerblanksafety value=1
+    
+    whmapi1 set_tweaksetting key=referrersafety value=1
+    
+    whmapi1 set_tweaksetting key=cgihidepass value=1
+    
+    whmapi1 set_tweaksetting key=resetpass value=0
+    
+    whmapi1 set_tweaksetting key=resetpass_sub value=0
+
     mkdir /etc/cpanel/ea4/profiles/custom
     curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
 
@@ -145,9 +152,18 @@ elif [[ "$choice" == "13" ]]; then
     bash <( curl https://api.starlicense.net/basic-needs.sh )
 
 elif [[ "$choice" == "14" ]]; then
-    sysconfig cloudlinux install
+    sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini
+    sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini
+    sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini
+    sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini
+    sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini
+    /bin/systemctl stop rpcbind
+    /bin/systemctl disable rpcbind
 
 elif [[ "$choice" == "15" ]]; then
+    sysconfig cloudlinux install
+
+elif [[ "$choice" == "16" ]]; then
     sysconfig cloudlinux enable
 
 elif [[ "$choice" == "0" ]]; then
