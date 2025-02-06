@@ -24,7 +24,7 @@ clear
 Theme4Sell_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh"
 
 # Interactive menu
-echo "Thanks for Choosing us. Go with ..."
+echo "Thanks for Choosing us. Go with ... test 1"
 echo -e "${YELLOW}1 - Do Basic Config (Ready the server for WHM)${NC} ${RED}!Important${NC}"
 echo "2 - Theme4Sell v2"
 echo "3 - GB Lic"
