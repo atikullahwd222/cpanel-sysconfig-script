@@ -23,7 +23,7 @@ mkdir -p /usr/local/bin
 clear
 
 # Interactive menu
-echo "Which License are you using?"
+echo "Thanks for Choosing us. Go with ..."
 echo "1 - Theme4Sell v2"
 echo "2 - GB Lic"
 echo "3 - I just want to install WHM and Tweaks"
