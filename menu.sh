@@ -34,6 +34,7 @@ read -p "Enter your choice (1-4): " choice
 case $choice in
     1)
         echo -e "${GREEN}You selected Theme4Sell.${NC}"
+        echo -e "${GREEN}Helow world.${NC}"
         ;;
     2)
         echo -e "${GREEN}You selected GB Lic.${NC}"
