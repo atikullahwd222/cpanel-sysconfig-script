@@ -33,7 +33,7 @@ echo "6. Tweak Settings                                             "
 echo "7. Install Softaculous                                        "
 echo "8. Active Softaculous                                         "
 echo "9. Install and active Jetbackup                               "
-echo "10. Install and active Whmreseller                             "
+echo "10. Install and active Whmreseller                            "
 echo "11. Install and Active sitepad                                "
 echo "12. Install and Active Im360                                  "
 echo "13. Install and CSF                                           "
@@ -196,28 +196,42 @@ elif [[ "$choice" == "0" ]]; then
         sysconfig cpanel fleetssl
         sysconfig cpanel noupdate
 
-        echo "Enable Tweak settings...."
+    echo "===================================================================="
+    echo "${GREEN} Enable Tweak settings.... ${NC}"
 
-        whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
+    whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
 
-        whmapi1 set_tweaksetting key=php_upload_max_filesize value=550
+    whmapi1 set_tweaksetting key=php_upload_max_filesize value=550
 
-        whmapi1 set_tweaksetting key=php_post_max_size value=550
+    whmapi1 set_tweaksetting key=php_post_max_size value=550
 
-        whmapi1 set_tweaksetting key=maxemailsperhour value=30
+    whmapi1 set_tweaksetting key=maxemailsperhour value=30
 
-        whmapi1 set_tweaksetting key=emailsperdaynotify value=100
+    whmapi1 set_tweaksetting key=emailsperdaynotify value=100
 
-        whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
+    whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
 
-        whmapi1 set_tweaksetting key=resetpass value=0
+    whmapi1 set_tweaksetting key=resetpass value=0
 
-        whmapi1 set_tweaksetting key=resetpass_sub value=0
+    whmapi1 set_tweaksetting key=resetpass_sub value=0
 
-        whmapi1 set_tweaksetting key=allowremotedomains value=1
+    whmapi1 set_tweaksetting key=allowremotedomains value=1
 
-        mkdir /etc/cpanel/ea4/profiles/custom
-        curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
+    whmapi1 set_tweaksetting key=referrerblanksafety value=1
+    
+    whmapi1 set_tweaksetting key=referrersafety value=1
+    
+    whmapi1 set_tweaksetting key=cgihidepass value=1
+    
+    whmapi1 set_tweaksetting key=resetpass value=0
+    
+    whmapi1 set_tweaksetting key=resetpass_sub value=0
+
+    mkdir /etc/cpanel/ea4/profiles/custom
+    curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
+
+    echo "${GREEN} Tweak settings Successfull ${NC}"
+    echo "===================================================================="
 
     else
         echo "Skipping cPanel installation. Exiting..."
