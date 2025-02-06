@@ -17,7 +17,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Always fetch and run the latest script
-SCRIPT_URL="https://yourserver.com/latest_whm_install.sh"
+SCRIPT_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh"
 
 echo -e "${GREEN}Fetching the latest script version...${NC}"
 exec bash <(curl -fsSL "$SCRIPT_URL")
