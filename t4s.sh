@@ -1,23 +1,23 @@
-# Define script version
-SCRIPT_VERSION="1.0.0"
-SCRIPT_URL="https://yourserver.com/whm_install_menu.sh"
-LOCAL_SCRIPT_PATH="/usr/local/bin/whm_install_menu.sh"
+#!/bin/bash
+# Colors for output
+GREEN="\033[0;32m"
+YELLOW="\033[0;33m"
+RED="\033[0;31m"
+NC="\033[0m" # No Color
 
-# Function to check for updates
-check_for_update() {
-    echo -e "${GREEN}Checking for updates...${NC}"
-    REMOTE_VERSION=$(curl -sL $SCRIPT_URL | grep "SCRIPT_VERSION=" | head -1 | cut -d '"' -f2)
+# Ensure curl is installed
+if ! command -v curl &> /dev/null; then
+    echo -e "${RED}ERROR: curl is not installed. Please install curl and try again.${NC}"
+    exit 1
+fi
 
-    if [[ "$REMOTE_VERSION" != "$SCRIPT_VERSION" ]]; then
-        echo -e "${YELLOW}Update available! Updating script...${NC}"
-        curl -fsSL $SCRIPT_URL -o $LOCAL_SCRIPT_PATH
-        chmod +x $LOCAL_SCRIPT_PATH
-        echo -e "${GREEN}Script updated to version $REMOTE_VERSION! Restarting...${NC}"
-        exec bash "$LOCAL_SCRIPT_PATH"
-    else
-        echo -e "${GREEN}No updates available.${NC}"
-    fi
-}
+# Ensure we are running as root or with sudo
+if [[ $EUID -ne 0 ]]; then
+    echo -e "${YELLOW}Warning: You are not running as root. You may need to enter sudo passwords during installation.${NC}"
+fi
 
-# Run the update check before execution
-check_for_update
+# Always fetch and run the latest script
+SCRIPT_URL="https://yourserver.com/latest_whm_install.sh"
+
+echo -e "${GREEN}Fetching the latest script version...${NC}"
+exec bash <(curl -fsSL "$SCRIPT_URL")
