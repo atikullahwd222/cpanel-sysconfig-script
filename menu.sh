@@ -21,6 +21,7 @@ echo -e "${GREEN}Creating Binaries...${NC}"
 mkdir -p /usr/local/bin
 
 clear
+Theme4Sell_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh"
 
 # Interactive menu
 echo "Thanks for Choosing us. Go with ..."
@@ -34,7 +35,11 @@ read -p "Enter your choice (1-4): " choice
 case $choice in
     1)
         echo -e "${GREEN}You selected Theme4Sell.${NC}"
-        echo -e "${GREEN}Helow world.${NC}"
+        sleep 2
+        echo -e "${YELLOW}Redirecting...${NC}"
+        sleep 2
+        bash <(curl -fsSL "$SCRIPT_URL")
+        
         ;;
     2)
         echo -e "${GREEN}You selected GB Lic.${NC}"
