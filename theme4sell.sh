@@ -407,4 +407,9 @@ elif [[ "$choice" == "16" ]]; then
     clear
     t4s
 elif [[ "$choice" == "0" ]]; then
+    clear
     t4s
+else
+    echo -e "${RED}Invalid option! Please select 1-4.${NC}"
+    exit 0
+fi

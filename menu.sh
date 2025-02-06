@@ -85,5 +85,5 @@ elif [[ "$choice" == "0" ]]; then
     exit 0
 else
     echo -e "${RED}Invalid option! Please select 1-4.${NC}"
-    clear
-    t4s
+    exit 0
+fi
