@@ -22,7 +22,7 @@ echo -e "                     /____/                          "
 
                                                   
 
-echo "=================== BH System v1.3 ============================"
+echo "=================== BH System v1.4 ============================"
 echo "Select an installation option:                                "
 echo -e "${RED}1. Ready the server for WHM ${NC} ${GREEN}(Important)${NC}           "
 echo "2. Install WHM                                                "
@@ -41,7 +41,7 @@ echo "14. Active all CSF Rules                                      "
 echo "15. Install Cloudlinux                                        "
 echo "16. Install Enable Cloudlinux                                 "
 echo "0. Fresh install with Theme4Sell                              "
-echo "=================== BH System v1.3 ============================"
+echo "=================== BH System v1.4 ============================"
 read -p "Enter your choice (0-3): " choice
 
 if [[ "$choice" == "1" ]]; then
