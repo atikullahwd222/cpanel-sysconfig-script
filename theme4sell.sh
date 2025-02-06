@@ -24,155 +24,30 @@ echo -e ""
 echo -e ""
                                                   
 
-echo "=================== BH System v1.3 ============================"
+echo "=============--- BH System v1.3 | Theme4Sell ---============="
 echo "Select an installation option:                                "
-echo "0. Fresh install with Theme4Sell                              "
-echo -e "${RED}1. Ready the server for WHM ${NC} ${GREEN}(Important)${NC}           "
-echo "2. Install WHM                                                "
-echo "3. Initialize Theme4Sell                                      "
-echo "4. Activate or Fix WHM Lic. with Theme4Sell                   "
-echo "5. Fix WHM Lic. with Theme4Sell                   "
-echo "6. Install and Active LiteSpeedX                              "
-echo "7. Tweak Settings                                             "
-echo "8. Install Softaculous                                        "
-echo "9. Active Softaculous                                         "
-echo "10. Install and active Jetbackup                               "
-echo "11. Install and active Whmreseller                            "
-echo "12. Install and Active sitepad                                "
-echo "13. Install and Active Im360                                  "
-echo "14. Install and CSF                                           "
-echo "15. Active all CSF Rules                                      "
-echo "16. Install Cloudlinux                                        "
-echo "17. Install Enable Cloudlinux                                 "
-echo "=================== BH System v1.3 ============================"
+echo "1. All in One ${RED}(For Beginner)${NC}                       "
+echo "2. Initialize Theme4Sell                                      "
+echo "3. Update WHM with Theme4Sell                                 "
+echo "4. Fix WHM Lic. with Theme4Sell                               "
+echo "5. Install and Active LiteSpeedX                              "
+echo "6. Tweak Settings                                             "
+echo "7. Install Softaculous                                        "
+echo "8. Active Softaculous                                         "
+echo "9. Install and active Jetbackup                               "
+echo "10. Install and active Whmreseller                            "
+echo "11. Install and Active sitepad                                "
+echo "12. Install and Active Im360                                  "
+echo "13. Install and CSF                                           "
+echo "14. Active all CSF Fireall Security Rules                     "
+echo "15. Install Cloudlinux                                        "
+echo "16. Install Enable Cloudlinux                                 "
+echo "${RED}0. Go Back${NC}"
+echo "=============--- BH System v1.3 | Theme4Sell ---============="
 read -p "Enter your choice (0-3): " choice
 
+
 if [[ "$choice" == "1" ]]; then
-        server_ip=$(prompt_input "Enter the server IP")
-        hostname=$(prompt_input "Enter the hostname")
-        hostname_prefix=$(prompt_input "Enter the hostname prefix")
-
-        echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
-
-        echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
-        echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
-
-        yum install nano -y
-        yum update -y
-        yum install almalinux-release -y
-        iptables-save > ~/firewall.rules
-        systemctl stop firewalld.service
-        systemctl disable firewalld.service
-
-
-        clear
-
-        echo -e "${RED}The Server need a reboot.....${NC}"
-        echo -e "${RED}ctrl+c${NC} ${GREEN}To avoid restart${NC}"
-        sleep 30
-        echo -e "${GREEN}After Reboot run t4s again to continue ${NC}"
-        echo -e "${RED}Rebooting ${NC}"
-        sleep 3
-
-        reboot now
-
-elif [[ "$choice" == "2" ]]; then
-    cd /home
-    curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
-
-elif [[ "$choice" == "3" ]]; then
-    curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
-
-elif [[ "$choice" == "4" ]]; then
-    sysconfig cpanel update
-    sysconfig cpanel enable
-
-elif [[ "$choice" == "5" ]]; then
-    sysconfig cpanel enable
-
-elif [[ "$choice" == "6" ]]; then
-    sysconfig litespeedx install
-    sysconfig litespeedx enable
-
-elif [[ "$choice" == "7" ]]; then
-    echo "===================================================================="
-    echo "${GREEN} Enable Tweak settings.... ${NC}"
-
-    whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
-
-    whmapi1 set_tweaksetting key=php_upload_max_filesize value=550
-
-    whmapi1 set_tweaksetting key=php_post_max_size value=550
-
-    whmapi1 set_tweaksetting key=maxemailsperhour value=30
-
-    whmapi1 set_tweaksetting key=emailsperdaynotify value=100
-
-    whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
-
-    whmapi1 set_tweaksetting key=resetpass value=0
-
-    whmapi1 set_tweaksetting key=resetpass_sub value=0
-
-    whmapi1 set_tweaksetting key=allowremotedomains value=1
-
-    whmapi1 set_tweaksetting key=referrerblanksafety value=1
-    
-    whmapi1 set_tweaksetting key=referrersafety value=1
-    
-    whmapi1 set_tweaksetting key=cgihidepass value=1
-    
-    whmapi1 set_tweaksetting key=resetpass value=0
-    
-    whmapi1 set_tweaksetting key=resetpass_sub value=0
-
-    mkdir /etc/cpanel/ea4/profiles/custom
-    curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
-
-    echo "${GREEN} Tweak settings Successfull ${NC}"
-    echo "===================================================================="
-
-elif [[ "$choice" == "8" ]]; then
-    sysconfig softaculous install
-
-elif [[ "$choice" == "9" ]]; then
-    sysconfig softaculous enable
-
-elif [[ "$choice" == "10" ]]; then
-    sysconfig jetbackup install
-    sysconfig jetbackup enable
-
-elif [[ "$choice" == "11" ]]; then
-    sysconfig whmreseller install
-    sysconfig whmreseller enable
-
-elif [[ "$choice" == "12" ]]; then
-    sysconfig sitepad install
-    sysconfig sitepad enable
-
-elif [[ "$choice" == "13" ]]; then
-    sysconfig im360 install
-    sysconfig im360 enable
-
-elif [[ "$choice" == "14" ]]; then
-    bash <( curl https://api.starlicense.net/basic-needs.sh )
-
-elif [[ "$choice" == "15" ]]; then
-    sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini
-    sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini
-    sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini
-    sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini
-    sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini
-    /bin/systemctl stop rpcbind
-    /bin/systemctl disable rpcbind
-
-elif [[ "$choice" == "16" ]]; then
-    sysconfig cloudlinux install
-
-elif [[ "$choice" == "17" ]]; then
-    sysconfig cloudlinux enable
-
-elif [[ "$choice" == "0" ]]; then
     echo "===================================================================================================="
     install_cpanel=$(prompt_input "Do you want to install cPanel? (y/n)")
     install_litespeed=$(prompt_input "Do you want to install and activate LiteSpeed License? (y/n)")
@@ -305,9 +180,95 @@ elif [[ "$choice" == "0" ]]; then
     # Final confirmation
     echo "Successful......"
 
-else
-    echo "Invalid choice. Exiting..."
-    exit 1
-fi
+elif [[ "$choice" == "2" ]]; then
+    curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
 
-echo "Installation process completed."
+elif [[ "$choice" == "3" ]]; then
+    sysconfig cpanel update
+
+elif [[ "$choice" == "4" ]]; then
+    sysconfig cpanel enable
+
+elif [[ "$choice" == "5" ]]; then
+    sysconfig litespeedx install
+    sysconfig litespeedx enable
+
+elif [[ "$choice" == "6" ]]; then
+    echo "===================================================================="
+    echo "${GREEN} Enable Tweak settings.... ${NC}"
+
+    whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
+
+    whmapi1 set_tweaksetting key=php_upload_max_filesize value=550
+
+    whmapi1 set_tweaksetting key=php_post_max_size value=550
+
+    whmapi1 set_tweaksetting key=maxemailsperhour value=30
+
+    whmapi1 set_tweaksetting key=emailsperdaynotify value=100
+
+    whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
+
+    whmapi1 set_tweaksetting key=resetpass value=0
+
+    whmapi1 set_tweaksetting key=resetpass_sub value=0
+
+    whmapi1 set_tweaksetting key=allowremotedomains value=1
+
+    whmapi1 set_tweaksetting key=referrerblanksafety value=1
+    
+    whmapi1 set_tweaksetting key=referrersafety value=1
+    
+    whmapi1 set_tweaksetting key=cgihidepass value=1
+    
+    whmapi1 set_tweaksetting key=resetpass value=0
+    
+    whmapi1 set_tweaksetting key=resetpass_sub value=0
+
+    mkdir /etc/cpanel/ea4/profiles/custom
+    curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
+
+    echo "${GREEN} Tweak settings Successfull ${NC}"
+    echo "===================================================================="
+
+elif [[ "$choice" == "7" ]]; then
+    sysconfig softaculous install
+
+elif [[ "$choice" == "8" ]]; then
+    sysconfig softaculous enable
+
+elif [[ "$choice" == "9" ]]; then
+    sysconfig jetbackup install
+    sysconfig jetbackup enable
+
+elif [[ "$choice" == "10" ]]; then
+    sysconfig whmreseller install
+    sysconfig whmreseller enable
+
+elif [[ "$choice" == "11" ]]; then
+    sysconfig sitepad install
+    sysconfig sitepad enable
+
+elif [[ "$choice" == "12" ]]; then
+    sysconfig im360 install
+    sysconfig im360 enable
+
+elif [[ "$choice" == "13" ]]; then
+    bash <( curl https://api.starlicense.net/basic-needs.sh )
+
+elif [[ "$choice" == "14" ]]; then
+    sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini
+    sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini
+    sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini
+    sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini
+    sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini
+    /bin/systemctl stop rpcbind
+    /bin/systemctl disable rpcbind
+
+elif [[ "$choice" == "15" ]]; then
+    sysconfig cloudlinux install
+
+elif [[ "$choice" == "16" ]]; then
+    sysconfig cloudlinux enable
+elif [[ "$choice" == "0" ]]; then
+    t4s
