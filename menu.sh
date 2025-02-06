@@ -33,62 +33,57 @@ echo "0 - Exit"
 
 read -p "Enter your choice (0-4): " choice
 
-case $choice in
-    1)
-        server_ip=$(prompt_input "Enter the server IP")
-        hostname=$(prompt_input "Enter the hostname")
-        hostname_prefix=$(prompt_input "Enter the hostname prefix")
+if [[ "$choice" == "1" ]]; then
+    server_ip=$(prompt_input "Enter the server IP")
+    hostname=$(prompt_input "Enter the hostname")
+    hostname_prefix=$(prompt_input "Enter the hostname prefix")
 
-        echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
+    echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
 
-        echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
-        echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
+    echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+    echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
 
-        yum install nano -y
-        yum update -y
-        yum install almalinux-release -y
-        iptables-save > ~/firewall.rules
-        systemctl stop firewalld.service
-        systemctl disable firewalld.service
+    yum install nano -y
+    yum update -y
+    yum install almalinux-release -y
+    iptables-save > ~/firewall.rules
+    systemctl stop firewalld.service
+    systemctl disable firewalld.service
 
 
-        clear
+    clear
 
-        echo -e "${RED}The Server need a reboot.....${NC}"
-        echo -e "${RED}ctrl+c${NC} ${GREEN}To avoid restart${NC}"
-        sleep 30
-        echo -e "${GREEN}After Reboot run t4s again to continue ${NC}"
-        echo -e "${RED}Rebooting ${NC}"
-        sleep 3
+    echo -e "${RED}The Server need a reboot.....${NC}"
+    echo -e "${RED}ctrl+c${NC} ${GREEN}To avoid restart${NC}"
+    sleep 30
+    echo -e "${GREEN}After Reboot run t4s again to continue ${NC}"
+    echo -e "${RED}Rebooting ${NC}"
+    sleep 3
 
-        reboot now
-    2)
-        echo -e "${GREEN}You selected Theme4Sell.${NC}"
-        sleep 2
-        echo -e "${YELLOW}Redirecting...${NC}"
-        sleep 2
-        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
+    reboot now
+elif [[ "$choice" == "2" ]]; then
+    echo -e "${GREEN}You selected Theme4Sell.${NC}"
+    sleep 2
+    echo -e "${YELLOW}Redirecting...${NC}"
+    sleep 2
+    bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         
-        ;;
-    3)
-        echo -e "${GREEN}You selected GB Lic.${NC}"
-        echo -e "${GREEN}We are Still working on it${NC}"
-        sleep 3
-        t4s
-        ;;
-    4)
-        echo -e "${GREEN}You selected WHM and Tweaks installation.${NC}"
-        echo -e "${GREEN}We are Still working on it${NC}"
-        sleep 3
-        t4s
-        ;;
-    0)
-        echo -e "${GREEN}Exiting...${NC}"
-        exit 0
-        ;;
-    *)
-        echo -e "${RED}Invalid option! Please select 1-4.${NC}"
-        clear
-        t4s
-        ;;
-esac
+elif [[ "$choice" == "3" ]]; then
+    echo -e "${GREEN}You selected GB Lic.${NC}"
+    echo -e "${GREEN}We are Still working on it${NC}"
+    sleep 3
+    t4s
+
+elif [[ "$choice" == "4" ]]; then
+    echo -e "${GREEN}You selected WHM and Tweaks installation.${NC}"
+    echo -e "${GREEN}We are Still working on it${NC}"
+    sleep 3
+    t4s
+
+elif [[ "$choice" == "0" ]]; then
+    echo -e "${GREEN}Exiting...${NC}"
+    exit 0
+else
+    echo -e "${RED}Invalid option! Please select 1-4.${NC}"
+    clear
+    t4s
