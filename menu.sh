@@ -29,9 +29,9 @@ echo -e "${YELLOW}1 - Do Basic Config (Ready the server for WHM)${NC} ${RED}!Imp
 echo "2 - Theme4Sell v2"
 echo "3 - GB Lic"
 echo "4 - I just want to install WHM and Tweaks"
-echo "5 - Exit"
+echo "0 - Exit"
 
-read -p "Enter your choice (1-4): " choice
+read -p "Enter your choice (0-4): " choice
 
 case $choice in
     1)
@@ -67,7 +67,7 @@ case $choice in
         sleep 2
         echo -e "${YELLOW}Redirecting...${NC}"
         sleep 2
-        bash <(curl -fsSL "$SCRIPT_URL")
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         
         ;;
     3)
@@ -82,7 +82,7 @@ case $choice in
         sleep 3
         t4s
         ;;
-    5)
+    0)
         echo -e "${GREEN}Exiting...${NC}"
         exit 0
         ;;

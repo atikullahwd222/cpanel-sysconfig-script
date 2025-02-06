@@ -17,4 +17,4 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 echo -e "${GREEN}Fetching the latest script version...${NC}"
-bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh) || error_exit "Failed to execute install.sh."
+bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh) || error_exit "Failed to execute t4s"
