@@ -25,6 +25,16 @@ echo -e ""
                                                   
 
 echo "=============--- BH System v1.3 | Theme4Sell ---============="
+echo ""
+echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
+echo ""
+echo -e "${YELLOW}Do Basic Config part before start installation..${NC}"
+echo -e "${YELLOW}Go to main menu for do the basic config.${NC}"
+echo -e "${YELLOW}Press 0 to go back Main menu${NC}"
+echo ""
+echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
+echo ""
+echo ""
 echo "Select an installation option:                                "
 echo "1. All in One ${RED}(For Beginner)${NC}                       "
 echo "2. Initialize Theme4Sell                                      "
@@ -42,7 +52,7 @@ echo "13. Install and CSF                                           "
 echo "14. Active all CSF Fireall Security Rules                     "
 echo "15. Install Cloudlinux                                        "
 echo "16. Install Enable Cloudlinux                                 "
-echo "${RED}0. Go Back${NC}"
+echo -e "${RED}0. Go Back${NC}"
 echo "=============--- BH System v1.3 | Theme4Sell ---============="
 read -p "Enter your choice (0-3): " choice
 
@@ -179,23 +189,59 @@ if [[ "$choice" == "1" ]]; then
 
     # Final confirmation
     echo "Successful......"
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "2" ]]; then
+    clear
+    echo -e "${YELLOW}Initializing Theme4Sell Binaries....${NC}"
+    sleep 2
     curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "3" ]]; then
+    clear
+    echo -e "${YELLOW}Updating WHM to Recommended Version....${NC}"
+    sleep 2
     sysconfig cpanel update
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "4" ]]; then
+    clear
+    echo -e "${YELLOW}Installing WHM License....${NC}"
+    sleep 2
     sysconfig cpanel enable
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "5" ]]; then
+    clear
+    echo -e "${YELLOW}Installing Litespeedx....${NC}"
+    sleep 2
     sysconfig litespeedx install
+    
+    clear
+    echo -e "${YELLOW}Installing Litespeedx License....${NC}"
+    sleep 2
     sysconfig litespeedx enable
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "6" ]]; then
     echo "===================================================================="
-    echo "${GREEN} Enable Tweak settings.... ${NC}"
+    echo "${YELLOW} Enable Tweak settings.... ${NC}"
 
     whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
 
@@ -230,33 +276,105 @@ elif [[ "$choice" == "6" ]]; then
 
     echo "${GREEN} Tweak settings Successfull ${NC}"
     echo "===================================================================="
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "7" ]]; then
+    clear
+    echo -e "${YELLOW}Installing Softaculous....${NC}"
+    sleep 2
     sysconfig softaculous install
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "8" ]]; then
+    clear
+    echo -e "${YELLOW}Installing Softaculous License....${NC}"
+    sleep 2
     sysconfig softaculous enable
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "9" ]]; then
+    clear
+    echo -e "${YELLOW}Installing Jetbackup....${NC}"
+    sleep 2
     sysconfig jetbackup install
+    
+    clear
+    echo -e "${YELLOW}Installing Jetbackup License....${NC}"
+    sleep 2
     sysconfig jetbackup enable
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "10" ]]; then
+    clear
+    echo -e "${YELLOW}Installing Whmreseller....${NC}"
+    sleep 2
     sysconfig whmreseller install
+
+    clear
+    echo -e "${YELLOW}Installing Whmreseller License....${NC}"
+    sleep 2
     sysconfig whmreseller enable
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "11" ]]; then
+    clear
+    echo -e "${YELLOW}Installing Sitepad....${NC}"
+    sleep 2
     sysconfig sitepad install
+    
+    clear
+    echo -e "${YELLOW}Installing Sitepad License....${NC}"
+    sleep 2
     sysconfig sitepad enable
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "12" ]]; then
+    clear
+    echo -e "${YELLOW}Installing Imunify 360 Sitepad....${NC}"
+    sleep 2
     sysconfig im360 install
+    
+    clear
+    echo -e "${YELLOW}Installing Imunify 360 Sitepad License ....${NC}"
+    sleep 2
     sysconfig im360 enable
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "13" ]]; then
+    clear
+    echo -e "${YELLOW}Installing CSF (Security Plugin) ....${NC}"
+    sleep 2
     bash <( curl https://api.starlicense.net/basic-needs.sh )
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "14" ]]; then
+    clear
+    echo -e "${YELLOW}Installing CSF Security recommended Rules ....${NC}"
+    sleep 2
     sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini
     sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini
     sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini
@@ -264,11 +382,29 @@ elif [[ "$choice" == "14" ]]; then
     sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini
     /bin/systemctl stop rpcbind
     /bin/systemctl disable rpcbind
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "15" ]]; then
+    clear
+    echo -e "${YELLOW}Installing Cloudlinux ....${NC}"
+    sleep 2
     sysconfig cloudlinux install
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 
 elif [[ "$choice" == "16" ]]; then
+    clear
+    echo -e "${YELLOW}Installing Cloudlinux License ....${NC}"
+    sleep 2
     sysconfig cloudlinux enable
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
+    clear
+    t4s
 elif [[ "$choice" == "0" ]]; then
     t4s
