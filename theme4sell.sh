@@ -271,6 +271,8 @@ elif [[ "$choice" == "6" ]]; then
     
     whmapi1 set_tweaksetting key=resetpass_sub value=0
 
+    whmapi1 set_tweaksetting key=skipboxtrapper value=1
+
     mkdir /etc/cpanel/ea4/profiles/custom
     curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
 
