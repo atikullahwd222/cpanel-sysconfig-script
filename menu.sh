@@ -34,9 +34,9 @@ echo "0 - Exit"
 read -p "Enter your choice (0-4): " choice
 
 if [[ "$choice" == "1" ]]; then
-    server_ip=$(prompt_input "Enter the server IP")
-    hostname=$(prompt_input "Enter the hostname")
-    hostname_prefix=$(prompt_input "Enter the hostname prefix")
+    read -p "Enter the server IP: " server_ip
+    read -p "Enter the hostname: " hostname
+    read -p "Enter the hostname prefix: " hostname_prefix
 
     echo "$server_ip $hostname $hostname_prefix" | sudo tee -a /etc/hosts
 
@@ -50,17 +50,17 @@ if [[ "$choice" == "1" ]]; then
     systemctl stop firewalld.service
     systemctl disable firewalld.service
 
-
     clear
 
-    echo -e "${RED}The Server need a reboot.....${NC}"
-    echo -e "${RED}ctrl+c${NC} ${GREEN}To avoid restart${NC}"
+    echo -e "${RED}The Server needs a reboot.....${NC}"
+    echo -e "${RED}Press Ctrl+C${NC} ${GREEN}to avoid restart${NC}"
     sleep 30
-    echo -e "${GREEN}After Reboot run t4s again to continue ${NC}"
-    echo -e "${RED}Rebooting ${NC}"
+    echo -e "${GREEN}After reboot, run t4s again to continue.${NC}"
+    echo -e "${RED}Rebooting...${NC}"
     sleep 3
 
     reboot now
+
 elif [[ "$choice" == "2" ]]; then
     echo -e "${GREEN}You selected Theme4Sell.${NC}"
     sleep 2
