@@ -99,7 +99,7 @@ if [[ "$choice" == "1" ]]; then
     
     
     sleep 2
-    echo "${GREEN} Enable Tweak settings.... ${NC}"
+    echo -e "${GREEN} Enable Tweak settings.... ${NC}"
     sleep 2
     echo "===================================================================="
 
