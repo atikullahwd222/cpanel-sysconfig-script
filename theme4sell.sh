@@ -12,6 +12,8 @@ prompt_input() {
     echo "$input"
 }
 
+clear
+
 # Display installation options
 echo -e "    ____  __  __   _____            __               "
 echo -e "   / __ )/ / / /  / ___/__  _______/ /____  ____ ___ "

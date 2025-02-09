@@ -43,7 +43,7 @@ echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
 echo ""
 echo ""
 echo -e "${YELLOW}1 - Do Basic Config (Ready the server for WHM)${NC} ${RED}!Important${NC}"
-echo "2 - Theme4Sell v2"
+echo "2 - Theme4Sell"
 echo "3 - GB Lic"
 echo "4 - I just want to install WHM and Tweaks"
 echo "0 - Exit"
@@ -80,9 +80,8 @@ if [[ "$choice" == "1" ]]; then
 
 elif [[ "$choice" == "2" ]]; then
     echo -e "${GREEN}You selected Theme4Sell.${NC}"
-    sleep 2
     echo -e "${YELLOW}Redirecting...${NC}"
-    sleep 2
+    sleep 1
     bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         
 elif [[ "$choice" == "3" ]]; then
