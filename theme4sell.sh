@@ -132,6 +132,9 @@ if [[ "$choice" == "1" ]]; then
     
     whmapi1 set_tweaksetting key=resetpass_sub value=0
 
+    sed -i "s/^sql_mode.*/sql_mode = ''/" /etc/my.cnf
+    /scripts/restartsrv_mysql
+
     mkdir /etc/cpanel/ea4/profiles/custom
     curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
 
