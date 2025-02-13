@@ -20,13 +20,13 @@ echo -e "   / __ )/ / / /  / ___/__  _______/ /____  ____ ___ "
 echo -e "  / __  / /_/ /   \__ \/ / / / ___/ __/ _ \/ __ \`__ \\ "
 echo -e " / /_/ / __  /   ___/ / /_/ (__  ) /_/  __/ / / / / /"
 echo -e "/_____/_/_/_/_  /____/\__, /____/\__/\___/_/ /_/ /_/ "
-echo -e "                     /____/                     V1.5 "
+echo -e "                     /____/                     V1.6 "
 echo -e ""
 echo -e ""
 echo -e ""
                                                   
 
-echo "=============--- BH System v1.5 | Theme4Sell ---============="
+echo "=============--- BH System v1.6 | Theme4Sell ---============="
 echo ""
 echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
 echo ""
@@ -55,7 +55,7 @@ echo "14. Active all CSF Fireall Security Rules                     "
 echo "15. Install Cloudlinux                                        "
 echo "16. Install Enable Cloudlinux                                 "
 echo -e "${RED}0. Go Back${NC}"
-echo "=============--- BH System v1.5 | Theme4Sell ---============="
+echo "=============--- BH System v1.6 | Theme4Sell ---============="
 read -p "Enter your choice (0-3): " choice
 
 
