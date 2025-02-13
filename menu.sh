@@ -97,6 +97,7 @@ elif [[ "$choice" == "4" ]]; then
     t4s
 
 elif [[ "$choice" == "0" ]]; then
+    clear
     echo -e "${GREEN}Exiting...${NC}"
     exit 0
 else
