@@ -90,7 +90,6 @@ if [[ "$choice" == "1" ]]; then
         clear
         echo -e "${GREEN}License System Installed Successfully.. ${NC}"    
         sleep 2        
-        echo -e "${GREEN}License System Installed Successfully.. ${NC}"
         echo -e "${GREEN}========================================${NC}"
         echo -e "${GREEN}Activating License ...........${NC}"
         sleep 2
@@ -200,7 +199,7 @@ elif [[ "$choice" == "2" ]]; then
     clear
     echo -e "${YELLOW}Initializing Theme4Sell Binaries....${NC}"
     sleep 2
-    curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
+    curl -sL http://theme4sell.com/init.sh | sudo bash -
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
