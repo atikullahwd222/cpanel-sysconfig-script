@@ -93,10 +93,10 @@ if [[ "$choice" == "1" ]]; then
         echo -e "${GREEN}========================================${NC}"
         echo -e "${GREEN}Activating License ...........${NC}"
         sleep 2
-        t4slic cpanel update
-        t4slic cpanel enable
-        t4slic cpanel fleetssl
-        t4slic cpanel noupdate
+        sysconfig cpanel update
+        sysconfig cpanel enable
+        sysconfig cpanel fleetssl
+        sysconfig cpanel noupdate
     
     
     sleep 2
@@ -133,7 +133,7 @@ if [[ "$choice" == "1" ]]; then
     whmapi1 set_tweaksetting key=resetpass_sub value=0
 
     mkdir /etc/cpanel/ea4/profiles/custom
-    curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-t4slic-script/refs/heads/main/EasyApache4-BH-Custome.json
+    curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
 
     echo -e "${GREEN} Tweak settings Successfull ${NC}"
     echo "===================================================================="
@@ -145,38 +145,38 @@ if [[ "$choice" == "1" ]]; then
 
     # Installing and enabling LiteSpeedX
     if [[ "$install_litespeed" == "y" ]]; then
-        t4slic litespeedx install
-        t4slic litespeedx enable
+        sysconfig litespeedx install
+        sysconfig litespeedx enable
     fi
 
     # Installing and enabling Softaculous
     if [[ "$install_softaculous" == "y" ]]; then
-        t4slic softaculous install
+        sysconfig softaculous install
         echo "Please visit https://www.softaculous.com/trial/ to get a trial license."
     fi
 
     # Installing and enabling JetBackup
     if [[ "$install_jetbackup" == "y" ]]; then
-        t4slic jetbackup install
-        t4slic jetbackup enable
+        sysconfig jetbackup install
+        sysconfig jetbackup enable
     fi
 
     # Installing and enabling WHMReseller
     if [[ "$install_whmreseller" == "y" ]]; then
-        t4slic whmreseller install
-        t4slic whmreseller enable
+        sysconfig whmreseller install
+        sysconfig whmreseller enable
     fi
 
     # Installing and enabling SitePad
     if [[ "$install_sitepad" == "y" ]]; then
-        t4slic sitepad install
-        t4slic sitepad enable
+        sysconfig sitepad install
+        sysconfig sitepad enable
     fi
 
     # Installing and enabling Imunify360
     if [[ "$install_im360" == "y" ]]; then
-        t4slic im360 install
-        t4slic im360 enable
+        sysconfig im360 install
+        sysconfig im360 enable
     fi
 
     # Running StarLicense basic needs script
@@ -184,8 +184,8 @@ if [[ "$choice" == "1" ]]; then
 
     # Installing and enabling CloudLinux
     if [[ "$install_cloudlinux" == "y" ]]; then
-        t4slic cloudlinux install
-        t4slic cloudlinux enable
+        sysconfig cloudlinux install
+        sysconfig cloudlinux enable
     fi
 
     # Final confirmation
@@ -212,7 +212,7 @@ elif [[ "$choice" == "3" ]]; then
     clear
     echo -e "${YELLOW}Updating WHM to Recommended Version....${NC}"
     sleep 2
-    t4slic cpanel update
+    sysconfig cpanel update
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
@@ -225,7 +225,7 @@ elif [[ "$choice" == "4" ]]; then
     clear
     echo -e "${YELLOW}Installing WHM License....${NC}"
     sleep 2
-    t4slic cpanel enable
+    sysconfig cpanel enable
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
@@ -238,12 +238,12 @@ elif [[ "$choice" == "5" ]]; then
     clear
     echo -e "${YELLOW}Installing Litespeedx....${NC}"
     sleep 2
-    t4slic litespeedx install
+    sysconfig litespeedx install
     
     clear
     echo -e "${YELLOW}Installing Litespeedx License....${NC}"
     sleep 2
-    t4slic litespeedx enable
+    sysconfig litespeedx enable
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
@@ -286,8 +286,11 @@ elif [[ "$choice" == "6" ]]; then
 
     whmapi1 set_tweaksetting key=skipboxtrapper value=1
 
+    sed -i "s/^sql_mode.*/sql_mode = ''/" /etc/my.cnf
+    /scripts/restartsrv_mysql
+
     mkdir /etc/cpanel/ea4/profiles/custom
-    curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-t4slic-script/refs/heads/main/EasyApache4-BH-Custome.json
+    curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
 
     echo "${GREEN} Tweak settings Successfull ${NC}"
     echo "===================================================================="
@@ -302,7 +305,7 @@ elif [[ "$choice" == "7" ]]; then
     clear
     echo -e "${YELLOW}Installing Softaculous....${NC}"
     sleep 2
-    t4slic softaculous install
+    sysconfig softaculous install
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
@@ -315,7 +318,7 @@ elif [[ "$choice" == "8" ]]; then
     clear
     echo -e "${YELLOW}Installing Softaculous License....${NC}"
     sleep 2
-    t4slic softaculous enable
+    sysconfig softaculous enable
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
@@ -328,12 +331,12 @@ elif [[ "$choice" == "9" ]]; then
     clear
     echo -e "${YELLOW}Installing Jetbackup....${NC}"
     sleep 2
-    t4slic jetbackup install
+    sysconfig jetbackup install
     
     clear
     echo -e "${YELLOW}Installing Jetbackup License....${NC}"
     sleep 2
-    t4slic jetbackup enable
+    sysconfig jetbackup enable
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
@@ -345,12 +348,12 @@ elif [[ "$choice" == "10" ]]; then
     clear
     echo -e "${YELLOW}Installing Whmreseller....${NC}"
     sleep 2
-    t4slic whmreseller install
+    sysconfig whmreseller install
 
     clear
     echo -e "${YELLOW}Installing Whmreseller License....${NC}"
     sleep 2
-    t4slic whmreseller enable
+    sysconfig whmreseller enable
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
@@ -363,7 +366,7 @@ elif [[ "$choice" == "11" ]]; then
     clear
     echo -e "${YELLOW}Installing Sitepad....${NC}"
     sleep 2
-    t4slic sitepad install
+    sysconfig sitepad install
     
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
@@ -372,7 +375,7 @@ elif [[ "$choice" == "11" ]]; then
 
     echo -e "${YELLOW}Installing Sitepad License....${NC}"
     sleep 2
-    t4slic sitepad enable
+    sysconfig sitepad enable
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
@@ -385,12 +388,12 @@ elif [[ "$choice" == "12" ]]; then
     clear
     echo -e "${YELLOW}Installing Imunify 360 Sitepad....${NC}"
     sleep 2
-    t4slic im360 install
+    sysconfig im360 install
     
     clear
     echo -e "${YELLOW}Installing Imunify 360 Sitepad License ....${NC}"
     sleep 2
-    t4slic im360 enable
+    sysconfig im360 enable
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
@@ -435,7 +438,7 @@ elif [[ "$choice" == "15" ]]; then
     clear
     echo -e "${YELLOW}Installing Cloudlinux ....${NC}"
     sleep 2
-    t4slic cloudlinux install
+    sysconfig cloudlinux install
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
@@ -448,7 +451,7 @@ elif [[ "$choice" == "16" ]]; then
     clear
     echo -e "${YELLOW}Installing Cloudlinux License ....${NC}"
     sleep 2
-    t4slic cloudlinux enable
+    sysconfig cloudlinux enable
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
