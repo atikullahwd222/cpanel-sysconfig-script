@@ -86,7 +86,7 @@ if [[ "$choice" == "1" ]]; then
         echo -e "${GREEN}Installing Our License System .....${NC}"
         sleep 2
         # Running MagicByte repo script
-        curl -sL http://theme4sell.com/init.sh | sudo bash -
+        curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
         clear
         echo -e "${GREEN}License System Installed Successfully.. ${NC}"    
         sleep 2        
@@ -183,7 +183,7 @@ if [[ "$choice" == "1" ]]; then
     fi
 
     # Running StarLicense basic needs script
-    bash <( curl https://api.starlicense.net/basic-needs.sh )
+    # bash <( curl https://api.starlicense.net/basic-needs.sh )
 
     # Installing and enabling CloudLinux
     if [[ "$install_cloudlinux" == "y" ]]; then
@@ -202,7 +202,7 @@ elif [[ "$choice" == "2" ]]; then
     clear
     echo -e "${YELLOW}Initializing Theme4Sell Binaries....${NC}"
     sleep 2
-    curl -sL http://theme4sell.com/init.sh | sudo bash -
+    curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
     echo ""
