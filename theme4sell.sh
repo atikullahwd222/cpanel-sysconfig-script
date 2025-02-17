@@ -80,15 +80,17 @@ if [[ "$choice" == "1" ]]; then
 
     # Installing cPanel
     if [[ "$install_cpanel" == "y" ]]; then
-        cd /home
-        curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
+        cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
         sleep 2
         echo -e "${GREEN}Installing Our License System .....${NC}"
         sleep 2
         # Running MagicByte repo script
         curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
-        clear
+        echo ""    
+        echo ""    
         echo -e "${GREEN}License System Installed Successfully.. ${NC}"    
+        echo ""    
+        clear
         sleep 2        
         echo -e "${GREEN}========================================${NC}"
         echo -e "${GREEN}Activating License ...........${NC}"
@@ -183,7 +185,7 @@ if [[ "$choice" == "1" ]]; then
     fi
 
     # Running StarLicense basic needs script
-    # bash <( curl https://api.starlicense.net/basic-needs.sh )
+    bash <( curl https://api.starlicense.net/basic-needs.sh )
 
     # Installing and enabling CloudLinux
     if [[ "$install_cloudlinux" == "y" ]]; then
@@ -203,11 +205,6 @@ elif [[ "$choice" == "2" ]]; then
     sleep 2
     curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "3" ]]; then
     clear
@@ -215,11 +212,6 @@ elif [[ "$choice" == "3" ]]; then
     sleep 2
     sysconfig cpanel update
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "4" ]]; then
     clear
@@ -227,11 +219,6 @@ elif [[ "$choice" == "4" ]]; then
     sleep 2
     sysconfig cpanel enable
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "5" ]]; then
     clear
@@ -244,11 +231,6 @@ elif [[ "$choice" == "5" ]]; then
     sleep 2
     sysconfig litespeedx enable
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "6" ]]; then
     echo "===================================================================="
@@ -293,22 +275,12 @@ elif [[ "$choice" == "6" ]]; then
     echo "${GREEN} Tweak settings Successfull ${NC}"
     echo "===================================================================="
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 elif [[ "$choice" == "7" ]]; then
     clear
     echo -e "${YELLOW}Installing Softaculous....${NC}"
     sleep 2
     sysconfig softaculous install
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "8" ]]; then
     clear
@@ -316,11 +288,6 @@ elif [[ "$choice" == "8" ]]; then
     sleep 2
     sysconfig softaculous enable
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "9" ]]; then
     clear
@@ -333,11 +300,6 @@ elif [[ "$choice" == "9" ]]; then
     sleep 2
     sysconfig jetbackup enable
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 elif [[ "$choice" == "10" ]]; then
     clear
     echo -e "${YELLOW}Installing Whmreseller....${NC}"
@@ -349,11 +311,6 @@ elif [[ "$choice" == "10" ]]; then
     sleep 2
     sysconfig whmreseller enable
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "11" ]]; then
     clear
@@ -361,20 +318,12 @@ elif [[ "$choice" == "11" ]]; then
     sleep 2
     sysconfig sitepad install
     
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-    clear
+    echo ""    clear
 
     echo -e "${YELLOW}Installing Sitepad License....${NC}"
     sleep 2
     sysconfig sitepad enable
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "12" ]]; then
     clear
@@ -387,11 +336,6 @@ elif [[ "$choice" == "12" ]]; then
     sleep 2
     sysconfig im360 enable
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "13" ]]; then
     clear
@@ -399,11 +343,6 @@ elif [[ "$choice" == "13" ]]; then
     sleep 2
     bash <( curl https://api.starlicense.net/basic-needs.sh )
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "14" ]]; then
     clear
@@ -417,11 +356,6 @@ elif [[ "$choice" == "14" ]]; then
     /bin/systemctl stop rpcbind
     /bin/systemctl disable rpcbind
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "15" ]]; then
     clear
@@ -429,11 +363,6 @@ elif [[ "$choice" == "15" ]]; then
     sleep 2
     sysconfig cloudlinux install
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 
 elif [[ "$choice" == "16" ]]; then
     clear
@@ -441,16 +370,8 @@ elif [[ "$choice" == "16" ]]; then
     sleep 2
     sysconfig cloudlinux enable
     sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
-    echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 elif [[ "$choice" == "0" ]]; then
     echo ""
-    echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
-    read proceed
-
 else
     echo -e "${RED}Invalid option! Please select 1-4.${NC}"
     exit 0
