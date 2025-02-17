@@ -195,8 +195,7 @@ if [[ "$choice" == "1" ]]; then
     echo "Successful......"
     sleep 2
     echo -e "${GREEN}Redirecting.....${NC}"
-    clear
-    t4s
+
 
 elif [[ "$choice" == "2" ]]; then
     clear
@@ -208,8 +207,7 @@ elif [[ "$choice" == "2" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "3" ]]; then
     clear
@@ -221,8 +219,7 @@ elif [[ "$choice" == "3" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "4" ]]; then
     clear
@@ -234,8 +231,7 @@ elif [[ "$choice" == "4" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "5" ]]; then
     clear
@@ -252,8 +248,7 @@ elif [[ "$choice" == "5" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "6" ]]; then
     echo "===================================================================="
@@ -302,8 +297,7 @@ elif [[ "$choice" == "6" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 elif [[ "$choice" == "7" ]]; then
     clear
     echo -e "${YELLOW}Installing Softaculous....${NC}"
@@ -314,8 +308,7 @@ elif [[ "$choice" == "7" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "8" ]]; then
     clear
@@ -327,8 +320,7 @@ elif [[ "$choice" == "8" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "9" ]]; then
     clear
@@ -345,8 +337,7 @@ elif [[ "$choice" == "9" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 elif [[ "$choice" == "10" ]]; then
     clear
     echo -e "${YELLOW}Installing Whmreseller....${NC}"
@@ -362,8 +353,7 @@ elif [[ "$choice" == "10" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "11" ]]; then
     clear
@@ -384,8 +374,7 @@ elif [[ "$choice" == "11" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "12" ]]; then
     clear
@@ -402,8 +391,7 @@ elif [[ "$choice" == "12" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "13" ]]; then
     clear
@@ -415,8 +403,7 @@ elif [[ "$choice" == "13" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "14" ]]; then
     clear
@@ -434,8 +421,7 @@ elif [[ "$choice" == "14" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "15" ]]; then
     clear
@@ -447,8 +433,7 @@ elif [[ "$choice" == "15" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 
 elif [[ "$choice" == "16" ]]; then
     clear
@@ -460,14 +445,12 @@ elif [[ "$choice" == "16" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 elif [[ "$choice" == "0" ]]; then
     echo ""
     echo -e "${GREEN}Is everything Currect? (y/n)${NC}"
     read proceed
-    clear
-    t4s
+
 else
     echo -e "${RED}Invalid option! Please select 1-4.${NC}"
     exit 0
