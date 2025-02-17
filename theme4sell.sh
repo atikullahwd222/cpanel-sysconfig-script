@@ -56,7 +56,7 @@ echo "15. Install Cloudlinux                                        "
 echo "16. Install Enable Cloudlinux                                 "
 echo -e "${RED}0. Go Back${NC}"
 echo "=============--- BH System v1.6 | Theme4Sell ---============="
-read -p "Enter your choice (0-3): " choice
+read -p "Enter your choice (0-16): " choice
 
 
 if [[ "$choice" == "1" ]]; then
