@@ -99,47 +99,47 @@ if [[ "$choice" == "1" ]]; then
         sysconfig cpanel noupdate
     
     
-    sleep 2
-    echo -e "${GREEN} Enable Tweak settings.... ${NC}"
-    sleep 2
-    echo "===================================================================="
+        sleep 2
+        echo -e "${GREEN} Enable Tweak settings.... ${NC}"
+        sleep 2
+        echo "===================================================================="
 
-    whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
+        whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
 
-    whmapi1 set_tweaksetting key=php_upload_max_filesize value=550
+        whmapi1 set_tweaksetting key=php_upload_max_filesize value=550
 
-    whmapi1 set_tweaksetting key=php_post_max_size value=550
+        whmapi1 set_tweaksetting key=php_post_max_size value=550
 
-    whmapi1 set_tweaksetting key=maxemailsperhour value=30
+        whmapi1 set_tweaksetting key=maxemailsperhour value=30
 
-    whmapi1 set_tweaksetting key=emailsperdaynotify value=100
+        whmapi1 set_tweaksetting key=emailsperdaynotify value=100
 
-    whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
+        whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
 
-    whmapi1 set_tweaksetting key=resetpass value=0
+        whmapi1 set_tweaksetting key=resetpass value=0
 
-    whmapi1 set_tweaksetting key=resetpass_sub value=0
+        whmapi1 set_tweaksetting key=resetpass_sub value=0
 
-    whmapi1 set_tweaksetting key=allowremotedomains value=1
+        whmapi1 set_tweaksetting key=allowremotedomains value=1
 
-    whmapi1 set_tweaksetting key=referrerblanksafety value=1
-    
-    whmapi1 set_tweaksetting key=referrersafety value=1
-    
-    whmapi1 set_tweaksetting key=cgihidepass value=1
-    
-    whmapi1 set_tweaksetting key=resetpass value=0
-    
-    whmapi1 set_tweaksetting key=resetpass_sub value=0
+        whmapi1 set_tweaksetting key=referrerblanksafety value=1
+        
+        whmapi1 set_tweaksetting key=referrersafety value=1
+        
+        whmapi1 set_tweaksetting key=cgihidepass value=1
+        
+        whmapi1 set_tweaksetting key=resetpass value=0
+        
+        whmapi1 set_tweaksetting key=resetpass_sub value=0
 
-    sed -i "s/^sql_mode.*/sql_mode = ''/" /etc/my.cnf
-    /scripts/restartsrv_mysql
+        sed -i "s/^sql_mode.*/sql_mode = ''/" /etc/my.cnf
+        /scripts/restartsrv_mysql
 
-    mkdir /etc/cpanel/ea4/profiles/custom
-    curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
+        mkdir /etc/cpanel/ea4/profiles/custom
+        curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
 
-    echo -e "${GREEN} Tweak settings Successfull ${NC}"
-    echo "===================================================================="
+        echo -e "${GREEN} Tweak settings Successfull ${NC}"
+        echo "===================================================================="
 
     else
         echo "Skipping cPanel installation. Exiting..."
