@@ -34,7 +34,7 @@ case "$1" in
         clear
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         ;;
-    "tweek")
+    "tweak")
         echo -e "${GREEN} Enable Tweak settings.... ${NC}"
         sleep 2
         echo "===================================================================="
