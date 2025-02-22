@@ -38,15 +38,15 @@ echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
 echo ""
 echo ""
 echo "Select an installation option:                                "
-echo -e "1. All in One ${RED}(For Beginner)${NC}                       "
-echo "2. Initialize Theme4Sell                                      "
-echo "3. Update WHM with Theme4Sell                                 "
-echo "4. Fix WHM Lic. with Theme4Sell                               "
-echo "5. Install and Active LiteSpeedX                              "
-echo "6. Tweak Settings                                             "
-echo "7. Install Softaculous                                        "
-echo "8. Active Softaculous                                         "
-echo "9. Install and active Jetbackup                               "
+echo -e "1.  All in One ${RED}(For Beginner)${NC}                       "
+echo "2.  Initialize Theme4Sell                                      "
+echo "3.  Update WHM with Theme4Sell                                 "
+echo "4.  Fix WHM Lic. with Theme4Sell                               "
+echo "5.  Install and Active LiteSpeedX                              "
+echo "6.  Tweak Settings                                             "
+echo "7.  Install Softaculous                                        "
+echo "8.  Active Softaculous                                         "
+echo "9.  Install and active Jetbackup                               "
 echo "10. Install and active Whmreseller                            "
 echo "11. Install and Active sitepad                                "
 echo "12. Install and Active Im360                                  "
@@ -85,7 +85,7 @@ if [[ "$choice" == "1" ]]; then
         echo -e "${GREEN}Installing Our License System .....${NC}"
         sleep 2
         # Running MagicByte repo script
-        curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
+        curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
         echo ""    
         echo ""    
         echo -e "${GREEN}License System Installed Successfully.. ${NC}"    
@@ -135,6 +135,7 @@ if [[ "$choice" == "1" ]]; then
         whmapi1 set_tweaksetting key=resetpass_sub value=0
 
         sed -i "s/^sql_mode.*/sql_mode = ''/" /etc/my.cnf
+
         /scripts/restartsrv_mysql
 
         mkdir /etc/cpanel/ea4/profiles/custom
@@ -371,7 +372,10 @@ elif [[ "$choice" == "16" ]]; then
     sysconfig cloudlinux enable
     sleep 2
 elif [[ "$choice" == "0" ]]; then
-    echo ""
+    echo -e "${RED}Going Back .....${NC}"
+    sleep 1
+    clear
+    t4s
 else
     echo -e "${RED}Invalid option! Please select 1-4.${NC}"
     exit 0

@@ -16,5 +16,25 @@ if [[ $EUID -ne 0 ]]; then
     echo -e "${YELLOW}Warning: You are not running as root. You may need to enter sudo passwords during installation.${NC}"
 fi
 
-echo -e "${GREEN}Fetching the latest script version...${NC}"
-bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh) || error_exit "Failed to execute t4s"
+# Function to handle errors
+error_exit() {
+    echo -e "${RED}ERROR: $1${NC}" >&2
+    exit 1
+}
+
+# Main function to handle commands
+case "$1" in
+    "budget")
+        echo -e "${GREEN}Calculating budget...${NC}"
+        # Add your budget-related logic here
+        echo -e "${YELLOW}Budget module is under development!${NC}"
+        ;;
+    "")
+        echo -e "${GREEN}Fetching the latest script version...${NC}"
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh) || error_exit "Failed to execute t4s"
+        ;;
+    *)
+        echo -e "${RED}Unknown command: $1${NC}"
+        exit 1
+        ;;
+esac
