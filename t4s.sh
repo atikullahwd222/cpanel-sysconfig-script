@@ -25,9 +25,14 @@ error_exit() {
 # Main function to handle commands
 case "$1" in
     "budget")
-        echo -e "${GREEN}Calculating budget...${NC}"
-        # Add your budget-related logic here
-        echo -e "${YELLOW}Budget module is under development!${NC}"
+        echo -e "${GREEN}You selected Budget Licensing System.${NC}"
+        echo ""
+        echo ""
+        echo -e "${YELLOW}Redirecting...${NC}"
+        echo ""
+        sleep 1
+        clear
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         ;;
     "")
         echo -e "${GREEN}Fetching the latest script version...${NC}"
