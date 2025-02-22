@@ -36,26 +36,26 @@ case "$1" in
         ;;
     "tweak")
         echo -e "${GREEN}Starting tweak settings...${NC}"
-        {
-            whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
-            whmapi1 set_tweaksetting key=php_upload_max_filesize value=550
-            whmapi1 set_tweaksetting key=php_post_max_size value=550
-            whmapi1 set_tweaksetting key=maxemailsperhour value=30
-            whmapi1 set_tweaksetting key=emailsperdaynotify value=100
-            whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
-            whmapi1 set_tweaksetting key=resetpass value=0
-            whmapi1 set_tweaksetting key=resetpass_sub value=0
-            whmapi1 set_tweaksetting key=allowremotedomains value=1
-            whmapi1 set_tweaksetting key=referrerblanksafety value=1
-            whmapi1 set_tweaksetting key=referrersafety value=1
-            whmapi1 set_tweaksetting key=cgihidepass value=1
-            whmapi1 set_tweaksetting key=resetpass value=0
-            whmapi1 set_tweaksetting key=resetpass_sub value=0
-            sed -i "s/^sql_mode.*/sql_mode = ''/" /etc/my.cnf
-            /scripts/restartsrv_mysql
-            mkdir -p /etc/cpanel/ea4/profiles/custom
-            curl -s -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
-        } &> /dev/null &
+        
+        whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube || error_exit "Failed to set phploader"
+        whmapi1 set_tweaksetting key=php_upload_max_filesize value=550 || error_exit "Failed to set upload max size"
+        whmapi1 set_tweaksetting key=php_post_max_size value=550 || error_exit "Failed to set post max size"
+        whmapi1 set_tweaksetting key=maxemailsperhour value=30 || error_exit "Failed to set max emails per hour"
+        whmapi1 set_tweaksetting key=emailsperdaynotify value=100 || error_exit "Failed to set emails per day notify"
+        whmapi1 set_tweaksetting key=publichtmlsubsonly value=0 || error_exit "Failed to set public_html subs only"
+        whmapi1 set_tweaksetting key=resetpass value=0 || error_exit "Failed to disable reset password"
+        whmapi1 set_tweaksetting key=resetpass_sub value=0 || error_exit "Failed to disable reset password for sub"
+        whmapi1 set_tweaksetting key=allowremotedomains value=1 || error_exit "Failed to allow remote domains"
+        whmapi1 set_tweaksetting key=referrerblanksafety value=1 || error_exit "Failed to enable referrer blank safety"
+        whmapi1 set_tweaksetting key=referrersafety value=1 || error_exit "Failed to enable referrer safety"
+        whmapi1 set_tweaksetting key=cgihidepass value=1 || error_exit "Failed to enable CGI hide pass"
+
+        sed -i "s/^sql_mode.*/sql_mode = ''/" /etc/my.cnf || error_exit "Failed to modify MySQL config"
+        /scripts/restartsrv_mysql || error_exit "Failed to restart MySQL"
+
+        mkdir -p /etc/cpanel/ea4/profiles/custom
+        curl -s -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json || error_exit "Failed to download EasyApache profile"
+        
         echo -e "${GREEN}Tweak settings applied successfully!${NC}"
         ;;
     "")
