@@ -139,11 +139,8 @@ if [[ "$choice" == "1" ]]; then
         sysconfig cpanel fleetssl
         sysconfig cpanel noupdate
     
-    
         sleep 2
         tweak
-
-
     fi
 
     # Installing and enabling LiteSpeedX

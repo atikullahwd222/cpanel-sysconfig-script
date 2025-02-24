@@ -35,28 +35,41 @@ case "$1" in
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         ;;
     "tweak")
-        echo -e "${GREEN}Starting tweak settings...${NC}"
-        
-        whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube || error_exit "Failed to set phploader"
-        whmapi1 set_tweaksetting key=php_upload_max_filesize value=550 || error_exit "Failed to set upload max size"
-        whmapi1 set_tweaksetting key=php_post_max_size value=550 || error_exit "Failed to set post max size"
-        whmapi1 set_tweaksetting key=maxemailsperhour value=30 || error_exit "Failed to set max emails per hour"
-        whmapi1 set_tweaksetting key=emailsperdaynotify value=100 || error_exit "Failed to set emails per day notify"
-        whmapi1 set_tweaksetting key=publichtmlsubsonly value=0 || error_exit "Failed to set public_html subs only"
-        whmapi1 set_tweaksetting key=resetpass value=0 || error_exit "Failed to disable reset password"
-        whmapi1 set_tweaksetting key=resetpass_sub value=0 || error_exit "Failed to disable reset password for sub"
-        whmapi1 set_tweaksetting key=allowremotedomains value=1 || error_exit "Failed to allow remote domains"
-        whmapi1 set_tweaksetting key=referrerblanksafety value=1 || error_exit "Failed to enable referrer blank safety"
-        whmapi1 set_tweaksetting key=referrersafety value=1 || error_exit "Failed to enable referrer safety"
-        whmapi1 set_tweaksetting key=cgihidepass value=1 || error_exit "Failed to enable CGI hide pass"
+        echo "===================================================================="
+        echo -e "${YELLOW} Enabling Tweak Settings... ${NC}"
 
-        sed -i "s/^sql_mode.*/sql_mode = ''/" /etc/my.cnf || error_exit "Failed to modify MySQL config"
-        /scripts/restartsrv_mysql || error_exit "Failed to restart MySQL"
+        echo "Configuring PHP settings..."
+        whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube &>/dev/null
+        whmapi1 set_tweaksetting key=php_upload_max_filesize value=550 &>/dev/null
+        whmapi1 set_tweaksetting key=php_post_max_size value=550 &>/dev/null
 
-        mkdir -p /etc/cpanel/ea4/profiles/custom
-        curl -s -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json || error_exit "Failed to download EasyApache profile"
-        
-        echo -e "${GREEN}Tweak settings applied successfully!${NC}"
+        echo "Setting email limits..."
+        whmapi1 set_tweaksetting key=maxemailsperhour value=30 &>/dev/null
+        whmapi1 set_tweaksetting key=emailsperdaynotify value=100 &>/dev/null
+
+        echo "Allowing public_html subdirectories..."
+        whmapi1 set_tweaksetting key=publichtmlsubsonly value=0 &>/dev/null
+
+        echo "Disabling password resets..."
+        whmapi1 set_tweaksetting key=resetpass value=0 &>/dev/null
+        whmapi1 set_tweaksetting key=resetpass_sub value=0 &>/dev/null
+
+        echo "Applying security settings..."
+        whmapi1 set_tweaksetting key=allowremotedomains value=1 &>/dev/null
+        whmapi1 set_tweaksetting key=referrerblanksafety value=1 &>/dev/null
+        whmapi1 set_tweaksetting key=referrersafety value=1 &>/dev/null
+        whmapi1 set_tweaksetting key=cgihidepass value=1 &>/dev/null
+
+        echo "Updating MySQL settings..."
+        grep -q '^sql_mode=' /etc/my.cnf && sed -i 's/^sql_mode=.*/sql_mode=""'/ /etc/my.cnf || sed -i '/^\[mysqld\]/a sql_mode=""' /etc/my.cnf
+        /scripts/restartsrv_mysql &>/dev/null
+
+        echo "Downloading custom EasyApache 4 profile..."
+        mkdir -p /etc/cpanel/ea4/profiles/custom &>/dev/null
+        curl -s -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json &>/dev/null
+
+        echo -e "${GREEN} Tweak settings successfully applied! ${NC}"
+        echo "===================================================================="
         ;;
     "")
         echo -e "${GREEN}Fetching the latest script version...${NC}"
