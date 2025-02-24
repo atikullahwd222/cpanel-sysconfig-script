@@ -66,9 +66,9 @@ if [[ "$choice" == "1" ]]; then
     install_softaculous=$(prompt_input "Do you want to install Softaculous? (y/n)")
     install_jetbackup=$(prompt_input "Do you want to install JetBackup? (y/n)")
     install_whmreseller=$(prompt_input "Do you want to install WHMReseller? (y/n)")
-    install_sitepad=$(prompt_input "Do you want to install SitePad? (y/n)")
     install_im360=$(prompt_input "Do you want to install Imunify360? (y/n)")
     install_cloudlinux=$(prompt_input "Do you want to install CloudLinux? (y/n)")
+    install_sitepad=$(prompt_input "Do you want to install SitePad? (y/n)")
     echo "===================================================================================================="
 
     echo "You have 30 seconds to decide whether to start the installation or not..."
@@ -144,9 +144,6 @@ if [[ "$choice" == "1" ]]; then
         echo -e "${GREEN} Tweak settings Successfull ${NC}"
         echo "===================================================================="
 
-    else
-        echo "Skipping cPanel installation. Exiting..."
-        exit 1
     fi
 
     # Installing and enabling LiteSpeedX
@@ -173,12 +170,6 @@ if [[ "$choice" == "1" ]]; then
         sysconfig whmreseller enable
     fi
 
-    # Installing and enabling SitePad
-    if [[ "$install_sitepad" == "y" ]]; then
-        sysconfig sitepad install
-        sysconfig sitepad enable
-    fi
-
     # Installing and enabling Imunify360
     if [[ "$install_im360" == "y" ]]; then
         sysconfig im360 install
@@ -192,6 +183,12 @@ if [[ "$choice" == "1" ]]; then
     if [[ "$install_cloudlinux" == "y" ]]; then
         sysconfig cloudlinux install
         sysconfig cloudlinux enable
+    fi
+
+    # Installing and enabling SitePad
+    if [[ "$install_sitepad" == "y" ]]; then
+        sysconfig sitepad install
+        sysconfig sitepad enable
     fi
 
     # Final confirmation
