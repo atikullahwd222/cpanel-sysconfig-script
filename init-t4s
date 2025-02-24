@@ -9,3 +9,11 @@ NC="\033[0m"
 sudo mkdir -p /usr/local/bin
 sudo curl -o /usr/local/bin/t4s https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/t4s.sh
 sudo chmod +x /usr/local/bin/t4s
+
+
+clear
+echo ""
+echo ""
+echo -e "${GREEN}Welcome to Theme4Sell${NC}"
+echo ""
+echo ""
