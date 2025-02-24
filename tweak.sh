@@ -63,6 +63,9 @@ NC='\033[0m' # No Color
         mkdir -p /etc/cpanel/ea4/profiles/custom &>/dev/null
         curl -s -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json &>/dev/null
         sleep 1
+        echo ""
+        echo ".OK"
+        echo ""
 
     echo -e "${GREEN} Tweak settings successfully applied! ${NC}"
     echo "===================================================================="
