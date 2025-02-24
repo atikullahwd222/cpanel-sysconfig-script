@@ -106,40 +106,51 @@ if [[ "$choice" == "1" ]]; then
         sleep 2
         echo "===================================================================="
 
-        whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
+        #!/bin/bash
 
-        whmapi1 set_tweaksetting key=php_upload_max_filesize value=550
+        echo "Configuring WHM/cPanel settings..."
 
-        whmapi1 set_tweaksetting key=php_post_max_size value=550
+        # PHP Loader Configuration
+        echo "Setting PHP Loaders..."
+        whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube &>/dev/null
 
-        whmapi1 set_tweaksetting key=maxemailsperhour value=30
+        # PHP Upload & Post Limits
+        echo "Setting PHP limits..."
+        whmapi1 set_tweaksetting key=php_upload_max_filesize value=550 &>/dev/null
+        whmapi1 set_tweaksetting key=php_post_max_size value=550 &>/dev/null
 
-        whmapi1 set_tweaksetting key=emailsperdaynotify value=100
+        # Email Restrictions
+        echo "Setting email limits..."
+        whmapi1 set_tweaksetting key=maxemailsperhour value=30 &>/dev/null
+        whmapi1 set_tweaksetting key=emailsperdaynotify value=100 &>/dev/null
 
-        whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
+        # Public HTML Directory
+        echo "Allowing public_html subdirectories..."
+        whmapi1 set_tweaksetting key=publichtmlsubsonly value=0 &>/dev/null
 
-        whmapi1 set_tweaksetting key=resetpass value=0
+        # Password Reset Restrictions
+        echo "Disabling password resets..."
+        whmapi1 set_tweaksetting key=resetpass value=0 &>/dev/null
+        whmapi1 set_tweaksetting key=resetpass_sub value=0 &>/dev/null
 
-        whmapi1 set_tweaksetting key=resetpass_sub value=0
+        # Domain & Security Settings
+        echo "Applying security settings..."
+        whmapi1 set_tweaksetting key=allowremotedomains value=1 &>/dev/null
+        whmapi1 set_tweaksetting key=referrerblanksafety value=1 &>/dev/null
+        whmapi1 set_tweaksetting key=referrersafety value=1 &>/dev/null
+        whmapi1 set_tweaksetting key=cgihidepass value=1 &>/dev/null
 
-        whmapi1 set_tweaksetting key=allowremotedomains value=1
+        # MySQL Configuration
+        echo "Updating MySQL settings..."
+        grep -q '^sql_mode=' /etc/my.cnf && sed -i 's/^sql_mode=.*/sql_mode=""'/ /etc/my.cnf || sed -i '/^\[mysqld\]/a sql_mode=""' /etc/my.cnf
+        /scripts/restartsrv_mysql &>/dev/null
 
-        whmapi1 set_tweaksetting key=referrerblanksafety value=1
-        
-        whmapi1 set_tweaksetting key=referrersafety value=1
-        
-        whmapi1 set_tweaksetting key=cgihidepass value=1
-        
-        whmapi1 set_tweaksetting key=resetpass value=0
-        
-        whmapi1 set_tweaksetting key=resetpass_sub value=0
+        # EasyApache 4 Custom Profile
+        echo "Downloading custom EasyApache 4 profile..."
+        mkdir -p /etc/cpanel/ea4/profiles/custom &>/dev/null
+        curl -s -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json &>/dev/null
 
-        sed -i "s/^sql_mode.*/sql_mode = ''/" /etc/my.cnf
-
-        /scripts/restartsrv_mysql
-
-        mkdir /etc/cpanel/ea4/profiles/custom
-        curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
+        echo "Configuration complete."
 
         echo -e "${GREEN} Tweak settings Successfull ${NC}"
         echo "===================================================================="
