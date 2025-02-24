@@ -14,45 +14,6 @@ prompt_input() {
 
 clear
 
-tweak() {
-    echo "===================================================================="
-    echo -e "${YELLOW} Enabling Tweak Settings... ${NC}"
-
-    echo "Configuring PHP settings..."
-    whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube &>/dev/null
-    whmapi1 set_tweaksetting key=php_upload_max_filesize value=550 &>/dev/null
-    whmapi1 set_tweaksetting key=php_post_max_size value=550 &>/dev/null
-
-    echo "Setting email limits..."
-    whmapi1 set_tweaksetting key=maxemailsperhour value=30 &>/dev/null
-    whmapi1 set_tweaksetting key=emailsperdaynotify value=100 &>/dev/null
-
-    echo "Allowing public_html subdirectories..."
-    whmapi1 set_tweaksetting key=publichtmlsubsonly value=0 &>/dev/null
-
-    echo "Disabling password resets..."
-    whmapi1 set_tweaksetting key=resetpass value=0 &>/dev/null
-    whmapi1 set_tweaksetting key=resetpass_sub value=0 &>/dev/null
-
-    echo "Applying security settings..."
-    whmapi1 set_tweaksetting key=allowremotedomains value=1 &>/dev/null
-    whmapi1 set_tweaksetting key=referrerblanksafety value=1 &>/dev/null
-    whmapi1 set_tweaksetting key=referrersafety value=1 &>/dev/null
-    whmapi1 set_tweaksetting key=cgihidepass value=1 &>/dev/null
-
-    echo "Updating MySQL settings..."
-    grep -q '^sql_mode=' /etc/my.cnf && sed -i 's/^sql_mode=.*/sql_mode=""'/ /etc/my.cnf || sed -i '/^\[mysqld\]/a sql_mode=""' /etc/my.cnf
-    /scripts/restartsrv_mysql &>/dev/null
-
-    echo "Downloading custom EasyApache 4 profile..."
-    mkdir -p /etc/cpanel/ea4/profiles/custom &>/dev/null
-    curl -s -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json &>/dev/null
-
-    echo -e "${GREEN} Tweak settings successfully applied! ${NC}"
-    echo "===================================================================="
-}
-
-
 # Display installation options
 echo -e "    ____  __  __   _____            __               "
 echo -e "   / __ )/ / / /  / ___/__  _______/ /____  ____ ___ "
@@ -140,7 +101,7 @@ if [[ "$choice" == "1" ]]; then
         sysconfig cpanel noupdate
     
         sleep 2
-        tweak
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh) || error_exit "Failed to execute Tweak Settings"
     fi
 
     # Installing and enabling LiteSpeedX
@@ -229,7 +190,7 @@ elif [[ "$choice" == "5" ]]; then
     sleep 2
 
 elif [[ "$choice" == "6" ]]; then
-    tweak
+    bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh) || error_exit "Failed to execute Tweak Settings"
     sleep 2
 elif [[ "$choice" == "7" ]]; then
     clear

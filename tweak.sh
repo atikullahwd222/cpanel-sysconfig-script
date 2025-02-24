@@ -9,9 +9,6 @@ NC='\033[0m' # No Color
     echo "===================================================================="
     echo -e "${YELLOW} Enabling Tweak Settings... ${NC}"
 
-        echo ""
-        echo ""
-        echo ""
         echo -e "${GREEN}Configuring PHP settings...${NC}"
         whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube &>/dev/null
         whmapi1 set_tweaksetting key=php_upload_max_filesize value=550 &>/dev/null
@@ -19,7 +16,7 @@ NC='\033[0m' # No Color
         sleep 1
 
         echo ""
-        echo ""
+        echo ".OK"
         echo ""
         echo -e "${GREEN}Setting email limits...${NC}"
         whmapi1 set_tweaksetting key=maxemailsperhour value=30 &>/dev/null
@@ -27,14 +24,14 @@ NC='\033[0m' # No Color
         sleep 1
 
         echo ""
-        echo ""
+        echo ".OK"
         echo ""
         echo -e "${GREEN}Allowing public_html subdirectories...${NC}"
         whmapi1 set_tweaksetting key=publichtmlsubsonly value=0 &>/dev/null
         sleep 1
 
         echo ""
-        echo ""
+        echo ".OK"
         echo ""
         echo -e "${GREEN}Disabling password resets...${NC}"
         whmapi1 set_tweaksetting key=resetpass value=0 &>/dev/null
@@ -42,7 +39,7 @@ NC='\033[0m' # No Color
         sleep 1
 
         echo ""
-        echo ""
+        echo ".OK"
         echo ""
         echo -e "${GREEN}Applying security settings...${NC}"
         whmapi1 set_tweaksetting key=allowremotedomains value=1 &>/dev/null
@@ -52,7 +49,7 @@ NC='\033[0m' # No Color
         sleep 1
 
         echo ""
-        echo ""
+        echo ".OK"
         echo ""
         echo -e "${GREEN}Updating MySQL settings...${NC}"
         grep -q '^sql_mode=' /etc/my.cnf && sed -i 's/^sql_mode=.*/sql_mode=""'/ /etc/my.cnf || sed -i '/^\[mysqld\]/a sql_mode=""' /etc/my.cnf
@@ -60,7 +57,7 @@ NC='\033[0m' # No Color
         sleep 1
 
         echo ""
-        echo ""
+        echo ".OK"
         echo ""
         echo -e "${GREEN}Downloading custom EasyApache 4 profile...${NC}"
         mkdir -p /etc/cpanel/ea4/profiles/custom &>/dev/null
