@@ -14,10 +14,16 @@ sleep 3
 # Remove old file if it exists (silent)
 [ -f "$T4S_PATH" ] && sudo rm -f "$T4S_PATH" &>/dev/null
 
-# Create directory and download new file (silent)
+# Create directory (silent)
 sudo mkdir -p /usr/local/bin &>/dev/null
-sudo curl -s -o "$T4S_PATH" https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/t4s.sh &>/dev/null
-sudo chmod +x "$T4S_PATH" &>/dev/null
+
+# Download new file (with error check)
+if sudo curl -s -o "$T4S_PATH" https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/main/t4s.sh; then
+    sudo chmod +x "$T4S_PATH" &>/dev/null
+else
+    echo -e "${YELLOW}Failed to download t4s script. Please check your internet connection.${NC}"
+    exit 1
+fi
 
 # Clear screen and display success message
 clear
