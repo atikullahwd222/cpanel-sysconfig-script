@@ -8,18 +8,18 @@ NC="\033[0m"
 # Define file path
 T4S_PATH="/usr/local/bin/t4s"
 
-# Remove old file if it exists
-if [ -f "$T4S_PATH" ]; then
-    echo -e "${YELLOW}Removing old t4s file...${NC}"
-    sudo rm -f "$T4S_PATH"
-fi
+echo -e "${YELLOW}Updating Theme4Sell script...${NC}"
+sleep 3
 
-# Create directory if not exists and download the new file
-sudo mkdir -p /usr/local/bin
-sudo curl -o "$T4S_PATH" https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/t4s.sh
-sudo chmod +x "$T4S_PATH"
+# Remove old file if it exists (silent)
+[ -f "$T4S_PATH" ] && sudo rm -f "$T4S_PATH" &>/dev/null
 
-# Clear screen and display welcome message
+# Create directory and download new file (silent)
+sudo mkdir -p /usr/local/bin &>/dev/null
+sudo curl -s -o "$T4S_PATH" https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/t4s.sh &>/dev/null
+sudo chmod +x "$T4S_PATH" &>/dev/null
+
+# Clear screen and display success message
 clear
 echo ""
 echo -e "${GREEN}Welcome to Theme4Sell${NC}"
