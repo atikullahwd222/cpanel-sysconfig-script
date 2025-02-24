@@ -155,7 +155,8 @@ if [[ "$choice" == "1" ]]; then
     # Installing and enabling Softaculous
     if [[ "$install_softaculous" == "y" ]]; then
         sysconfig softaculous install
-        echo "Please visit https://www.softaculous.com/trial/ to get a trial license."
+        sysconfig softaculous enable
+        # echo "Please visit https://www.softaculous.com/trial/ to get a trial license."
     fi
 
     # Installing and enabling JetBackup
