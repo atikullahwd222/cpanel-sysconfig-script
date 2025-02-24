@@ -246,41 +246,51 @@ elif [[ "$choice" == "6" ]]; then
     echo "===================================================================="
     echo "${YELLOW} Enable Tweak settings.... ${NC}"
 
-    whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube
-
-    whmapi1 set_tweaksetting key=php_upload_max_filesize value=550
-
-    whmapi1 set_tweaksetting key=php_post_max_size value=550
-
-    whmapi1 set_tweaksetting key=maxemailsperhour value=30
-
-    whmapi1 set_tweaksetting key=emailsperdaynotify value=100
-
-    whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
-
-    whmapi1 set_tweaksetting key=resetpass value=0
-
-    whmapi1 set_tweaksetting key=resetpass_sub value=0
-
-    whmapi1 set_tweaksetting key=allowremotedomains value=1
-
-    whmapi1 set_tweaksetting key=referrerblanksafety value=1
     
-    whmapi1 set_tweaksetting key=referrersafety value=1
-    
-    whmapi1 set_tweaksetting key=cgihidepass value=1
-    
-    whmapi1 set_tweaksetting key=resetpass value=0
-    
-    whmapi1 set_tweaksetting key=resetpass_sub value=0
+        echo "Configuring WHM/cPanel settings..."
 
-    whmapi1 set_tweaksetting key=skipboxtrapper value=1
+        # PHP Loader Configuration
+        echo "Setting PHP Loaders..."
+        whmapi1 set_tweaksetting key=phploader value=sourceguardian,ioncube &>/dev/null
 
-    sed -i "s/^sql_mode.*/sql_mode = ''/" /etc/my.cnf
-    /scripts/restartsrv_mysql
+        # PHP Upload & Post Limits
+        echo "Setting PHP limits..."
+        whmapi1 set_tweaksetting key=php_upload_max_filesize value=550 &>/dev/null
+        whmapi1 set_tweaksetting key=php_post_max_size value=550 &>/dev/null
 
-    mkdir /etc/cpanel/ea4/profiles/custom
-    curl -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json
+        # Email Restrictions
+        echo "Setting email limits..."
+        whmapi1 set_tweaksetting key=maxemailsperhour value=30 &>/dev/null
+        whmapi1 set_tweaksetting key=emailsperdaynotify value=100 &>/dev/null
+
+        # Public HTML Directory
+        echo "Allowing public_html subdirectories..."
+        whmapi1 set_tweaksetting key=publichtmlsubsonly value=0 &>/dev/null
+
+        # Password Reset Restrictions
+        echo "Disabling password resets..."
+        whmapi1 set_tweaksetting key=resetpass value=0 &>/dev/null
+        whmapi1 set_tweaksetting key=resetpass_sub value=0 &>/dev/null
+
+        # Domain & Security Settings
+        echo "Applying security settings..."
+        whmapi1 set_tweaksetting key=allowremotedomains value=1 &>/dev/null
+        whmapi1 set_tweaksetting key=referrerblanksafety value=1 &>/dev/null
+        whmapi1 set_tweaksetting key=referrersafety value=1 &>/dev/null
+        whmapi1 set_tweaksetting key=cgihidepass value=1 &>/dev/null
+
+        # MySQL Configuration
+        echo "Updating MySQL settings..."
+        grep -q '^sql_mode=' /etc/my.cnf && sed -i 's/^sql_mode=.*/sql_mode=""'/ /etc/my.cnf || sed -i '/^\[mysqld\]/a sql_mode=""' /etc/my.cnf
+        /scripts/restartsrv_mysql &>/dev/null
+
+        # EasyApache 4 Custom Profile
+        echo "Downloading custom EasyApache 4 profile..."
+        mkdir -p /etc/cpanel/ea4/profiles/custom &>/dev/null
+        curl -s -o /etc/cpanel/ea4/profiles/custom/EasyApache4-BH-Custome.json https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/EasyApache4-BH-Custome.json &>/dev/null
+
+        echo "Configuration complete."
+
 
     echo "${GREEN} Tweak settings Successfull ${NC}"
     echo "===================================================================="
