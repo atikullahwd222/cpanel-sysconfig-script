@@ -24,3 +24,8 @@ clear
 echo ""
 echo -e "${GREEN}Welcome to Theme4Sell${NC}"
 echo ""
+sleep 3
+clear
+echo ""
+echo "Use t4s to use our system"
+echo ""
