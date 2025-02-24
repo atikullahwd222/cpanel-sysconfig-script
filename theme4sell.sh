@@ -204,7 +204,7 @@ elif [[ "$choice" == "2" ]]; then
     clear
     echo -e "${YELLOW}Initializing Theme4Sell Binaries....${NC}"
     sleep 2
-    curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
+    curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
     sleep 2
 
 elif [[ "$choice" == "3" ]]; then
