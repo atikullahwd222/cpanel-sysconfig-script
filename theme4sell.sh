@@ -54,6 +54,7 @@ echo "13. Install and CSF                                           "
 echo "14. Active all CSF Fireall Security Rules                     "
 echo "15. Install Cloudlinux                                        "
 echo "16. Install Enable Cloudlinux                                 "
+echo -e "${YELLOW}17. Auto License Active (Advanced)${NC}                                 "
 echo -e "${RED}0. Go Back${NC}"
 echo "=============--- BH System v2.1 | Theme4Sell ---============="
 read -p "Enter your choice (0-16): " choice
