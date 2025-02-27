@@ -163,6 +163,7 @@ elif [[ "$choice" == "2" ]]; then
     sleep 2
     curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
     sleep 2
+    t4s budget
 
 elif [[ "$choice" == "3" ]]; then
     clear
