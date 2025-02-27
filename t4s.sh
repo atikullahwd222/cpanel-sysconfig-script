@@ -34,16 +34,33 @@ case "$1" in
         clear
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         ;;
+
+    "cpanel")
+        case "$2" in
+            "enable")
+                systemctl enable --now cpanel
+                echo -e "${GREEN}cPanel has been enabled and started.${NC}"
+                ;;
+            *)
+                echo -e "${RED}Unknown cPanel command: $2${NC}"
+                exit 1
+                ;;
+        esac
+        ;;
+
     "tweak")
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh) || error_exit "Failed to execute Tweak Settings"
         ;;
+
     "update")
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/init-t4s) || error_exit "Failed to Update the script"
         ;;
+
     "")
         echo -e "${GREEN}Fetching the latest script version...${NC}"
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh) || error_exit "Failed to execute t4s"
         ;;
+
     *)
         echo -e "${RED}Unknown command: $1${NC}"
         exit 1
