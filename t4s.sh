@@ -38,7 +38,7 @@ case "$1" in
     "cpanel")
         case "$2" in
             "enable")
-                systemctl enable --now cpanel
+                sysconfig enable cpanel
                 echo -e "${GREEN}cPanel has been enabled and started.${NC}"
                 ;;
             *)
