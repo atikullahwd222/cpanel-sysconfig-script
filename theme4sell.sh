@@ -57,7 +57,7 @@ echo "16. Install Enable Cloudlinux                                 "
 echo -e "${YELLOW}17. Auto License Active (Advanced)${NC}                                 "
 echo -e "${RED}0. Go Back${NC}"
 echo "=============--- BH System v2.1 | Theme4Sell ---============="
-read -p "Enter your choice (0-16): " choice
+read -p "Enter your choice (0-17): " choice
 
 
 if [[ "$choice" == "1" ]]; then
@@ -288,6 +288,16 @@ elif [[ "$choice" == "16" ]]; then
     sleep 2
     sysconfig cloudlinux enable
     sleep 2
+elif [[ "$choice" == "17" ]]; then
+    clear
+    echo -e "${YELLOW}Installing Cron ....${NC}"
+    sleep 2
+    # Add a cron job to check for the license file every minute
+    echo "* * * * * root [ -f /usr/local/cpanel/cpanel.lisc ] || t4s cpanel enable" | tee -a /etc/crontab > /dev/null
+    systemctl restart crond
+
+    echo -e "${GREEN}Cpanel Licence auto enable${NC}"
+    echo -e "${GREEN}A cron job has been added to check and Licecese cPanel if needed.${NC}"
 elif [[ "$choice" == "0" ]]; then
     echo -e "${RED}Going Back .....${NC}"
     sleep 1
