@@ -88,7 +88,7 @@ if [[ "$choice" == "1" ]]; then
     echo ""
     echo ""
     sleep 1
-    yum update -y
+    yum update -y 
 
     echo ""
     echo ""
@@ -120,7 +120,7 @@ if [[ "$choice" == "1" ]]; then
     echo ""
     echo ""
     sleep 1
-    timedatectl set-timezone Asia/Dhaka
+    timedatectl set-timezone Asia/Dhaka >/dev/null 2>&1
 
 
     clear

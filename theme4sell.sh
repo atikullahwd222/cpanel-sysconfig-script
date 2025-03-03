@@ -72,8 +72,8 @@ if [[ "$choice" == "1" ]]; then
     install_sitepad=$(prompt_input "Do you want to install SitePad? (y/n)")
     echo "===================================================================================================="
 
-    echo "You have 30 seconds to decide whether to start the installation or not..."
-    sleep 30
+    echo "You have 10 seconds to decide whether to start the installation or not..."
+    sleep 10
 
 
     echo "Do you want to proceed with the installation? (y/n)"
