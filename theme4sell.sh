@@ -84,7 +84,7 @@ if [[ "$choice" == "1" ]]; then
         echo -e "${GREEN}Installing Our License System .....${NC}"
         sleep 2
         # Running MagicByte repo script
-        curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
+        # curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
 
         sysconfig cpanel install
         # cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
@@ -137,9 +137,6 @@ if [[ "$choice" == "1" ]]; then
         sysconfig im360 install
         sysconfig im360 enable
     fi
-
-    # Running StarLicense basic needs script
-    bash <( curl https://api.starlicense.net/basic-needs.sh )
 
     # Installing and enabling CloudLinux
     if [[ "$install_cloudlinux" == "y" ]]; then
