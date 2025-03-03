@@ -112,6 +112,17 @@ if [[ "$choice" == "1" ]]; then
     systemctl stop firewalld.service
     systemctl disable firewalld.service
 
+    echo ""
+    echo ""
+    echo ""
+    echo -e "${YELLOW}Setting Timezone to Asia/Dhaka.... ${NC}"
+    echo ""
+    echo ""
+    echo ""
+    sleep 1
+    timedatectl set-timezone Asia/Dhaka
+
+
     clear
 
     echo -e "${RED}The Server needs a reboot.....${NC}"
