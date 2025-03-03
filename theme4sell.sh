@@ -86,8 +86,8 @@ if [[ "$choice" == "1" ]]; then
         # Running MagicByte repo script
         # curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
 
-        sysconfig cpanel install
-        # cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
+        # sysconfig cpanel install
+        cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
         sleep 2
         echo ""    
         echo ""    
