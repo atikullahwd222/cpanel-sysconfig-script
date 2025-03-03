@@ -60,10 +60,54 @@ if [[ "$choice" == "1" ]]; then
     echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
     echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
 
+    echo ""
+    echo ""
+    echo ""
+    echo -e "${YELLOW}Installing nano ${NC}"
+    echo ""
+    echo ""
+    echo ""
+    sleep 1
     yum install nano -y
+    
+    echo ""
+    echo ""
+    echo ""
+    echo -e "${YELLOW}Installing Almalinux Relese.... ${NC}"
+    echo ""
+    echo ""
+    echo ""
+    sleep 1
     yum install almalinux-release -y
+    
+    echo ""
+    echo ""
+    echo ""
+    echo -e "${YELLOW}Updating Pacages.... ${NC}"
+    echo ""
+    echo ""
+    echo ""
+    sleep 1
     yum update -y
+
+    echo ""
+    echo ""
+    echo ""
+    echo -e "${YELLOW}Installing Curl and Perl Package.... ${NC}"
+    echo ""
+    echo ""
+    echo ""
+    sleep 1
     yum install perl curl -y
+
+    echo ""
+    echo ""
+    echo ""
+    echo -e "${YELLOW}Setting Firewall settings for WHM.... ${NC}"
+    echo ""
+    echo ""
+    echo ""
+    sleep 1
     iptables-save > ~/firewall.rules
     systemctl stop firewalld.service
     systemctl disable firewalld.service
