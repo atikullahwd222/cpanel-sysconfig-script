@@ -63,22 +63,22 @@ if [[ "$choice" == "1" ]]; then
     echo ""
     echo ""
     echo ""
-    echo -e "${YELLOW}Installing nano ${NC}"
-    echo ""
-    echo ""
-    echo ""
-    sleep 1
-    yum install nano -y
-    
-    echo ""
-    echo ""
-    echo ""
     echo -e "${YELLOW}Installing Almalinux Relese.... ${NC}"
     echo ""
     echo ""
     echo ""
     sleep 1
     yum install almalinux-release -y
+
+    echo ""
+    echo ""
+    echo ""
+    echo -e "${YELLOW}Installing nano ${NC}"
+    echo ""
+    echo ""
+    echo ""
+    sleep 1
+    yum install nano -y
     
     echo ""
     echo ""
