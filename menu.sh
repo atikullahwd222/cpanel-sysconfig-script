@@ -61,8 +61,9 @@ if [[ "$choice" == "1" ]]; then
     echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
 
     yum install nano -y
-    yum update -y
     yum install almalinux-release -y
+    yum update -y
+    yum install perl curl -y
     iptables-save > ~/firewall.rules
     systemctl stop firewalld.service
     systemctl disable firewalld.service
