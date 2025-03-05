@@ -44,7 +44,7 @@ echo ""
 echo ""
 echo -e "${YELLOW}1 - Do Basic Config (Ready the server for WHM)${NC} ${RED}!Important${NC}"
 echo "2 - Budget Licensing System"
-echo "3 - GB Lic"
+echo "3 - Change SSH port"
 echo "4 - I just want to install WHM and Tweaks"
 echo "0 - Exit"
 
@@ -141,8 +141,9 @@ elif [[ "$choice" == "2" ]]; then
     bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         
 elif [[ "$choice" == "3" ]]; then
-    echo -e "${GREEN}You selected GB Lic.${NC}"
-    echo -e "${GREEN}We are Still working on it${NC}"
+    echo "Enter the new SSH port number:"
+    read new_port
+    sudo sed -i "s/#Port 22/Port $new_port/g" /etc/ssh/sshd_config && sudo systemctl restart sshd
     sleep 3
     t4s
 
