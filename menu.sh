@@ -141,8 +141,7 @@ elif [[ "$choice" == "2" ]]; then
     bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         
 elif [[ "$choice" == "3" ]]; then
-    echo "Enter the new SSH port number:"
-    read new_port
+    read -p "Enter the new SSH port number: " new_port
     sudo sed -i "s/#Port 22/Port $new_port/g" /etc/ssh/sshd_config && sudo systemctl restart sshd
     sleep 3
     t4s
