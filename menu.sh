@@ -141,8 +141,13 @@ elif [[ "$choice" == "2" ]]; then
     bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         
 elif [[ "$choice" == "3" ]]; then
-    # Get the current SSH port number
-    current_port=$(grep -E "^Port" /etc/ssh/sshd_config | awk '{print $2}')
+    # Get the current SSH port number (it can be commented out or set)
+    current_port=$(grep -E "^#?Port" /etc/ssh/sshd_config | awk '{print $2}' | head -n 1)
+    
+    # If there's no current port found, default it to 22
+    if [[ -z "$current_port" ]]; then
+        current_port=22
+    fi
     
     echo "Current SSH port is: $current_port"
     
@@ -150,12 +155,11 @@ elif [[ "$choice" == "3" ]]; then
     read -p "Enter the new SSH port number: " new_port
     
     # Change the SSH port in the configuration file
-    sudo sed -i "s/^Port $current_port/Port $new_port/g" /etc/ssh/sshd_config && sudo systemctl restart sshd
+    sudo sed -i "s/^#\?Port $current_port/Port $new_port/g" /etc/ssh/sshd_config && sudo systemctl restart sshd
     
     # Give a brief pause before running the next step
     sleep 3
     t4s
-
 
 elif [[ "$choice" == "4" ]]; then
     echo -e "${GREEN}You selected WHM and Tweaks installation.${NC}"
