@@ -84,7 +84,7 @@ if [[ "$choice" == "1" ]]; then
         echo -e "${GREEN}Installing Our License System .....${NC}"
         sleep 2
         # Running MagicByte repo script
-        # curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
+        curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
 
         # sysconfig cpanel install
         cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
