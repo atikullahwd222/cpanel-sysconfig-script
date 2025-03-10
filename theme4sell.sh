@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Define version variable
+VERSION="3.0"
+
 # Define color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -34,10 +37,56 @@ install_or_activate() {
     fi
 }
 
+# Function for CSF option
+csf_options() {
+    echo -e "You selected CSF."
+    echo "Choose an action:"
+    echo "1. Install CSF"
+    echo "2. Activate CSF rules"
+    read -p "Enter your choice (1-2): " csf_action
+
+    if [[ "$csf_action" == "1" ]]; then
+        echo -e "${YELLOW}Installing CSF...${NC}"
+        bash <(curl https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/csf.sh)
+        echo -e "${GREEN}CSF installation completed.${NC}"
+
+    elif [[ "$csf_action" == "2" ]]; then
+        echo -e "${YELLOW}Installing CSF Security recommended Rules ....${NC}"
+        sleep 2
+
+        # Disable dynamic loading (enable_dl)
+        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini
+        sleep 1
+        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini
+        sleep 1
+        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php-internal/etc/php.ini
+        sleep 1
+
+        # Disable dangerous functions
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini
+        sleep 1
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini
+        sleep 1
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini
+        sleep 1
+
+        # Disable rpcbind service
+        echo -e "${YELLOW}Stopping and disabling rpcbind service...${NC}"
+        /bin/systemctl stop rpcbind
+        /bin/systemctl disable rpcbind
+        sleep 2
+
+        echo -e "${GREEN}CSF Security recommended rules have been applied successfully.${NC}"
+        sleep 2
+    else
+        echo -e "${RED}Invalid choice for CSF. Please try again.${NC}"
+    fi
+}
+
 clear
 
-# Display the main menu
-echo -e "=============--- BH System v1.6 | Theme4Sell ---============="
+# Display the main menu with version control
+echo -e "=============--- BH System v$VERSION | Theme4Sell ---============="
 echo -e ""
 echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
 echo -e ""
@@ -63,7 +112,7 @@ echo "11. CSF                                                       "
 echo "12. CloudLinux                                                 "
 echo -e "${YELLOW}13. Auto License Active (Advanced)${NC}                       "
 echo -e "${RED}0. Go Back${NC}"
-echo "=============--- BH System v2.1 | Theme4Sell ---============="
+echo "=============--- BH System v$VERSION | Theme4Sell ---============="
 read -p "Enter your choice (0-13): " choice
 
 # Handle each selection
@@ -106,6 +155,10 @@ elif [[ "$choice" == "3" || "$choice" == "4" || "$choice" == "5" || "$choice" ==
         *) echo -e "${RED}Invalid choice. Exiting...${NC}" && exit 1 ;;
     esac
     install_or_activate "$product"
+
+elif [[ "$choice" == "11" ]]; then
+    # Handle CSF-specific options
+    csf_options
 
 elif [[ "$choice" == "13" ]]; then
     # Auto License Activation
