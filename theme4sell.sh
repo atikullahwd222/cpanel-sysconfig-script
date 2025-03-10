@@ -156,9 +156,9 @@ elif [[ "$choice" == "3" || "$choice" == "4" || "$choice" == "5" || "$choice" ==
     esac
     install_or_activate "$product"
 
-elif [[ "$choice" == "11" ]]; then
-    # Handle CSF-specific options
-    csf_options
+# elif [[ "$choice" == "11" ]]; then
+#     # Handle CSF-specific options
+#     csf_options
 
 elif [[ "$choice" == "13" ]]; then
     # Auto License Activation
