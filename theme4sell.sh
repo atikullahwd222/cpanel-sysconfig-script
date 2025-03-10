@@ -48,7 +48,7 @@ csf_options() {
     if [[ "$csf_action" == "1" ]]; then
         echo -e "${YELLOW}Installing CSF...${NC}"
         echo -e "${YELLOW}Please Wait...${NC}"
-        bash <(curl https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/csf.sh) 2>&1
+        bash <(curl https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/csf.sh) &>/dev/null
         echo -e "${GREEN}CSF installation completed.${NC}"
 
     elif [[ "$csf_action" == "2" ]]; then
@@ -56,25 +56,25 @@ csf_options() {
         sleep 2
 
         # Disable dynamic loading (enable_dl)
-        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini 2>&1
+        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini &>/dev/null
         sleep 1
-        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini 2>&1
+        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini &>/dev/null
         sleep 1
-        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php-internal/etc/php.ini 2>&1
+        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php-internal/etc/php.ini &>/dev/null
         sleep 1
 
         # Disable dangerous functions
-        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini 2>&1
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini &>/dev/null
         sleep 1
-        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini 2>&1
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini &>/dev/null
         sleep 1
-        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini 2>&1
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini &>/dev/null
         sleep 1
 
         # Disable rpcbind service
         echo -e "${YELLOW}Stopping and disabling rpcbind service...${NC}"
-        /bin/systemctl stop rpcbind 2>&1
-        /bin/systemctl disable rpcbind 2>&1
+        /bin/systemctl stop rpcbind &>/dev/null
+        /bin/systemctl disable rpcbind &>/dev/null
         sleep 2
 
         echo -e "${GREEN}CSF Security recommended rules have been applied successfully.${NC}"
@@ -113,7 +113,7 @@ echo "11. CSF                                                       "
 echo "12. CloudLinux                                                "
 echo -e "${YELLOW}13. Auto License Active (Advanced)${NC}           "
 echo -e "${RED}0. Go Back${NC}"
-echo "=============--- BH System v$VERSION | Theme4Sell ---============="
+echo "=============--- BH System V$T4S_VERSION | Theme4Sell ---============="
 read -p "Enter your choice (0-13): " choice
 
 # Handle each selection

@@ -71,7 +71,7 @@ if [[ "$choice" == "1" ]]; then
     echo ""
     echo ""
     sleep 1
-    yum install almalinux-release -y >/dev/null 2>&1
+    yum install almalinux-release -y >/dev/null &>/dev/null
 
     echo ""
     echo ""
@@ -81,7 +81,7 @@ if [[ "$choice" == "1" ]]; then
     echo ""
     echo ""
     sleep 1
-    yum install nano -y >/dev/null 2>&1
+    yum install nano -y >/dev/null &>/dev/null
     
     echo ""
     echo ""
@@ -91,7 +91,7 @@ if [[ "$choice" == "1" ]]; then
     echo ""
     echo ""
     sleep 1
-    yum update -y >/dev/null 2>&1
+    yum update -y >/dev/null &>/dev/null
 
     echo ""
     echo ""
@@ -101,7 +101,7 @@ if [[ "$choice" == "1" ]]; then
     echo ""
     echo ""
     sleep 1
-    yum install perl curl -y >/dev/null 2>&1
+    yum install perl curl -y >/dev/null &>/dev/null
 
     echo ""
     echo ""
@@ -111,9 +111,9 @@ if [[ "$choice" == "1" ]]; then
     echo ""
     echo ""
     sleep 1
-    iptables-save > ~/firewall.rules >/dev/null 2>&1
-    systemctl stop firewalld.service >/dev/null 2>&1
-    systemctl disable firewalld.service >/dev/null 2>&1
+    iptables-save > ~/firewall.rules >/dev/null &>/dev/null
+    systemctl stop firewalld.service >/dev/null &>/dev/null
+    systemctl disable firewalld.service >/dev/null &>/dev/null
 
     echo ""
     echo ""
@@ -123,7 +123,7 @@ if [[ "$choice" == "1" ]]; then
     echo ""
     echo ""
     sleep 1
-    timedatectl set-timezone Asia/Dhaka >/dev/null 2>&1
+    timedatectl set-timezone Asia/Dhaka >/dev/null &>/dev/null
 
 
     clear
@@ -194,10 +194,10 @@ elif [[ "$choice" == "4" ]]; then
 
     # Restart PHP-FPM and Apache services
     echo -e "${YELLOW}Restarting PHP and web services...${NC}"
-    systemctl restart httpd >/dev/null 2>&1
+    systemctl restart httpd >/dev/null &>/dev/null
 
     for service in $(systemctl list-units --type=service --plain --no-legend | awk '{print $1}' | grep php-fpm); do
-        systemctl restart "$service" >/dev/null 2>&1
+        systemctl restart "$service" >/dev/null &>/dev/null
     done
 
     echo -e "${GREEN}PHP.ini tweaks applied successfully to all PHP versions!${NC}"
