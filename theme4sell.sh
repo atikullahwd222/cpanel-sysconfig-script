@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define version variable
-VERSION="3.0"
+source <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/version.sh)
 
 # Define color codes
 RED='\033[0;31m'
@@ -87,7 +87,7 @@ csf_options() {
 clear
 
 # Display the main menu with version control
-echo -e "=============--- BH System v$VERSION | Theme4Sell ---============="
+echo -e "=============--- BH System V$T4S_VERSION | Theme4Sell ---============="
 echo -e ""
 echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
 echo -e ""
@@ -118,18 +118,99 @@ read -p "Enter your choice (0-13): " choice
 
 # Handle each selection
 if [[ "$choice" == "1" ]]; then
-    # Handle All-in-One installation
-    clear
-    echo -e "${YELLOW}All in One installation selected. Let's begin...${NC}"
-    # Prompt for installation or activation for each product
-    install_or_activate "cpanel"
-    install_or_activate "litespeedx"
-    install_or_activate "softaculous"
-    install_or_activate "jetbackup"
-    install_or_activate "whmreseller"
-    install_or_activate "im360"
-    install_or_activate "cloudlinux"
-    install_or_activate "sitepad"
+    echo "===================================================================================================="
+    install_cpanel=$(prompt_input "Do you want to install cPanel? (y/n)")
+    install_litespeed=$(prompt_input "Do you want to install and activate LiteSpeed License? (y/n)")
+    install_softaculous=$(prompt_input "Do you want to install Softaculous? (y/n)")
+    install_jetbackup=$(prompt_input "Do you want to install JetBackup? (y/n)")
+    install_whmreseller=$(prompt_input "Do you want to install WHMReseller? (y/n)")
+    install_im360=$(prompt_input "Do you want to install Imunify360? (y/n)")
+    install_cloudlinux=$(prompt_input "Do you want to install CloudLinux? (y/n)")
+    install_sitepad=$(prompt_input "Do you want to install SitePad? (y/n)")
+    echo "===================================================================================================="
+
+    echo "You have 5 seconds to decide whether to start the installation or not..."
+    sleep 5
+
+
+    echo "Do you want to proceed with the installation? (y/n)"
+    read proceed
+
+    # Installing cPanel
+    if [[ "$install_cpanel" == "y" ]]; then
+        echo -e "${GREEN}Installing Our License System .....${NC}"
+        sleep 2
+        # Running MagicByte repo script
+        curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
+
+        # sysconfig cpanel install
+        cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
+        sleep 2
+        echo ""    
+        echo ""    
+        echo -e "${GREEN}License System Installed Successfully.. ${NC}"    
+        echo ""    
+        clear
+        sleep 2        
+        echo -e "${GREEN}========================================${NC}"
+        echo -e "${GREEN}Activating License ...........${NC}"
+        sleep 2
+        sysconfig cpanel update
+        sysconfig cpanel enable
+        sysconfig cpanel fleetssl
+        sysconfig cpanel noupdate
+    
+        sleep 2
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh) || error_exit "Failed to execute Tweak Settings"
+    fi
+
+    # Installing and enabling LiteSpeedX
+    if [[ "$install_litespeed" == "y" ]]; then
+        sysconfig litespeedx install
+        sysconfig litespeedx enable
+    fi
+
+    # Installing and enabling Softaculous
+    if [[ "$install_softaculous" == "y" ]]; then
+        sysconfig softaculous install
+        sysconfig softaculous enable
+        # echo "Please visit https://www.softaculous.com/trial/ to get a trial license."
+    fi
+
+    # Installing and enabling JetBackup
+    if [[ "$install_jetbackup" == "y" ]]; then
+        sysconfig jetbackup install
+        sysconfig jetbackup enable
+    fi
+
+    # Installing and enabling WHMReseller
+    if [[ "$install_whmreseller" == "y" ]]; then
+        sysconfig whmreseller install
+        sysconfig whmreseller enable
+    fi
+
+    # Installing and enabling Imunify360
+    if [[ "$install_im360" == "y" ]]; then
+        sysconfig im360 install
+        sysconfig im360 enable
+    fi
+
+    # Installing and enabling CloudLinux
+    if [[ "$install_cloudlinux" == "y" ]]; then
+        sysconfig cloudlinux install
+        sysconfig cloudlinux enable
+    fi
+
+    # Installing and enabling SitePad
+    if [[ "$install_sitepad" == "y" ]]; then
+        sysconfig sitepad install
+        sysconfig sitepad enable
+    fi
+
+    # Final confirmation
+    echo "Successful......"
+    sleep 2
+    echo -e "${GREEN}Redirecting.....${NC}"
 
 elif [[ "$choice" == "2" ]]; then
     # Initialize Theme4Sell
