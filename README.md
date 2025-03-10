@@ -1,1 +1,0 @@
-# cpanel-sysconfig-script
