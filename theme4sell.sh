@@ -47,7 +47,7 @@ csf_options() {
 
     if [[ "$csf_action" == "1" ]]; then
         echo -e "${YELLOW}Installing CSF...${NC}"
-        bash <(curl https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/csf.sh)
+        bash <(curl https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/csf.sh) 2>&1
         echo -e "${GREEN}CSF installation completed.${NC}"
 
     elif [[ "$csf_action" == "2" ]]; then
