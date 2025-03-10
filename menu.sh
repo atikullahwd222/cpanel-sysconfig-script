@@ -213,24 +213,26 @@ elif [[ "$choice" == "4" ]]; then
     else
         for file in $php_ini_files; do
             echo -e "${YELLOW}Updating $file...${NC}"
-            sed -i 's/^allow_url_fopen\s*=.*/allow_url_fopen = On/' "$file"
-            sed -i 's/^max_execution_time\s*=.*/max_execution_time = 30000/' "$file"
-            sed -i 's/^max_input_time\s*=.*/max_input_time = 60000/' "$file"
-            sed -i 's/^max_input_vars\s*=.*/max_input_vars = 10000/' "$file"
-            sed -i 's/^memory_limit\s*=.*/memory_limit = 1024M/' "$file"
-            sed -i 's/^post_max_size\s*=.*/post_max_size = 1024M/' "$file"
-            sed -i 's/^session.gc_maxlifetime\s*=.*/session.gc_maxlifetime = 14400/' "$file"
-            sed -i 's/^upload_max_filesize\s*=.*/upload_max_filesize = 1024M/' "$file"
-            sed -i 's/^zlib.output_compression\s*=.*/zlib.output_compression = On/' "$file"
+
+            # Ensure settings are updated, even if they are commented out
+            sed -i 's/^\s*;\?\s*allow_url_fopen\s*=.*/allow_url_fopen = On/' "$file"
+            sed -i 's/^\s*;\?\s*max_execution_time\s*=.*/max_execution_time = 30000/' "$file"
+            sed -i 's/^\s*;\?\s*max_input_time\s*=.*/max_input_time = 60000/' "$file"
+            sed -i 's/^\s*;\?\s*max_input_vars\s*=.*/max_input_vars = 10000/' "$file"
+            sed -i 's/^\s*;\?\s*memory_limit\s*=.*/memory_limit = 1024M/' "$file"
+            sed -i 's/^\s*;\?\s*post_max_size\s*=.*/post_max_size = 1024M/' "$file"
+            sed -i 's/^\s*;\?\s*session.gc_maxlifetime\s*=.*/session.gc_maxlifetime = 14400/' "$file"
+            sed -i 's/^\s*;\?\s*upload_max_filesize\s*=.*/upload_max_filesize = 1024M/' "$file"
+            sed -i 's/^\s*;\?\s*zlib.output_compression\s*=.*/zlib.output_compression = On/' "$file"
+
             echo -e "${GREEN}Updated $file${NC}"
         done
     fi
 
-    # Restart PHP-FPM for all installed PHP versions
+    # Restart PHP-FPM and Apache services
     echo -e "${YELLOW}Restarting PHP and web services...${NC}"
     systemctl restart httpd >/dev/null 2>&1
 
-    # Restart PHP-FPM for all installed versions
     for service in $(systemctl list-units --type=service --plain --no-legend | awk '{print $1}' | grep php-fpm); do
         systemctl restart "$service" >/dev/null 2>&1
     done
