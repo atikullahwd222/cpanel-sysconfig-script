@@ -162,43 +162,80 @@ elif [[ "$choice" == "3" ]]; then
     sleep 3
     t4s
 
+# elif [[ "$choice" == "4" ]]; then
+#     echo -e "${GREEN}You selected WHM and Tweaks installation.${NC}"
+#     echo -e "${GREEN}Applying PHP.ini tweaks...${NC}"
+#     sleep 2
+
+#     # Define PHP ini paths
+#     php_ini_paths=(
+#         "/opt/alt/php*/etc/php.ini"
+#         "/opt/cpanel/ea-php*/root/etc/php.ini"
+#         "/opt/alt/php-internal/etc/php.ini"
+#     )
+
+#     # Loop through each PHP ini file and update settings
+#     for ini in "${php_ini_paths[@]}"; do
+#         for file in $ini; do
+#             if [ -f "$file" ]; then
+#                 echo -e "${YELLOW}Updating $file...${NC}"
+#                 sed -i 's/^allow_url_fopen\s*=.*/allow_url_fopen = On/' "$file"
+#                 sed -i 's/^max_execution_time\s*=.*/max_execution_time = 30000/' "$file"
+#                 sed -i 's/^max_input_time\s*=.*/max_input_time = 60000/' "$file"
+#                 sed -i 's/^max_input_vars\s*=.*/max_input_vars = 10000/' "$file"
+#                 sed -i 's/^memory_limit\s*=.*/memory_limit = 1024M/' "$file"
+#                 sed -i 's/^post_max_size\s*=.*/post_max_size = 1024M/' "$file"
+#                 sed -i 's/^session.gc_maxlifetime\s*=.*/session.gc_maxlifetime = 14400/' "$file"
+#                 sed -i 's/^upload_max_filesize\s*=.*/upload_max_filesize = 1024M/' "$file"
+#                 sed -i 's/^zlib.output_compression\s*=.*/zlib.output_compression = On/' "$file"
+#                 echo -e "${GREEN}Updated $file${NC}"
+#             fi
+#         done
+#     done
+
+#     # Restart services
+#     echo -e "${YELLOW}Restarting services...${NC}"
+#     systemctl restart httpd >/dev/null 2>&1
+#     systemctl restart php-fpm 2>/dev/null || echo -e "${YELLOW}PHP-FPM not found, skipping...${NC}"
+
+#     echo -e "${GREEN}PHP.ini tweaks applied successfully!${NC}"
+#     sleep 2
 elif [[ "$choice" == "4" ]]; then
     echo -e "${GREEN}You selected WHM and Tweaks installation.${NC}"
-    echo -e "${GREEN}Applying PHP.ini tweaks...${NC}"
+    echo -e "${GREEN}Applying PHP.ini tweaks to all PHP versions...${NC}"
     sleep 2
 
-    # Define PHP ini paths
-    php_ini_paths=(
-        "/opt/alt/php*/etc/php.ini"
-        "/opt/cpanel/ea-php*/root/etc/php.ini"
-        "/opt/alt/php-internal/etc/php.ini"
-    )
+    # Find all php.ini files dynamically for all installed PHP versions
+    php_ini_files=$(find /opt/alt/ /opt/cpanel/ea-php*/root/etc/ /opt/alt/php-internal/ -type f -name php.ini 2>/dev/null)
 
-    # Loop through each PHP ini file and update settings
-    for ini in "${php_ini_paths[@]}"; do
-        for file in $ini; do
-            if [ -f "$file" ]; then
-                echo -e "${YELLOW}Updating $file...${NC}"
-                sed -i 's/^allow_url_fopen\s*=.*/allow_url_fopen = On/' "$file"
-                sed -i 's/^max_execution_time\s*=.*/max_execution_time = 30000/' "$file"
-                sed -i 's/^max_input_time\s*=.*/max_input_time = 60000/' "$file"
-                sed -i 's/^max_input_vars\s*=.*/max_input_vars = 10000/' "$file"
-                sed -i 's/^memory_limit\s*=.*/memory_limit = 1024M/' "$file"
-                sed -i 's/^post_max_size\s*=.*/post_max_size = 1024M/' "$file"
-                sed -i 's/^session.gc_maxlifetime\s*=.*/session.gc_maxlifetime = 14400/' "$file"
-                sed -i 's/^upload_max_filesize\s*=.*/upload_max_filesize = 1024M/' "$file"
-                sed -i 's/^zlib.output_compression\s*=.*/zlib.output_compression = On/' "$file"
-                echo -e "${GREEN}Updated $file${NC}"
-            fi
+    if [[ -z "$php_ini_files" ]]; then
+        echo -e "${RED}No php.ini files found! Skipping...${NC}"
+    else
+        for file in $php_ini_files; do
+            echo -e "${YELLOW}Updating $file...${NC}"
+            sed -i 's/^allow_url_fopen\s*=.*/allow_url_fopen = On/' "$file"
+            sed -i 's/^max_execution_time\s*=.*/max_execution_time = 30000/' "$file"
+            sed -i 's/^max_input_time\s*=.*/max_input_time = 60000/' "$file"
+            sed -i 's/^max_input_vars\s*=.*/max_input_vars = 10000/' "$file"
+            sed -i 's/^memory_limit\s*=.*/memory_limit = 1024M/' "$file"
+            sed -i 's/^post_max_size\s*=.*/post_max_size = 1024M/' "$file"
+            sed -i 's/^session.gc_maxlifetime\s*=.*/session.gc_maxlifetime = 14400/' "$file"
+            sed -i 's/^upload_max_filesize\s*=.*/upload_max_filesize = 1024M/' "$file"
+            sed -i 's/^zlib.output_compression\s*=.*/zlib.output_compression = On/' "$file"
+            echo -e "${GREEN}Updated $file${NC}"
         done
+    fi
+
+    # Restart PHP-FPM for all installed PHP versions
+    echo -e "${YELLOW}Restarting PHP and web services...${NC}"
+    systemctl restart httpd >/dev/null 2>&1
+
+    # Restart PHP-FPM for all installed versions
+    for service in $(systemctl list-units --type=service --plain --no-legend | awk '{print $1}' | grep php-fpm); do
+        systemctl restart "$service" >/dev/null 2>&1
     done
 
-    # Restart services
-    echo -e "${YELLOW}Restarting services...${NC}"
-    systemctl restart httpd >/dev/null 2>&1
-    systemctl restart php-fpm 2>/dev/null || echo -e "${YELLOW}PHP-FPM not found, skipping...${NC}"
-
-    echo -e "${GREEN}PHP.ini tweaks applied successfully!${NC}"
+    echo -e "${GREEN}PHP.ini tweaks applied successfully to all PHP versions!${NC}"
     sleep 2
 
 
