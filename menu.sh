@@ -5,6 +5,8 @@ YELLOW="\033[0;33m"
 RED="\033[0;31m"
 NC="\033[0m" # No Color
 
+source <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/version.sh)
+
 # Ensure curl is installed
 if ! command -v curl &> /dev/null; then
     echo -e "${RED}ERROR: curl is not installed. Please install curl and try again.${NC}"
@@ -29,7 +31,7 @@ echo -e "   / __ )/ / / /  / ___/__  _______/ /____  ____ ___ "
 echo -e "  / __  / /_/ /   \__ \/ / / / ___/ __/ _ \/ __ \`__ \\ "
 echo -e " / /_/ / __  /   ___/ / /_/ (__  ) /_/  __/ / / / / /"
 echo -e "/_____/_/_/_/_  /____/\__, /____/\__/\___/_/ /_/ /_/ "
-echo -e "                     /____/                     V2.1 "
+echo -e "                     /____/                     v$MENU_VERSION "
 echo -e "                                                     "
 echo -e ""
 echo -e ""
