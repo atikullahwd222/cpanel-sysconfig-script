@@ -47,6 +47,7 @@ csf_options() {
 
     if [[ "$csf_action" == "1" ]]; then
         echo -e "${YELLOW}Installing CSF...${NC}"
+        echo -e "${YELLOW}Please Wait...${NC}"
         bash <(curl https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/csf.sh) 2>&1
         echo -e "${GREEN}CSF installation completed.${NC}"
 
@@ -55,25 +56,25 @@ csf_options() {
         sleep 2
 
         # Disable dynamic loading (enable_dl)
-        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini
+        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini 2>&1
         sleep 1
-        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini
+        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini 2>&1
         sleep 1
-        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php-internal/etc/php.ini
+        sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php-internal/etc/php.ini 2>&1
         sleep 1
 
         # Disable dangerous functions
-        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini 2>&1
         sleep 1
-        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini 2>&1
         sleep 1
-        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini 2>&1
         sleep 1
 
         # Disable rpcbind service
         echo -e "${YELLOW}Stopping and disabling rpcbind service...${NC}"
-        /bin/systemctl stop rpcbind
-        /bin/systemctl disable rpcbind
+        /bin/systemctl stop rpcbind 2>&1
+        /bin/systemctl disable rpcbind 2>&1
         sleep 2
 
         echo -e "${GREEN}CSF Security recommended rules have been applied successfully.${NC}"
