@@ -216,13 +216,13 @@ elif [[ "$choice" == "4" ]]; then
 
             # Ensure settings are updated, even if they are commented out
             sed -i 's/^\s*;\?\s*allow_url_fopen\s*=.*/allow_url_fopen = On/' "$file"
-            sed -i 's/^\s*;\?\s*max_execution_time\s*=.*/max_execution_time = 30000/' "$file"
-            sed -i 's/^\s*;\?\s*max_input_time\s*=.*/max_input_time = 60000/' "$file"
-            sed -i 's/^\s*;\?\s*max_input_vars\s*=.*/max_input_vars = 10000/' "$file"
-            sed -i 's/^\s*;\?\s*memory_limit\s*=.*/memory_limit = 1024M/' "$file"
-            sed -i 's/^\s*;\?\s*post_max_size\s*=.*/post_max_size = 1024M/' "$file"
-            sed -i 's/^\s*;\?\s*session.gc_maxlifetime\s*=.*/session.gc_maxlifetime = 14400/' "$file"
-            sed -i 's/^\s*;\?\s*upload_max_filesize\s*=.*/upload_max_filesize = 1024M/' "$file"
+            sed -i 's/^\s*;\?\s*max_execution_time\s*=.*/max_execution_time = 30/' "$file"
+            sed -i 's/^\s*;\?\s*max_input_time\s*=.*/max_input_time = 60/' "$file"
+            sed -i 's/^\s*;\?\s*max_input_vars\s*=.*/max_input_vars = 10/' "$file"
+            sed -i 's/^\s*;\?\s*memory_limit\s*=.*/memory_limit = 24M/' "$file"
+            sed -i 's/^\s*;\?\s*post_max_size\s*=.*/post_max_size = 24M/' "$file"
+            sed -i 's/^\s*;\?\s*session.gc_maxlifetime\s*=.*/session.gc_maxlifetime = 1440/' "$file"
+            sed -i 's/^\s*;\?\s*upload_max_filesize\s*=.*/upload_max_filesize = 24M/' "$file"
             sed -i 's/^\s*;\?\s*zlib.output_compression\s*=.*/zlib.output_compression = On/' "$file"
 
             echo -e "${GREEN}Updated $file${NC}"
