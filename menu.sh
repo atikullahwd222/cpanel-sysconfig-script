@@ -45,7 +45,7 @@ echo ""
 echo -e "${YELLOW}1 - Do Basic Config (Ready the server for WHM)${NC} ${RED}!Important${NC}"
 echo "2 - Budget Licensing System"
 echo "3 - Change SSH port"
-echo "4 - Set php ini"
+echo "4 - Set php ini 2.1"
 echo "5 - I just want to install WHM and Tweaks"
 echo "0 - Exit"
 
