@@ -43,7 +43,7 @@ echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
 echo ""
 echo ""
 echo -e "${YELLOW}1 - Do Basic Config (Ready the server for WHM)${NC} ${RED}!Important${NC}"
-echo "2 - Budget Licensing System"
+echo "2 - Budget Licensing System v2.1"
 echo "3 - Change SSH port"
 echo "4 - Set php ini v1"
 echo "5 - I just want to install WHM and Tweaks"
@@ -179,7 +179,7 @@ elif [[ "$choice" == "4" ]]; then
             # Ensure settings are updated, even if they are commented out
             sed -i 's/^\s*;\?\s*allow_url_fopen\s*=.*/allow_url_fopen = On/' "$file"
             sleep 1
-            
+
             sed -i 's/^\s*;\?\s*max_execution_time\s*=.*/max_execution_time = 30000/' "$file"
             sleep 1
 
