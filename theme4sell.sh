@@ -266,13 +266,30 @@ elif [[ "$choice" == "14" ]]; then
     clear
     echo -e "${YELLOW}Installing CSF Security recommended Rules ....${NC}"
     sleep 2
+
+    # Disable dynamic loading (enable_dl)
     sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php*/etc/php.ini
+    sleep 1
     sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/cpanel/ea-php*/root/etc/php.ini
+    sleep 1
+    sed -i 's/^enable_dl = On/enable_dl = Off/' /opt/alt/php-internal/etc/php.ini
+    sleep 1
+
+    # Disable dangerous functions
     sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini
+    sleep 1
     sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini
+    sleep 1
     sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini
+    sleep 1
+
+    # Disable rpcbind service
+    echo -e "${YELLOW}Stopping and disabling rpcbind service...${NC}"
     /bin/systemctl stop rpcbind
     /bin/systemctl disable rpcbind
+    sleep 2
+
+    echo -e "${GREEN}CSF Security recommended rules have been applied successfully.${NC}"
     sleep 2
 
 elif [[ "$choice" == "15" ]]; then
