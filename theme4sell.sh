@@ -22,8 +22,8 @@ install_or_activate() {
     echo "Choose an action:"
     echo "1. Install $product"
     echo "2. Activate $product"
-    echo "3. Go to Home"
-    read -p "Enter your choice (1-3): " action
+    echo "0. Go to Home"
+    read -p "Enter your choice (0-2): " action
 
     if [[ "$action" == "1" ]]; then
         echo -e "${YELLOW}Installing $product...${NC}"
@@ -33,7 +33,7 @@ install_or_activate() {
         echo -e "${YELLOW}Activating $product...${NC}"
         sysconfig $product enable
         echo -e "${GREEN}$product activation completed.${NC}"
-    elif [[ "$action" == "3" ]]; then
+    elif [[ "$action" == "0" ]]; then
         echo -e "${YELLOW}Going to Home...${NC}"
         sleep 1
         t4s budget
