@@ -150,7 +150,7 @@ elif [[ "$choice" == "3" || "$choice" == "4" || "$choice" == "5" || "$choice" ==
         8) product="whmreseller" ;;
         9) product="sitepad" ;;
         10) product="im360" ;;
-        11) product="csf" ;;
+        11) csf_options ;;
         12) product="cloudlinux" ;;
         *) echo -e "${RED}Invalid choice. Exiting...${NC}" && exit 1 ;;
     esac
