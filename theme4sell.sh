@@ -89,6 +89,10 @@ csf_options() {
     fi
 }
 
+tweak_settings() {
+    bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh) || error_exit "Failed to execute Tweak Settings"
+}
+
 clear
 
 # Display the main menu with version control
@@ -231,7 +235,7 @@ elif [[ "$choice" == "3" || "$choice" == "4" || "$choice" == "5" || "$choice" ==
     case $choice in
         3) product="cpanel" ;;
         4) product="litespeedx" ;;
-        5) product="tweak settings" ;;
+        5) tweak_settings ;;
         6) product="softaculous" ;;
         7) product="jetbackup" ;;
         8) product="whmreseller" ;;
