@@ -69,11 +69,11 @@ csf_options() {
         sleep 1
 
         # Disable dangerous functions
-        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php*/etc/php.ini &>/dev/null
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, mail/' /opt/alt/php*/etc/php.ini &>/dev/null
         sleep 1
-        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini &>/dev/null
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, mail/' /opt/cpanel/ea-php*/root/etc/php.ini &>/dev/null
         sleep 1
-        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' /opt/alt/php-internal/etc/php.ini &>/dev/null
+        sed -i 's/^disable_functions *=.*/disable_functions = show_source, system, shell_exec, mail/' /opt/alt/php-internal/etc/php.ini &>/dev/null
         sleep 1
 
         # Disable rpcbind service
