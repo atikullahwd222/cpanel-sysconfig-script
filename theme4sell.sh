@@ -48,7 +48,8 @@ csf_options() {
     echo "Choose an action:"
     echo "1. Install CSF"
     echo "2. Activate CSF rules"
-    read -p "Enter your choice (1-2): " csf_action
+    echo "0. Go back"
+    read -p "Enter your choice (0-2): " csf_action
 
     if [[ "$csf_action" == "1" ]]; then
         echo -e "${YELLOW}Installing CSF...${NC}"
@@ -84,6 +85,8 @@ csf_options() {
 
         echo -e "${GREEN}CSF Security recommended rules have been applied successfully.${NC}"
         sleep 2
+    elif [[ "$csf_action" == "2" ]]; then
+        t4s budget
     else
         echo -e "${RED}Invalid choice for CSF. Please try again.${NC}"
     fi
@@ -111,8 +114,8 @@ echo "Select an installation option:                                "
 echo -e "1.  All in One ${RED}(For Beginner)${NC}                   "
 echo "2.  Initialize Theme4Sell                                     "
 echo "3.  WHM/Cpanel                                                "
-echo "4.  LiteSpeedX                                                "
-echo "5.  Tweak Settings                                            "
+echo "4.  Tweak Settings                                            "
+echo "5.  LiteSpeedX                                                "
 echo "6.  Softaculous                                               "
 echo "7.  JetBackup                                                 "
 echo "8.  WHMReseller                                               "
@@ -234,8 +237,8 @@ elif [[ "$choice" == "3" || "$choice" == "4" || "$choice" == "5" || "$choice" ==
     # Handle product installation or activation
     case $choice in
         3) product="cpanel" ;;
-        4) product="litespeedx" ;;
-        5) tweak_settings ;;
+        4) tweak_settings ;;
+        5) product="litespeedx" ;;
         6) product="softaculous" ;;
         7) product="jetbackup" ;;
         8) product="whmreseller" ;;
