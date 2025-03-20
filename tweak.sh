@@ -46,6 +46,22 @@ NC='\033[0m' # No Color
         whmapi1 set_tweaksetting key=referrerblanksafety value=1 &>/dev/null
         whmapi1 set_tweaksetting key=referrersafety value=1 &>/dev/null
         whmapi1 set_tweaksetting key=cgihidepass value=1 &>/dev/null
+        whmapi1 set_tweaksetting key=email_outbound_spam_detect_enable value=0 &>/dev/null
+        sleep 1
+        
+        
+        echo ""
+        echo ".OK"
+        echo ""
+        echo -e "${GREEN}Installing TimezoneDB.....${NC}"
+            yum install ea-php74-php-timezonedb ea-php80-php-timezonedb ea-php81-php-timezonedb ea-php82-php-timezonedb -y &>/dev/null
+        sleep 1
+        echo -e "${GREEN}Verifying TimezoneDB Extention.....${NC}"
+        systemctl restart httpd
+        for version in 74 80 81 82; do
+            echo "Checking PHP $version:"
+            /opt/cpanel/ea-php$version/root/usr/bin/php -m | grep timezonedb
+        done
         sleep 1
 
         echo ""

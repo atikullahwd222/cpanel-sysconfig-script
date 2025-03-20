@@ -233,26 +233,29 @@ elif [[ "$choice" == "2" ]]; then
     sleep 2
     t4s budget
 
-elif [[ "$choice" == "3" || "$choice" == "4" || "$choice" == "5" || "$choice" == "6" || "$choice" == "7" || "$choice" == "8" || "$choice" == "9" || "$choice" == "10" || "$choice" == "11" || "$choice" == "12" ]]; then
+elif [[ "$choice" == "3" || "$choice" == "5" || "$choice" == "6" || "$choice" == "7" || "$choice" == "8" || "$choice" == "9" || "$choice" == "10" || "$choice" == "12" ]]; then
     # Handle product installation or activation
     case $choice in
         3) product="cpanel" ;;
-        4) tweak_settings ;;
         5) product="litespeedx" ;;
         6) product="softaculous" ;;
         7) product="jetbackup" ;;
         8) product="whmreseller" ;;
         9) product="sitepad" ;;
         10) product="im360" ;;
-        11) csf_options ;;
         12) product="cloudlinux" ;;
         *) echo -e "${RED}Invalid choice. Exiting...${NC}" && exit 1 ;;
     esac
     install_or_activate "$product"
 
-# elif [[ "$choice" == "11" ]]; then
-#     # Handle CSF-specific options
-#     csf_options
+elif [[ "$choice" == "4"]]; then
+    # Tweak Settings
+    tweak_settings
+    
+elif [[ "$choice" == "11" ]]; then
+    # Handle CSF-specific options
+    csf_options
+    t4s budget
 
 elif [[ "$choice" == "13" ]]; then
     # Auto License Activation

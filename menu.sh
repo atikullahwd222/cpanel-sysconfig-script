@@ -45,7 +45,7 @@ echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
 echo ""
 echo ""
 echo -e "${YELLOW}1 - Do Basic Config (Ready the server for WHM)${NC} ${RED}!Important${NC}"
-echo "2 - Budget Licensing System v$T4S_VERSION"
+echo "2 - Tools v$T4S_VERSION"
 echo "3 - Change SSH port"
 echo "4 - Set php ini v$INI_VERSION"
 echo "5 - I just want to install WHM and Tweaks"
@@ -83,6 +83,15 @@ if [[ "$choice" == "1" ]]; then
     sleep 1
     yum install nano -y >/dev/null &>/dev/null
     
+    echo ""
+    echo ""
+    echo ""
+    echo -e "${YELLOW}Setting Timezone to Asia/Dhaka ${NC}"
+    echo ""
+    echo ""
+    echo ""
+        timedatectl set-timezone Asia/Dhaka >/dev/null &>/dev/null
+
     echo ""
     echo ""
     echo ""
