@@ -150,7 +150,8 @@ elif [[ "$choice" == "2" ]]; then
     echo -e "${GREEN}You selected Theme4Sell.${NC}"
     echo -e "${YELLOW}Redirecting...${NC}"
     sleep 1
-    bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
+    bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tools.sh) || error_exit "Failed to execute Theme4Sell"
+    # bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
     
 elif [[ "$choice" == "3" ]]; then
     # Get the current SSH port number (it can be commented out or set)
