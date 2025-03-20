@@ -26,7 +26,7 @@ echo -e ""
 echo -e ""
                                                   
 
-echo "=============--- BH System V$T4S_VERSION | Theme4Sell ---============="
+echo "=============--- BH System V$T4S_VERSION | RC Licensing ---============="
 echo ""
 echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
 echo ""
@@ -37,9 +37,9 @@ echo ""
 echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
 echo ""
 echo ""
-echo "Select an installation option:                                "
-echo -e "1. All in One Auto Installer ${RED}(For Beginner)${NC}                   "
-echo -e "2. Custom Installation ${YELLOW}(Advanced Users)${NC}                   "
+echo "Select an installation option:"
+echo -e "1. All in One Auto Installer ${RED}(For Beginner)${NC}"
+echo -e "2. Cpanel RC"
 echo -e "${RED}0. Go Back${NC}"
 echo "=============--- BH System V$T4S_VERSION | Theme4Sell ---============="
 read -p "Enter your choice (0-2): " choice
@@ -232,12 +232,15 @@ if [[ "$choice" == "1" ]]; then
     fi
 
 elif [[ "$choice" == "2" ]]; then
-    clear
-    echo -e "${YELLOW}Initializing Theme4Sell Binaries....${NC}"
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
     sleep 2
-    curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) cPanel; RcLicenseCP
+    # RcLicenseCP -fleetssl
     sleep 2
-    t4s budget
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC Cpanel Activation Completed!${NC}"
+    sleep 2
 
 elif [[ "$choice" == "0" ]]; then
     echo -e "${RED}Going Back .....${NC}"
