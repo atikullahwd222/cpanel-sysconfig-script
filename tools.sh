@@ -25,3 +25,93 @@ echo "0 - Go back"
 
 read -p "Enter your choice (0-3): " choice
 
+case "$choice" in
+    "1")
+        echo -e "${GREEN}You selected Fresh Installer.${NC}"
+        echo ""
+        echo ""
+        echo "1 - Budget Licensing System"
+        echo "2 - RC Licensing System"
+        echo "0 - Go back"
+        
+        read -p "Enter your choice (0-2): " sub_choice
+        
+        case "$sub_choice" in
+            "1")
+            echo -e "${GREEN}You selected Budget Licensing System.${NC}"
+            echo ""
+            echo ""
+            echo -e "${YELLOW}Redirecting...${NC}"
+            echo ""
+            sleep 1
+            clear
+            bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Budget Licensing System"
+            ;;
+            
+            "2")
+            echo -e "${GREEN}You selected RC Licensing System.${NC}"
+            echo ""
+            echo ""
+            echo -e "${YELLOW}Redirecting...${NC}"
+            echo ""
+            sleep 1
+            clear
+            bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/rc-licensing.sh) || error_exit "Failed to execute RC Licensing System"
+            ;;
+            
+            "0")
+            echo -e "${GREEN}Going back to main menu.${NC}"
+            echo ""
+            echo ""
+            echo -e "${YELLOW}Redirecting...${NC}"
+            echo ""
+            sleep 1
+            clear
+            bash <(curl -fsSL $Theme4Sell_URL) || error_exit "Failed to execute Theme4Sell"
+            ;;
+            
+            *)
+            echo -e "${RED}Unknown command: $sub_choice${NC}"
+            exit 1
+            ;;
+        esac
+        ;;
+    
+    "2")
+        echo -e "${GREEN}You selected WHM Plugins Installer.${NC}"
+        echo ""
+        echo ""
+        echo -e "${YELLOW}Redirecting...${NC}"
+        echo ""
+        sleep 1
+        clear
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/whm-plugins.sh) || error_exit "Failed to execute WHM Plugins Installer"
+        ;;
+
+    "3")
+        echo -e "${GREEN}You selected WHM Plugins Uninstaller.${NC}"
+        echo ""
+        echo ""
+        echo -e "${YELLOW}Redirecting...${NC}"
+        echo ""
+        sleep 1
+        clear
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/whm-plugins-uninstall.sh) || error_exit "Failed to execute WHM Plugins Uninstaller"
+        ;;
+
+    "0")
+        echo -e "${GREEN}Going back to main menu.${NC}"
+        echo ""
+        echo ""
+        echo -e "${YELLOW}Redirecting...${NC}"
+        echo ""
+        sleep 1
+        clear
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh) || error_exit "Failed to execute Main Menu"
+        ;;
+
+    *)
+        echo -e "${RED}Unknown command: $choice${NC}"
+        exit 1
+        ;;
+esac
