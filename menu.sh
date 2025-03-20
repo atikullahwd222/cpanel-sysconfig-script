@@ -151,7 +151,7 @@ elif [[ "$choice" == "2" ]]; then
     echo -e "${YELLOW}Redirecting...${NC}"
     sleep 1
     bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
-        
+    
 elif [[ "$choice" == "3" ]]; then
     # Get the current SSH port number (it can be commented out or set)
     current_port=$(grep -E "^#?Port" /etc/ssh/sshd_config | awk '{print $2}' | head -n 1)
