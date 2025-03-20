@@ -39,17 +39,17 @@ echo ""
 echo ""
 echo "Select an installation option:                                "
 echo -e "1. All in One Auto Installer ${RED}(For Beginner)${NC}                   "
-echo "2.  Initialize Theme4Sell                                     "
+echo -e "2. Custom Installation ${YELLOW}(Advanced Users)${NC}                   "
 echo -e "${RED}0. Go Back${NC}"
 echo "=============--- BH System V$T4S_VERSION | Theme4Sell ---============="
-read -p "Enter your choice (0-17): " choice
+read -p "Enter your choice (0-2): " choice
 
 
 if [[ "$choice" == "1" ]]; then
     echo "===================================================================================================="
     remove_license=$(prompt_input "Do you want to remove the existing license? (y/n)")
     install_cpanel=$(prompt_input "Do you want to install cPanel VPS ${YELLOW}(Select Carefully)${NC} ? (y/n)")
-    install_dedicated=$(prompt_input "Do you want to install Cpanel Dedicated ${YELLOW}(Select Carefully)${NC} ? (y/n)")
+    # install_dedicated=$(prompt_input "Do you want to install Cpanel Dedicated ${YELLOW}(Select Carefully)${NC} ? (y/n)")
     install_litespeed=$(prompt_input "Do you want to install and activate LiteSpeed License? (y/n)")
     install_softaculous=$(prompt_input "Do you want to install Softaculous? (y/n)")
     install_jetbackup=$(prompt_input "Do you want to install JetBackup? (y/n)")
@@ -245,6 +245,6 @@ elif [[ "$choice" == "0" ]]; then
     clear
     t4s
 else
-    echo -e "${RED}Invalid option! Please select 1-4.${NC}"
+    echo -e "${RED}Invalid option! Please select 1-2.${NC}"
     exit 0
 fi
