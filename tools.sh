@@ -24,3 +24,4 @@ echo "3 - WHM Plugins Uninstaller"
 echo "0 - Go back"
 
 read -p "Enter your choice (0-3): " choice
+
