@@ -188,6 +188,13 @@ elif [[ "$choice" == "4" ]]; then
             sed -i 's/^\s*;\?\s*session.gc_maxlifetime\s*=.*/session.gc_maxlifetime = 14400/' "$file"
             sed -i 's/^\s*;\?\s*upload_max_filesize\s*=.*/upload_max_filesize = 1024M/' "$file"
             sed -i 's/^\s*;\?\s*zlib.output_compression\s*=.*/zlib.output_compression = On/' "$file"
+
+            # Add or update error_reporting settings
+            sed -i 's/^\s*;\?\s*error_reporting\s*=.*/error_reporting = E_ALL \& ~E_NOTICE \& ~E_DEPRECATED \& ~E_STRICT/' "$file"
+
+            # Set the timezone
+            sed -i 's|^\s*;\?\s*date.timezone\s*=.*|date.timezone = "Asia/Dhaka"|' "$file"
+
             echo -e "${GREEN}Updated $file${NC}"
         done
     fi
