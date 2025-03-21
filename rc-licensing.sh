@@ -39,7 +39,8 @@ echo ""
 echo ""
 echo "Select an installation option:"
 echo -e "1. All in One Auto Installer ${RED}(For Beginner)${NC}"
-echo -e "2. Cpanel RC"
+echo -e "2. Activate cPanel License ${RED}(For Existing cPanel)${NC}"
+echo -e "${RED}3. Install WHM Plugins${NC}"
 echo -e "${RED}0. Go Back${NC}"
 echo "=============--- BH System V$T4S_VERSION | Theme4Sell ---============="
 read -p "Enter your choice (0-2): " choice
@@ -51,6 +52,7 @@ if [[ "$choice" == "1" ]]; then
     install_cpanel=$(prompt_input "Do you want to install cPanel VPS ${YELLOW}(Select Carefully)${NC} ? (y/n)")
     # install_dedicated=$(prompt_input "Do you want to install Cpanel Dedicated ${YELLOW}(Select Carefully)${NC} ? (y/n)")
     install_litespeed=$(prompt_input "Do you want to install and activate LiteSpeed License? (y/n)")
+    install_litespeed_lb=$(prompt_input "Do you want to install and activate LiteSpeed Load Balancer? (y/n)")
     install_softaculous=$(prompt_input "Do you want to install Softaculous? (y/n)")
     install_jetbackup=$(prompt_input "Do you want to install JetBackup? (y/n)")
     install_whmreseller=$(prompt_input "Do you want to install WHMReseller? (y/n)")
@@ -90,6 +92,18 @@ if [[ "$choice" == "1" ]]; then
         sleep 2
         bash <( curl https://mirror.resellercenter.ir/pre.sh ) cPanel; RcLicenseCP
         RcLicenseCP -fleetssl
+        /scripts/configure_firewall_for_cpanel
+
+        /usr/local/cpanel/cpsrvd
+
+        iptables -P INPUT ACCEPT
+        iptables -P FORWARD ACCEPT
+        iptables -P OUTPUT ACCEPT
+        iptables -t nat -F
+        iptables -t mangle -F
+        iptables -F
+        iptables -X
+
         sleep 2
         echo -e "${GREEN}========================================${NC}"
         echo -e "${GREEN}cPanel Installation Completed!${NC}"
@@ -101,6 +115,18 @@ if [[ "$choice" == "1" ]]; then
         sleep 2
         echo -e "${GREEN}========================================${NC}"
         echo -e "${GREEN}Tweak Settings Completed!${NC}"
+    fi
+
+
+    if [[ "$install_litespeed_lb" == "y" ]]; then
+        echo -e "${GREEN}Installing LiteSpeed Load Balancer .....${NC}"
+        sleep 2
+        RCUpdate lslb
+        bash <( curl https://mirror.resellercenter.ir/pre.sh ) LSLB; RcLSLB
+        sleep 2
+        echo -e "${GREEN}========================================${NC}"
+        echo -e "${GREEN}LiteSpeed Load Balancer Installation Completed!${NC}"
+        sleep 2
     fi
 
     # Installing and enabling LiteSpeedX
