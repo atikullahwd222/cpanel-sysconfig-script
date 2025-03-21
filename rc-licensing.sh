@@ -39,11 +39,23 @@ echo ""
 echo ""
 echo "Select an installation option:"
 echo -e "1. All in One Auto Installer ${RED}(For Beginner)${NC}"
-echo -e "2. Activate cPanel License ${RED}(For Existing cPanel)${NC}"
-echo -e "${RED}3. Install WHM Plugins${NC}"
+echo -e "2. Install or Active cPanel License"
+echo -e "3. Install or Active Litespeed Web Server License"
+echo -e "4. Install or Active LiteSpeed Load Balancer ${RED}(For dDos Protection)${NC} License"
+echo -e "5. Install or Active Softaculous License"
+echo -e "6. Install or Active JetBackup License"
+echo -e "7. Install or Active WHMReseller License"
+echo -e "8. Install or Active Imunify360 License"
+echo -e "9. Install or Active cPGuard License"
+echo -e "10. Install or Active Da-Reseller License"
+echo -e "11. Install or Active OSM License"
+echo -e "12. Install or Active CXS License"
+echo -e "13. Install or Active CloudLinux License"
+echo -e "14. Install or Active SitePad License"
+echo ""
 echo -e "${RED}0. Go Back${NC}"
 echo "=============--- BH System V$T4S_VERSION | Theme4Sell ---============="
-read -p "Enter your choice (0-2): " choice
+read -p "Enter your choice (0-14): " choice
 
 
 if [[ "$choice" == "1" ]]; then
@@ -262,10 +274,133 @@ elif [[ "$choice" == "2" ]]; then
     echo -e "${GREEN}Activating License ...........${NC}"
     sleep 2
     bash <( curl https://mirror.resellercenter.ir/pre.sh ) cPanel; RcLicenseCP
-    # RcLicenseCP -fleetssl
+    RcLicenseCP -fleetssl
     sleep 2
     echo -e "${GREEN}========================================${NC}"
     echo -e "${GREEN}RC Cpanel Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "3" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) LSWS; RcLicenseLSWS
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC LiteSpeed Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "4" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) LSLB; RcLSLB
+    RCUpdate lslb
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) LSLB; RcLSLB
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC LiteSpeed Load Balancer Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "5" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) Softaculous; RcLicenseSoftaculous
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC Softaculous Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "6" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) JetBackup; RcLicenseJetBackup
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC JetBackup Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "7" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) WHMReseller; RcLicenseWHMReseller
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC WHMReseller Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "8" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) Imunify360; RcLicenseImunify360
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC Imunify360 Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "9" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) CPGuard; RcLicenseCPGuard
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC cPGuard Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "10" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) DAReseller; RcLicenseDAReseller
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC Da-Reseller Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "11" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) OSM; RcLicenseOSM
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC OSM Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "12" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) CXS; RcLicenseCXS
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC CXS Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "13" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) CloudLinux; RcLicenseCLN
+    t4srcCLN -install
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC CloudLinux Activation Completed!${NC}"
+    sleep 2
+
+elif [[ "$choice" == "14" ]]; then
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}Activating License ...........${NC}"
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) Sitepad; RcLicenseSitepad
+    sleep 2
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}RC SitePad Activation Completed!${NC}"
     sleep 2
 
 elif [[ "$choice" == "0" ]]; then
