@@ -92,7 +92,7 @@ if [[ "$choice" == "1" ]]; then
     if [[ "$install_cpanel" == "y" ]]; then
         echo -e "${GREEN}Installing WHM/cPanel .....${NC}"
         sleep 2
-        cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
+        bash <( curl https://mirror.resellercenter.ir/pre.sh ) cPanel; RcLicenseCP
         sleep 2
         echo ""    
         
@@ -100,9 +100,8 @@ if [[ "$choice" == "1" ]]; then
         clear
         sleep 2        
         echo -e "${GREEN}========================================${NC}"
-        echo -e "${GREEN}Activating License ...........${NC}"
+        echo -e "${GREEN}Installing FleetSSl ...........${NC}"
         sleep 2
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) cPanel; RcLicenseCP
         RcLicenseCP -fleetssl
         /scripts/configure_firewall_for_cpanel
 
