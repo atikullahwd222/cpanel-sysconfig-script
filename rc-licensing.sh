@@ -191,6 +191,10 @@ if [[ "$choice" == "1" ]]; then
     if [[ "$install_im360" == "y" ]]; then
         echo -e "${GREEN}Installing Imunify360 .....${NC}"
         sleep 2
+        wget https://repo.imunify360.cloudlinux.com/defence360/i360deploy.sh
+        
+        bash i360deploy.sh
+        
         bash <( curl https://mirror.resellercenter.ir/pre.sh ) Imunify360; RcLicenseImunify360
         sleep 2
         echo ""
