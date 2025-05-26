@@ -112,8 +112,8 @@ if [[ "$choice" == "1" ]]; then
         iptables -P OUTPUT ACCEPT
         iptables -t nat -F
         iptables -t mangle -F
-        iptables -F
-        iptables -X
+        /usr/sbin/iptables -F
+        /usr/sbin/iptables -X
 
         sleep 2
         echo -e "${GREEN}========================================${NC}"
