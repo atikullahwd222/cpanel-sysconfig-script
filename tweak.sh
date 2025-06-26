@@ -29,6 +29,12 @@ NC='\033[0m' # No Color
         echo -e "${GREEN}Allowing public_html subdirectories...${NC}"
         whmapi1 set_tweaksetting key=publichtmlsubsonly value=0 &>/dev/null
         sleep 1
+        
+        echo ""
+        echo ".OK"
+        echo ""
+        echo -e "${GREEN}Allowing Allow unregistered domains...${NC}"
+        whmapi1 set_tweaksetting key=allowunregistereddomains value=1
 
         echo ""
         echo ".OK"
