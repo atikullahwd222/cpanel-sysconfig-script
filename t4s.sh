@@ -8,7 +8,7 @@ HOSTNAME=$(hostname)
 
 # Ensure curl is installed
 if ! command -v curl &> /dev/null; then
-    echo -e "${RED}ERROR: curl is not installed. Please install curl and try again.${NC}"
+    echo -e "ERROR: curl is not installed. Please install curl and try again."
     exit 1
 fi
 
@@ -108,55 +108,59 @@ manage_ip() {
     echo -e "[root@$HOSTNAME ~]#"
 }
 
-# Function to flush rules
+# Function to flush manually added IPs and rules
 flush_rules() {
-    local mode=$1
-
     # --- CSF ---
     if command -v csf >/dev/null 2>&1; then
-        [[ "$mode" == "all" ]] && csf -f >/dev/null || csf -df >/dev/null
-        echo -e "Flushing CSF ($mode) done......"
+        # Remove only IPs with "t4s whitelist" or "t4s blacklist" comments
+        grep -E "t4s whitelist|t4s blacklist" /etc/csf/csf.allow /etc/csf/csf.deny | awk '{print $1}' | grep -Eo '([0-9]+\.){3}[0-9]+' | sort -u | while read ip; do
+            csf -ar "$ip" >/dev/null
+            csf -dr "$ip" >/dev/null
+        done
+        csf -tf >/dev/null # Apply changes
+        echo -e "Flushing CSF (manual rules) done......"
     fi
 
     # --- Imunify360 ---
     if command -v imunify360-agent >/dev/null 2>&1; then
-        if [[ "$mode" == "all" ]]; then
-            imunify360-agent whitelist ip list | awk '{print $1}' | grep -Eo '([0-9]+\.){3}[0-9]+' | while read ip; do
-                imunify360-agent whitelist ip delete "$ip" >/dev/null
-            done
-        fi
-        imunify360-agent blacklist ip list | awk '{print $1}' | grep -Eo '([0-9]+\.){3}[0-9]+' | while read ip; do
+        # Remove all IPs from whitelist and blacklist (assuming t4s only manages these)
+        imunify360-agent whitelist ip list | awk '{print $1}' | grep -Eo '([0-9]+\.){3}[0-9]+' | sort -u | while read ip; do
+            imunify360-agent whitelist ip delete "$ip" >/dev/null
+        done
+        imunify360-agent blacklist ip list | awk '{print $1}' | grep -Eo '([0-9]+\.){3}[0-9]+' | sort -u | while read ip; do
             imunify360-agent blacklist ip delete "$ip" >/dev/null
         done
-        echo -e "Flushing Imunify360 ($mode) done......"
+        echo -e "Flushing Imunify360 (manual IPs) done......"
     fi
 
     # --- iptables ---
     if command -v iptables >/dev/null 2>&1; then
-        if [[ "$mode" == "all" ]]; then
-            iptables -F >/dev/null
-        else
-            iptables -L INPUT -n --line-numbers | grep DROP | awk '{print $1}' | sort -rn | while read num; do
-                iptables -D INPUT "$num" >/dev/null
-            done
-        fi
-        # Save rules
+        # Remove only INPUT rules with specific IPs and ACCEPT/DROP added by t4s
+        iptables -L INPUT -n --line-numbers | grep -E 'ACCEPT|DROP' | awk '{print $1 " " $4 " " $5}' | grep -Eo '^[0-9]+ ([0-9]+\.){3}[0-9]+ (ACCEPT|DROP)' | while read line; do
+            num=$(echo "$line" | awk '{print $1}')
+            ip=$(echo "$line" | awk '{print $2}')
+            action=$(echo "$line" | awk '{print $3}')
+            iptables -D INPUT -s "$ip" -j "$action" 2>/dev/null
+        done
+        # Save iptables
         if command -v netfilter-persistent >/dev/null 2>&1; then
             netfilter-persistent save >/dev/null
         elif command -v service >/dev/null 2>&1; then
             service iptables save >/dev/null 2>&1 || iptables-save > /etc/iptables/rules.v4
         fi
-        echo -e "Flushing iptables ($mode) done......"
+        echo -e "Flushing iptables (manual rules) done......"
     fi
 
     # --- cPHulk ---
     if command -v whmapi1 >/dev/null 2>&1; then
-        if [[ "$mode" == "all" ]]; then
-            whmapi1 cphulkd_flush >/dev/null
-        else
-            whmapi1 cphulkd_blacklist --remove_all=1 >/dev/null
-        fi
-        echo -e "Flushing cPHulk ($mode) done......"
+        # Remove all IPs from cPHulk whitelist and blacklist (assuming t4s only manages these)
+        whmapi1 cphulkd_whitelist_list | grep -Eo '([0-9]+\.){3}[0-9]+' | sort -u | while read ip; do
+            whmapi1 cphulkd_whitelist_delete ip="$ip" >/dev/null
+        done
+        whmapi1 cphulkd_blacklist_list | grep -Eo '([0-9]+\.){3}[0-9]+' | sort -u | while read ip; do
+            whmapi1 cphulkd_blacklist_delete ip="$ip" >/dev/null
+        done
+        echo -e "Flushing cPHulk (manual IPs) done......"
     fi
 
     # Print final prompt
@@ -206,11 +210,11 @@ case "$1" in
         ;;
 
     "flush")
-        flush_rules "blacklist"
+        flush_rules
         ;;
 
     "flush-all"|"flush_all"|"flushall"|"flush all")
-        flush_rules "all"
+        flush_rules
         ;;
 
     "")
