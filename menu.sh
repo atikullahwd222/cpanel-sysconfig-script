@@ -8,9 +8,6 @@ BLUE="\033[0;34m"
 NC="\033[0m" # No Color
 
 
-echo "we are in Maintainace Mode"
-exit
-
 # Constants
 SCRIPT_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/main/theme4sell.sh"
 VERSION_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/main/version.sh"

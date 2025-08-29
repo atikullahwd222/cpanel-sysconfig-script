@@ -5,6 +5,9 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
 
 # Function to prompt user for input
 prompt_input() {
@@ -14,35 +17,35 @@ prompt_input() {
 
 clear
 
-# Display installation options
-echo -e "    ____  __  __   _____            __               "
-echo -e "   / __ )/ / / /  / ___/__  _______/ /____  ____ ___ "
-echo -e "  / __  / /_/ /   \__ \/ / / / ___/ __/ _ \/ __ \`__ \\ "
-echo -e " / /_/ / __  /   ___/ / /_/ (__  ) /_/  __/ / / / / /"
-echo -e "/_____/_/_/_/_  /____/\__, /____/\__/\___/_/ /_/ /_/ "
-echo -e "                     /____/                     V$T4S_VERSION "
-echo ""
-echo "============= BH System V$T4S_VERSION | RC Licensing ============="
-echo ""
-echo "Select an installation option:"
-echo -e "1. All in One Auto Installer ${RED}(For Beginner)${NC}"
-echo -e "2. Install or Active cPanel License"
-echo -e "3. Install or Active Litespeed Web Server License"
-echo -e "4. Install or Active LiteSpeed Load Balancer ${RED}(For dDos Protection)${NC} License"
-echo -e "5. Install or Active Softaculous License"
-echo -e "6. Install or Active JetBackup License"
-echo -e "7. Install or Active WHMReseller License"
-echo -e "8. Install or Active Imunify360 License"
-echo -e "9. Install or Active cPGuard License"
-echo -e "10. Install or Active Da-Reseller License"
-echo -e "11. Install or Active OSM License"
-echo -e "12. Install or Active CXS License"
-echo -e "13. Install or Active CloudLinux License"
-echo -e "14. Install or Active SitePad License"
-echo ""
-echo -e "${RED}0. Go Back${NC}"
-echo "=============--- BH System V$T4S_VERSION | Theme4Sell ---============="
-read -p "Enter your choice (0-14): " choice
+## Display installation options (redesigned)
+printf "${CYAN}${BOLD}    ____  __  __   _____            __               ${NC}\n"
+printf "${CYAN}${BOLD}   / __ )/ / / /  / ___/__  _______/ /____  ____ ___ ${NC}\n"
+printf "${CYAN}${BOLD}  / __  / /_/ /   \\__ \\/ / / / ___/ __/ _ \\/ __ \\`__ \\ ${NC}\n"
+printf "${CYAN}${BOLD} / /_/ / __  /   ___/ / /_/ (__  ) /_/  __/ / / / / /${NC}\n"
+printf "${CYAN}${BOLD}/_____/_/_/_/_  /____/\\__, /____/\\__/\\___/_/ /_/ /_/ ${NC}\n"
+printf "${CYAN}${BOLD}                     /____/                 V$T4S_VERSION ${NC}\n\n"
+
+printf "${BOLD}============= BH System V$T4S_VERSION | RC Licensing =============${NC}\n\n"
+printf "${BOLD}Select an installation option:${NC}\n"
+
+printf "${BLUE} 1)${NC} All-in-One Auto Installer ${YELLOW}(Beginner Friendly)${NC}\n"
+printf "${BLUE} 2)${NC} Install/Activate cPanel License\n"
+printf "${BLUE} 3)${NC} Install/Activate LiteSpeed Web Server License\n"
+printf "${BLUE} 4)${NC} Install/Activate LiteSpeed Load Balancer ${RED}(DDoS Protection)${NC} License\n"
+printf "${BLUE} 5)${NC} Install/Activate Softaculous License\n"
+printf "${BLUE} 6)${NC} Install/Activate JetBackup License\n"
+printf "${BLUE} 7)${NC} Install/Activate WHMReseller License\n"
+printf "${BLUE} 8)${NC} Install/Activate Imunify360 License\n"
+printf "${BLUE} 9)${NC} Install/Activate cPGuard License\n"
+printf "${BLUE}10)${NC} Install/Activate Da-Reseller License\n"
+printf "${BLUE}11)${NC} Install/Activate OSM License\n"
+printf "${BLUE}12)${NC} Install/Activate CXS License\n"
+printf "${BLUE}13)${NC} Install/Activate CloudLinux License\n"
+printf "${BLUE}14)${NC} Install/Activate SitePad License\n\n"
+
+printf "${RED} 0) Go Back${NC}\n"
+printf "=============--- BH System V$T4S_VERSION | Theme4Sell ---=============\n"
+read -p "Enter your choice [0-14]: " choice
 
 
 if [[ "$choice" == "1" ]]; then
@@ -209,6 +212,6 @@ elif [[ "$choice" == "14" ]]; then
 elif [[ "$choice" == "0" ]]; then
     t4s
 else
-    echo -e "${RED}Invalid option! Please select 1-2.${NC}"
+    echo -e "${RED}Invalid option! Please select 0-14.${NC}"
     exit 0
 fi
