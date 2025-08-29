@@ -84,7 +84,7 @@ display_menu() {
     echo -e "6 - Whitelist an IP"
     echo -e "7 - Blacklist an IP"
     echo -e "8 - DNS Flush"
-    echo -e "9 - DNS Hard Flush"
+    echo -e "9 - Allow Our ip's"
     echo -e "0 - Exit"
     echo -e ""
 }
@@ -270,11 +270,37 @@ while true; do
             ;;
         9)
             echo -e "${YELLOW}Performing hard DNS flush...${NC}"
+            # Bind/named cache
             systemctl restart named &>/dev/null
             rm -rf /var/cache/named/* &>/dev/null &
             spinner $!
+
+            # PowerDNS Recursor cache
+            if command -v rec_control &>/dev/null; then
+                echo -e "${YELLOW}Clearing PowerDNS Recursor cache...${NC}"
+                rec_control wipe-cache &>/dev/null || systemctl reload pdns-recursor &>/dev/null
+            elif systemctl list-units --type=service | grep -qE '^pdns-recursor'; then
+                systemctl reload pdns-recursor &>/dev/null
+            fi
+
+            # PowerDNS Authoritative cache
+            if command -v pdns_control &>/dev/null; then
+                echo -e "${YELLOW}Clearing PowerDNS Authoritative cache...${NC}"
+                pdns_control wipe-cache &>/dev/null || pdns_control purge &>/dev/null || systemctl reload pdns &>/dev/null
+            elif systemctl list-units --type=service | grep -qE '^pdns'; then
+                systemctl reload pdns &>/dev/null
+            fi
+
+            # dnsdist cache
+            if command -v dnsdist &>/dev/null; then
+                echo -e "${YELLOW}Clearing dnsdist cache...${NC}"
+                dnsdist -e "clearCache()" &>/dev/null || systemctl reload dnsdist &>/dev/null
+            elif systemctl list-units --type=service | grep -qE '^dnsdist'; then
+                systemctl reload dnsdist &>/dev/null
+            fi
+
             echo -e "${GREEN}Hard DNS flush completed successfully.${NC}"
-            log "Hard DNS flush completed"
+            log "Hard DNS flush completed (named + PowerDNS caches)"
             sleep 3
             bash "$0" # Restart script
             ;;
