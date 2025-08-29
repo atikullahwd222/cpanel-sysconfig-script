@@ -44,11 +44,6 @@ manage_ip() {
     local target=$2
     local ip=$(resolve_ip "$target")
 
-    # Print deprecated warning for whitelist
-    if [[ "$action" == "whitelist" ]]; then
-        echo -e "${YELLOW}!! Deprecated cli call, use \`ip-list\` command instead. !!${NC}"
-    fi
-
     # --- Imunify360 ---
     if command -v imunify360-agent >/dev/null 2>&1; then
         case "$action" in
@@ -59,7 +54,7 @@ manage_ip() {
                 imunify360-agent blacklist ip delete "$ip" >/dev/null
                 ;;
         esac
-        echo -e "${action^}ing $ip in Imunify360 done......"
+        :
     fi
 
     # --- cPHulk ---
@@ -72,7 +67,7 @@ manage_ip() {
                 whmapi1 cphulkd_blacklist_delete ip="$ip" >/dev/null
                 ;;
         esac
-        echo -e "${action^}ing $ip in CPhulk done......"
+        :
     fi
 
     # --- CSF ---
@@ -82,7 +77,7 @@ manage_ip() {
             blacklist) csf -d "$ip" "t4s blacklist" >/dev/null ;;
             delete)    csf -ar "$ip" >/dev/null; csf -dr "$ip" >/dev/null ;;
         esac
-        echo -e "${action^}ing $ip in CSF done......"
+        :
     fi
 
     # --- iptables ---
@@ -101,11 +96,11 @@ manage_ip() {
         elif command -v service >/dev/null 2>&1; then
             service iptables save >/dev/null 2>&1 || iptables-save > /etc/iptables/rules.v4
         fi
-        echo -e "${action^}ing $ip in iptables done......"
+        :
     fi
 
     # Print final prompt
-    echo -e "[root@$HOSTNAME ~]#"
+    :
 }
 
 # Function to flush manually added IPs and rules
@@ -118,7 +113,7 @@ flush_rules() {
             csf -dr "$ip" >/dev/null
         done
         csf -tf >/dev/null # Apply changes
-        echo -e "Flushing CSF (manual rules) done......"
+        :
     fi
 
     # --- Imunify360 ---
@@ -130,7 +125,7 @@ flush_rules() {
         imunify360-agent blacklist ip list | awk '{print $1}' | grep -Eo '([0-9]+\.){3}[0-9]+' | sort -u | while read ip; do
             imunify360-agent blacklist ip delete "$ip" >/dev/null
         done
-        echo -e "Flushing Imunify360 (manual IPs) done......"
+        :
     fi
 
     # --- iptables ---
@@ -148,7 +143,7 @@ flush_rules() {
         elif command -v service >/dev/null 2>&1; then
             service iptables save >/dev/null 2>&1 || iptables-save > /etc/iptables/rules.v4
         fi
-        echo -e "Flushing iptables (manual rules) done......"
+        :
     fi
 
     # --- cPHulk ---
@@ -160,7 +155,7 @@ flush_rules() {
         whmapi1 cphulkd_blacklist_list | grep -Eo '([0-9]+\.){3}[0-9]+' | sort -u | while read ip; do
             whmapi1 cphulkd_blacklist_delete ip="$ip" >/dev/null
         done
-        echo -e "Flushing cPHulk (manual IPs) done......"
+        :
     fi
 
     # Print final prompt
@@ -171,7 +166,7 @@ flush_rules() {
 case "$1" in
     "budget")
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
-        echo -e "[root@$HOSTNAME ~]#"
+        :
         ;;
 
     "tools")
@@ -183,8 +178,7 @@ case "$1" in
         case "$2" in
             "enable")
                 sysconfig cpanel enable >/dev/null
-                echo -e "cPanel has been enabled and started......"
-                echo -e "[root@$HOSTNAME ~]#"
+                :
                 ;;
             *)
                 error_exit "Unknown cPanel command: $2"

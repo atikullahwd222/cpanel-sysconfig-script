@@ -8,50 +8,31 @@ NC="\033[0m" # No Color
 source <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/version.sh)
 
 # Ensure curl is installed
-if ! command -v curl &> /dev/null; then
-    echo -e "${RED}ERROR: curl is not installed. Please install curl and try again.${NC}"
-    exit 1
-fi
-
-# Ensure we are running as root or with sudo
-if [[ $EUID -ne 0 ]]; then
-    echo -e "${YELLOW}Warning: You are not running as root. You may need to enter sudo passwords during installation.${NC}"
-fi
+if ! command -v curl &> /dev/null; then exit 1; fi
 
 # Create directory for t4s if it does not exist
-echo -e "${GREEN}Creating Binaries...${NC}"
-mkdir -p /usr/local/bin
+mkdir -p /usr/local/bin &>/dev/null
 
 clear
 Theme4Sell_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh"
 
-# Interactive menu
-echo -e "    ____  __  __   _____            __               "
-echo -e "   / __ )/ / / /  / ___/__  _______/ /____  ____ ___ "
-echo -e "  / __  / /_/ /   \__ \/ / / / ___/ __/ _ \/ __ \`__ \\ "
-echo -e " / /_/ / __  /   ___/ / /_/ (__  ) /_/  __/ / / / / /"
-echo -e "/_____/_/_/_/_  /____/\__, /____/\__/\___/_/ /_/ /_/ "
-echo -e "                     /____/                     v$MENU_VERSION "
-echo -e "                                                     "
-echo -e ""
-echo -e ""
-echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
-echo ""
-echo -e "${YELLOW}Do Basic Config part before start installation..${NC}"
-echo -e "${YELLOW}Go to main menu for do the basic config.${NC}"
-echo -e "${YELLOW}Press 0 to go back Main menu${NC}"
-echo ""
-echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
-echo ""
-echo ""
-echo -e "${YELLOW}1 - Do Basic Config (Ready the server for WHM)${NC} ${RED}!Important${NC}"
-echo "2 - Tools v$T4S_VERSION"
-echo "3 - Change SSH port"
-echo "4 - Set php ini v$INI_VERSION"
-echo "5 - I just want to install WHM and Tweaks"
-echo "0 - Exit"
+# Interactive menu (prettified)
+echo -e "${GREEN}+--------------------------------------------------------------+${NC}"
+echo -e "${GREEN}|${NC}    ____  __  __   _____            __                ${GREEN}|${NC}"
+echo -e "${GREEN}|${NC}   / __ )/ / / /  / ___/__  _______/ /____  ____ ___  ${GREEN}|${NC}"
+echo -e "${GREEN}|${NC}  / __  / /_/ /   \\__ \\/ / / / ___/ __/ _ \\/ __ \\`__ \\ ${GREEN}|${NC}"
+echo -e "${GREEN}|${NC} / /_/ / __  /   ___/ / /_/ (__  ) /_/  __/ / / / / / ${GREEN}|${NC}"
+echo -e "${GREEN}|${NC}/_____/_/_/_/_  /____/\\__, /____/\\__/\\___/_/ /_/ /_/  ${GREEN}|${NC}"
+echo -e "${GREEN}|${NC}                     /____/                    v$MENU_VERSION  ${GREEN}|${NC}"
+echo -e "${GREEN}+--------------------------------------------------------------+${NC}"
+echo -e "${YELLOW}| 1 |${NC} Do Basic Config (prepare server for WHM) ${RED}!Important${NC}"
+echo -e "${YELLOW}| 2 |${NC} Tools                               v$T4S_VERSION"
+echo -e "${YELLOW}| 3 |${NC} Change SSH port"
+echo -e "${YELLOW}| 4 |${NC} Set PHP ini                        v$INI_VERSION"
+echo -e "${YELLOW}| 5 |${NC} Install WHM and Tweaks"
+echo -e "${GREEN}+--------------------------------------------------------------+${NC}"
 
-read -p "Enter your choice (0-5): " choice
+read -p "Select [0-5] > " choice
 
 if [[ "$choice" == "1" ]]; then
     read -p "Enter the server IP: " server_ip
@@ -63,132 +44,55 @@ if [[ "$choice" == "1" ]]; then
     echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
     echo "nameserver 8.8.4.4" | sudo tee -a /etc/resolv.conf
 
-    echo ""
-    echo ""
-    echo ""
-    echo -e "${YELLOW}Installing Almalinux Relese.... ${NC}"
-    echo ""
-    echo ""
-    echo ""
-    sleep 1
-    yum install almalinux-release -y >/dev/null &>/dev/null
+    yum install almalinux-release -y &>/dev/null
 
-    echo ""
-    echo ""
-    echo ""
-    echo -e "${YELLOW}Installing nano ${NC}"
-    echo ""
-    echo ""
-    echo ""
-    sleep 1
-    yum install nano -y >/dev/null &>/dev/null
+    yum install nano -y &>/dev/null
     
-    echo ""
-    echo ""
-    echo ""
-    echo -e "${YELLOW}Setting Timezone to Asia/Dhaka ${NC}"
-    echo ""
-    echo ""
-    echo ""
-        timedatectl set-timezone Asia/Dhaka >/dev/null &>/dev/null
+    timedatectl set-timezone Asia/Dhaka &>/dev/null
 
-    echo ""
-    echo ""
-    echo ""
-    echo -e "${YELLOW}Updating Pacages.... ${NC}"
-    echo ""
-    echo ""
-    echo ""
-    sleep 1
-    yum update -y >/dev/null &>/dev/null
+    yum update -y &>/dev/null
 
-    echo ""
-    echo ""
-    echo ""
-    echo -e "${YELLOW}Installing Curl and Perl Package.... ${NC}"
-    echo ""
-    echo ""
-    echo ""
-    sleep 1
-    yum install perl curl -y >/dev/null &>/dev/null
+    yum install perl curl -y &>/dev/null
 
-    echo ""
-    echo ""
-    echo ""
-    echo -e "${YELLOW}Setting Firewall settings for WHM.... ${NC}"
-    echo ""
-    echo ""
-    echo ""
-    sleep 1
-    iptables-save > ~/firewall.rules >/dev/null &>/dev/null
-    systemctl stop firewalld.service >/dev/null &>/dev/null
-    systemctl disable firewalld.service >/dev/null &>/dev/null
+    iptables-save > ~/firewall.rules &>/dev/null
+    systemctl stop firewalld.service &>/dev/null
+    systemctl disable firewalld.service &>/dev/null
 
-    echo ""
-    echo ""
-    echo ""
-    echo -e "${YELLOW}Setting Timezone to Asia/Dhaka.... ${NC}"
-    echo ""
-    echo ""
-    echo ""
-    sleep 1
-    timedatectl set-timezone Asia/Dhaka >/dev/null &>/dev/null
-
+    timedatectl set-timezone Asia/Dhaka &>/dev/null
 
     clear
 
-    echo -e "${RED}The Server needs a reboot.....${NC}"
-    echo -e "${RED}Press Ctrl+C${NC} ${GREEN}to avoid restart${NC}"
-    sleep 30
-    echo -e "${GREEN}After reboot, run t4s again to continue.${NC}"
-    echo -e "${RED}Rebooting...${NC}"
-    sleep 3
+    echo -e "${YELLOW}Rebooting to apply changes...${NC}"
 
     reboot now
 
 elif [[ "$choice" == "2" ]]; then
-    echo -e "${GREEN}You selected Theme4Sell.${NC}"
-    echo -e "${YELLOW}Redirecting...${NC}"
-    sleep 1
     bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tools.sh) || error_exit "Failed to execute Theme4Sell"
-    # bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
-    
+
 elif [[ "$choice" == "3" ]]; then
-    # Get the current SSH port number (it can be commented out or set)
     current_port=$(grep -E "^#?Port" /etc/ssh/sshd_config | awk '{print $2}' | head -n 1)
     
-    # If there's no current port found, default it to 22
     if [[ -z "$current_port" ]]; then
         current_port=22
     fi
     
-    echo "Current SSH port is: $current_port"
-    
-    # Prompt user to input a new port number
+    echo "Current SSH port: $current_port"
+
     read -p "Enter the new SSH port number: " new_port
     
-    # Change the SSH port in the configuration file
     sudo sed -i "s/^#\?Port $current_port/Port $new_port/g" /etc/ssh/sshd_config && sudo systemctl restart sshd
     
-    # Give a brief pause before running the next step
-    sleep 3
     t4s
 
 elif [[ "$choice" == "4" ]]; then
-    echo -e "${GREEN}You selected WHM and Tweaks installation.${NC}"
     echo -e "${GREEN}Applying PHP.ini tweaks to all PHP versions...${NC}"
-    sleep 2
 
-    # Find all php.ini files dynamically for all installed PHP versions
     php_ini_files=$(find /opt/alt/ /opt/cpanel/ea-php*/root/etc/ /opt/alt/php-internal/ -type f -name php.ini 2>/dev/null)
 
     if [[ -z "$php_ini_files" ]]; then
         echo -e "${RED}No php.ini files found! Skipping...${NC}"
     else
         for file in $php_ini_files; do
-            echo -e "${YELLOW}Updating $file...${NC}"
-
-            # Ensure settings are updated, even if they are commented out
             sed -i 's/^\s*;\?\s*allow_url_fopen\s*=.*/allow_url_fopen = On/' "$file"
             sed -i 's/^\s*;\?\s*max_execution_time\s*=.*/max_execution_time = 30000/' "$file"
             sed -i 's/^\s*;\?\s*max_input_time\s*=.*/max_input_time = 60000/' "$file"
@@ -198,37 +102,26 @@ elif [[ "$choice" == "4" ]]; then
             sed -i 's/^\s*;\?\s*session.gc_maxlifetime\s*=.*/session.gc_maxlifetime = 14400/' "$file"
             sed -i 's/^\s*;\?\s*upload_max_filesize\s*=.*/upload_max_filesize = 1024M/' "$file"
             sed -i 's/^\s*;\?\s*zlib.output_compression\s*=.*/zlib.output_compression = On/' "$file"
-
-            # Add or update error_reporting settings
             sed -i 's/^\s*;\?\s*error_reporting\s*=.*/error_reporting = E_ALL \& ~E_NOTICE \& ~E_DEPRECATED \& ~E_STRICT/' "$file"
-
-            # Set the timezone
             sed -i 's|^\s*;\?\s*date.timezone\s*=.*|date.timezone = "Asia/Dhaka"|' "$file"
 
             echo -e "${GREEN}Updated $file${NC}"
         done
     fi
 
-    # Restart PHP-FPM and Apache services
-    echo -e "${YELLOW}Restarting PHP and web services...${NC}"
     systemctl restart httpd >/dev/null &>/dev/null
 
     for service in $(systemctl list-units --type=service --plain --no-legend | awk '{print $1}' | grep php-fpm); do
         systemctl restart "$service" >/dev/null &>/dev/null
     done
 
-    echo -e "${GREEN}PHP.ini tweaks applied successfully to all PHP versions!${NC}"
-    sleep 2
-
+    echo -e "${GREEN}PHP.ini tweaks applied.${NC}"
 
 elif [[ "$choice" == "5" ]]; then
-    echo -e "${GREEN}You selected WHM and Tweaks installation.${NC}"
-    echo -e "${GREEN}We are Still working on it${NC}"
-    sleep 3
+    echo -e "${YELLOW}Coming soon.${NC}"
     t4s
 
 elif [[ "$choice" == "0" ]]; then
-    clear
     echo -e "${GREEN}Exiting...${NC}"
     exit 0
 else

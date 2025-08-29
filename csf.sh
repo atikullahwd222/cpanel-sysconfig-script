@@ -1,17 +1,17 @@
 #!/bin/bash
 cd /usr/src
-rm -fv cse.tgz
-wget https://download.configserver.com/cse.tgz
-tar -xzf cse.tgz
+rm -f cse.tgz &>/dev/null
+wget -q https://download.configserver.com/cse.tgz
+tar -xzf cse.tgz &>/dev/null
 cd cse
-./install.sh
+./install.sh &>/dev/null
 
 cd /usr/src
-    rm -fv csf.tgz
-    wget https://download.configserver.com/csf.tgz
-    tar -xzf csf.tgz
+    rm -f csf.tgz &>/dev/null
+    wget -q https://download.configserver.com/csf.tgz
+    tar -xzf csf.tgz &>/dev/null
     cd csf
-    ./install.sh
+    ./install.sh &>/dev/null
 
     # Enable production mode
     sed -i 's/^TESTING = .*/TESTING = "0"/' /etc/csf/csf.conf
@@ -20,4 +20,4 @@ cd /usr/src
     sed -i 's/^RESTRICT_SYSLOG = .*/RESTRICT_SYSLOG = "3"/' /etc/csf/csf.conf
 
     # Restart CSF to apply changes
-    csf -r
+    csf -r &>/dev/null

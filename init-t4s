@@ -9,7 +9,6 @@ NC="\033[0m"
 T4S_PATH="/usr/local/bin/t4s"
 
 echo -e "${YELLOW}Updating Theme4Sell script...${NC}"
-sleep 3
 
 # Remove old file if it exists (silent)
 [ -f "$T4S_PATH" ] && sudo rm -f "$T4S_PATH" &>/dev/null
@@ -25,13 +24,5 @@ else
     exit 1
 fi
 
-# Clear screen and display success message
-clear
-echo ""
-echo -e "${GREEN}Welcome to Theme4Sell${NC}"
-echo ""
-sleep 3
-clear
-echo ""
-echo "Use t4s to use our system"
-echo ""
+# Concise success
+echo -e "${GREEN}t4s updated. Run 't4s' to launch.${NC}"

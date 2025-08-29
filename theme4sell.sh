@@ -99,16 +99,7 @@ tweak_settings() {
 clear
 
 # Display the main menu with version control
-echo -e "=============--- BH System V$T4S_VERSION | Theme4Sell ---============="
-echo -e ""
-echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
-echo -e ""
-echo -e "${YELLOW}Do Basic Config part before start installation..${NC}"
-echo -e "${YELLOW}Go to main menu for do the basic config.${NC}"
-echo -e "${YELLOW}Press 0 to go back Main menu${NC}"
-echo -e ""
-echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
-echo -e ""
+echo -e "============= BH System V$T4S_VERSION | Theme4Sell ============="
 echo -e ""
 echo "Select an installation option:                                "
 echo -e "1.  All in One ${RED}(For Beginner)${NC}                   "
@@ -141,8 +132,7 @@ if [[ "$choice" == "1" ]]; then
     install_sitepad=$(prompt_input "Do you want to install SitePad? (y/n)")
     echo "===================================================================================================="
 
-    echo "You have 5 seconds to decide whether to start the installation or not..."
-    sleep 5
+    :
 
 
     echo "Do you want to proceed with the installation? (y/n)"
@@ -150,8 +140,7 @@ if [[ "$choice" == "1" ]]; then
 
     # Installing cPanel
     if [[ "$install_cpanel" == "y" ]]; then
-        echo -e "${GREEN}Installing Our License System .....${NC}"
-        sleep 2
+        echo -e "${GREEN}Installing Our License System...${NC}"
         # Running MagicByte repo script
         curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
 
@@ -163,16 +152,12 @@ if [[ "$choice" == "1" ]]; then
         echo -e "${GREEN}License System Installed Successfully.. ${NC}"    
         echo ""    
         clear
-        sleep 2        
-        echo -e "${GREEN}========================================${NC}"
-        echo -e "${GREEN}Activating License ...........${NC}"
-        sleep 2
+        echo -e "${GREEN}Activating License...${NC}"
         sysconfig cpanel update
         sysconfig cpanel enable
         sysconfig cpanel fleetssl
         sysconfig cpanel noupdate
     
-        sleep 2
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh) || error_exit "Failed to execute Tweak Settings"
     fi
 
@@ -220,17 +205,12 @@ if [[ "$choice" == "1" ]]; then
     fi
 
     # Final confirmation
-    echo "Successful......"
-    sleep 2
-    echo -e "${GREEN}Redirecting.....${NC}"
+    echo -e "${GREEN}Completed.${NC}"
 
 elif [[ "$choice" == "2" ]]; then
     # Initialize Theme4Sell
-    clear
-    echo -e "${YELLOW}Initializing Theme4Sell Binaries....${NC}"
-    sleep 2
+    echo -e "${YELLOW}Initializing Theme4Sell Binaries...${NC}"
     curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash - 
-    sleep 2
     t4s budget
 
 elif [[ "$choice" == "3" || "$choice" == "5" || "$choice" == "6" || "$choice" == "7" || "$choice" == "8" || "$choice" == "9" || "$choice" == "10" || "$choice" == "12" ]]; then
@@ -248,7 +228,7 @@ elif [[ "$choice" == "3" || "$choice" == "5" || "$choice" == "6" || "$choice" ==
     esac
     install_or_activate "$product"
 
-elif [[ "$choice" == "4"]]; then
+elif [[ "$choice" == "4" ]]; then
     # Tweak Settings
     tweak_settings
     
@@ -259,9 +239,7 @@ elif [[ "$choice" == "11" ]]; then
 
 elif [[ "$choice" == "13" ]]; then
     # Auto License Activation
-    clear
-    echo -e "${YELLOW}Auto License Activation....${NC}"
-    sleep 2
+    echo -e "${YELLOW}Auto License Activation...${NC}"
     bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/master/Auto-Activate-CloudLicense.sh)
 
 elif [[ "$choice" == "0" ]]; then

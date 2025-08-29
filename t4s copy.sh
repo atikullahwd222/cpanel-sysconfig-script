@@ -5,16 +5,8 @@ YELLOW="\033[0;33m"
 RED="\033[0;31m"
 NC="\033[0m" # No Color
 
-# Ensure curl is installed
-if ! command -v curl &> /dev/null; then
-    echo -e "${RED}ERROR: curl is not installed. Please install curl and try again.${NC}"
-    exit 1
-fi
-
-# Ensure we are running as root or with sudo
-if [[ $EUID -ne 0 ]]; then
-    echo -e "${YELLOW}Warning: You are not running as root. You may need to enter sudo passwords during installation.${NC}"
-fi
+# Ensure curl is installed (quiet fail)
+if ! command -v curl &> /dev/null; then exit 1; fi
 
 # Function to handle errors
 error_exit() {
@@ -43,47 +35,42 @@ manage_ip() {
     local target=$2
     local ip=$(resolve_ip "$target")
 
-    echo -e "${YELLOW}Processing $action for $ip...${NC}"
-
     # --- CSF ---
     if command -v csf >/dev/null 2>&1; then
         case "$action" in
-            whitelist) csf -a "$ip" "t4s whitelist" ;;
-            blacklist) csf -d "$ip" "t4s blacklist" ;;
-            delete)    csf -ar "$ip"; csf -dr "$ip" ;;
+            whitelist) csf -a "$ip" "t4s whitelist" >/dev/null 2>&1 ;;
+            blacklist) csf -d "$ip" "t4s blacklist" >/dev/null 2>&1 ;;
+            delete)    csf -ar "$ip" >/dev/null 2>&1; csf -dr "$ip" >/dev/null 2>&1 ;;
         esac
-        echo -e " ${GREEN}${action^}ing $ip in CSF done......${NC}"
     fi
 
     # --- Imunify360 ---
     if command -v imunify360-agent >/dev/null 2>&1; then
         case "$action" in
-            whitelist) imunify360-agent whitelist ip add "$ip" ;;
-            blacklist) imunify360-agent blacklist ip add "$ip" ;;
+            whitelist) imunify360-agent whitelist ip add "$ip" >/dev/null 2>&1 ;;
+            blacklist) imunify360-agent blacklist ip add "$ip" >/dev/null 2>&1 ;;
             delete)
-                imunify360-agent whitelist ip delete "$ip"
-                imunify360-agent blacklist ip delete "$ip"
+                imunify360-agent whitelist ip delete "$ip" >/dev/null 2>&1
+                imunify360-agent blacklist ip delete "$ip" >/dev/null 2>&1
                 ;;
         esac
-        echo -e " ${GREEN}${action^}ing $ip in Imunify360 done......${NC}"
     fi
 
     # --- iptables ---
     if command -v iptables >/dev/null 2>&1; then
         case "$action" in
-            whitelist) iptables -I INPUT -s "$ip" -j ACCEPT ;;
-            blacklist) iptables -I INPUT -s "$ip" -j DROP ;;
+            whitelist) iptables -I INPUT -s "$ip" -j ACCEPT >/dev/null 2>&1 ;;
+            blacklist) iptables -I INPUT -s "$ip" -j DROP >/dev/null 2>&1 ;;
             delete)
-                iptables -D INPUT -s "$ip" -j ACCEPT 2>/dev/null
-                iptables -D INPUT -s "$ip" -j DROP 2>/dev/null
+                iptables -D INPUT -s "$ip" -j ACCEPT >/dev/null 2>&1
+                iptables -D INPUT -s "$ip" -j DROP >/dev/null 2>&1
                 ;;
         esac
-        echo -e " ${GREEN}${action^}ing $ip in iptables done......${NC}"
         # Save iptables
         if command -v netfilter-persistent >/dev/null 2>&1; then
-            netfilter-persistent save
+            netfilter-persistent save >/dev/null 2>&1
         elif command -v service >/dev/null 2>&1; then
-            service iptables save 2>/dev/null || iptables-save > /etc/iptables/rules.v4
+            service iptables save >/dev/null 2>&1 || iptables-save > /etc/iptables/rules.v4
         fi
     fi
 
@@ -97,10 +84,7 @@ manage_ip() {
                 whmapi1 cphulkd_blacklist_delete ip="$ip" >/dev/null
                 ;;
         esac
-        echo -e " ${GREEN}${action^}ing $ip in CPhulk done......${NC}"
     fi
-
-    echo -e "${GREEN}✅ $action complete for $ip${NC}"
 }
 
 
@@ -108,58 +92,53 @@ manage_ip() {
 flush_rules() {
     local mode=$1
 
-    echo -e "${YELLOW}Flushing rules ($mode)...${NC}"
-
     # --- CSF ---
     if command -v csf >/dev/null 2>&1; then
-        [[ "$mode" == "all" ]] && csf -f || csf -df
+        [[ "$mode" == "all" ]] && csf -f >/dev/null 2>&1 || csf -df >/dev/null 2>&1
     fi
 
     # --- Imunify360 ---
     if command -v imunify360-agent >/dev/null 2>&1; then
         if [[ "$mode" == "all" ]]; then
             imunify360-agent whitelist ip list | awk '{print $1}' | grep -Eo '([0-9]+\.){3}[0-9]+' | while read ip; do
-                imunify360-agent whitelist ip delete "$ip"
+                imunify360-agent whitelist ip delete "$ip" >/dev/null 2>&1
             done
         fi
         imunify360-agent blacklist ip list | awk '{print $1}' | grep -Eo '([0-9]+\.){3}[0-9]+' | while read ip; do
-            imunify360-agent blacklist ip delete "$ip"
+            imunify360-agent blacklist ip delete "$ip" >/dev/null 2>&1
         done
     fi
 
     # --- iptables ---
     if command -v iptables >/dev/null 2>&1; then
         if [[ "$mode" == "all" ]]; then
-            iptables -F
+            iptables -F >/dev/null 2>&1
         else
             iptables -L INPUT -n --line-numbers | grep DROP | awk '{print $1}' | sort -rn | while read num; do
-                iptables -D INPUT "$num"
+                iptables -D INPUT "$num" >/dev/null 2>&1
             done
         fi
         # Save rules
         if command -v netfilter-persistent >/dev/null 2>&1; then
-            netfilter-persistent save
+            netfilter-persistent save >/dev/null 2>&1
         elif command -v service >/dev/null 2>&1; then
-            service iptables save 2>/dev/null || iptables-save > /etc/iptables/rules.v4
+            service iptables save >/dev/null 2>&1 || iptables-save > /etc/iptables/rules.v4
         fi
     fi
 
     # --- cPHulk ---
     if command -v whmapi1 >/dev/null 2>&1; then
         if [[ "$mode" == "all" ]]; then
-            whmapi1 cphulkd_flush
+            whmapi1 cphulkd_flush >/dev/null 2>&1
         else
-            whmapi1 cphulkd_blacklist --remove_all=1
+            whmapi1 cphulkd_blacklist --remove_all=1 >/dev/null 2>&1
         fi
     fi
-
-    echo -e "${GREEN}✅ Flush ($mode) complete${NC}"
 }
 
 # Main function to handle commands
 case "$1" in
     "budget")
-        echo -e "${GREEN}You selected Budget Licensing System.${NC}"
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/theme4sell.sh) || error_exit "Failed to execute Theme4Sell"
         ;;
     
@@ -170,8 +149,7 @@ case "$1" in
     "cpanel")
         case "$2" in
             "enable")
-                sysconfig cpanel enable
-                echo -e "${GREEN}cPanel has been enabled and started.${NC}"
+                sysconfig cpanel enable >/dev/null 2>&1
                 ;;
             *)
                 echo -e "${RED}Unknown cPanel command: $2${NC}"
@@ -205,7 +183,6 @@ case "$1" in
         ;;
 
     "")
-        echo -e "${GREEN}Fetching the latest script version...${NC}"
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh) || error_exit "Failed to execute t4s"
         ;;
 

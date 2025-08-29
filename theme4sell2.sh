@@ -14,28 +14,16 @@ prompt_input() {
 
 clear
 
-# Display installation options
+# Display installation options (concise)
 echo -e "    ____  __  __   _____            __               "
 echo -e "   / __ )/ / / /  / ___/__  _______/ /____  ____ ___ "
-echo -e "  / __  / /_/ /   \__ \/ / / / ___/ __/ _ \/ __ \`__ \\ "
+echo -e "  / __  / /_/ /   \\__ \\/ / / / ___/ __/ _ \\/ __ \`__ \\ "
 echo -e " / /_/ / __  /   ___/ / /_/ (__  ) /_/  __/ / / / / /"
-echo -e "/_____/_/_/_/_  /____/\__, /____/\__/\___/_/ /_/ /_/ "
+echo -e "/_____/_/_/_/_  /____/\\__, /____/\\__/\\___/_/ /_/ /_/ "
 echo -e "                     /____/                     V$T4S_VERSION "
 echo -e ""
-echo -e ""
-echo -e ""
-                                                  
 
-echo "=============--- BH System V$T4S_VERSION | Theme4Sell ---============="
-echo ""
-echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
-echo ""
-echo -e "${YELLOW}Do Basic Config part before start installation..${NC}"
-echo -e "${YELLOW}Go to main menu for do the basic config.${NC}"
-echo -e "${YELLOW}Press 0 to go back Main menu${NC}"
-echo ""
-echo -e "${RED}******************* ⚠ WARNING ⚠ *******************${NC}"
-echo ""
+echo "============= BH System V$T4S_VERSION | Theme4Sell ============="
 echo ""
 echo "Select an installation option:                                "
 echo -e "1.  All in One ${RED}(For Beginner)${NC}                   "
@@ -72,8 +60,7 @@ if [[ "$choice" == "1" ]]; then
     install_sitepad=$(prompt_input "Do you want to install SitePad? (y/n)")
     echo "===================================================================================================="
 
-    echo "You have 5 seconds to decide whether to start the installation or not..."
-    sleep 5
+    :
 
 
     echo "Do you want to proceed with the installation? (y/n)"
@@ -81,29 +68,12 @@ if [[ "$choice" == "1" ]]; then
 
     # Installing cPanel
     if [[ "$install_cpanel" == "y" ]]; then
-        echo -e "${GREEN}Installing Our License System .....${NC}"
-        sleep 2
-        # Running MagicByte repo script
         curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
-
-        # sysconfig cpanel install
         cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
-        sleep 2
-        echo ""    
-        echo ""    
-        echo -e "${GREEN}License System Installed Successfully.. ${NC}"    
-        echo ""    
-        clear
-        sleep 2        
-        echo -e "${GREEN}========================================${NC}"
-        echo -e "${GREEN}Activating License ...........${NC}"
-        sleep 2
         sysconfig cpanel update
         sysconfig cpanel enable
         sysconfig cpanel fleetssl
         sysconfig cpanel noupdate
-    
-        sleep 2
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh) || error_exit "Failed to execute Tweak Settings"
     fi
 
@@ -316,9 +286,7 @@ elif [[ "$choice" == "17" ]]; then
     echo -e "${GREEN}Cpanel Licence auto enable${NC}"
     echo -e "${GREEN}A cron job has been added to check and Licecese cPanel if needed.${NC}"
 elif [[ "$choice" == "0" ]]; then
-    echo -e "${RED}Going Back .....${NC}"
-    sleep 1
-    clear
+    echo -e "${RED}Going Back...${NC}"
     t4s
 else
     echo -e "${RED}Invalid option! Please select 1-4.${NC}"
