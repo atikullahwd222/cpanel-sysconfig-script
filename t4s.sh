@@ -212,8 +212,8 @@ case "$1" in
         ;;
 
     "")
-        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh) || error_exit "Failed to execute t4s"
-        echo -e "[root@$HOSTNAME ~]#"
+        # bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/menu.sh) || error_exit "Failed to execute t4s"
+        echo "We are in Maintainace Mode"
         ;;
 
     *)
