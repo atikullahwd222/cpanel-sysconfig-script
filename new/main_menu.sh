@@ -1,5 +1,22 @@
 #!/bin/bash
+
 HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
+SCRIPT_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+# Error handler
+error_exit() {
+    echo -e "${RED}ERROR: $1${NC}"
+    exit 1
+}
+
 # Function to center text
 center() {
     local text="$1"
@@ -10,11 +27,8 @@ center() {
 # Function to display menu
 show_menu() {
     clear
-
     source <(curl -sL $HEADER_URL)
 
-
-    # Menu options
     echo -e "${GREEN}1)${NC} Server Basic Config (Before Installation) ${RED}[Required]${NC}"
     echo -e "${GREEN}2)${NC} RC License Script"
     echo -e "${GREEN}3)${NC} Syslic License Script"
@@ -38,8 +52,6 @@ while true; do
             ;;
         2)
             echo -e "${YELLOW}You selected: RC License Script${NC}"
-            echo -e "${YELLOW}Redirecting....${NC}"
-            sleep 2
             bash <(curl -fsSL $SCRIPT_URI/rc-system/rc.sh) || error_exit "Failed to execute RC System"
             ;;
         3)
@@ -48,13 +60,11 @@ while true; do
             ;;
         4)
             echo -e "${YELLOW}You selected: Official Plugin Installation${NC}"
-            echo -e "${YELLOW}Maintainance....${NC}"
-            exit 1
+            bash <(curl -fsSL $SCRIPT_URI/plugins/install.sh) || error_exit "Failed to execute Plugin Installation"
             ;;
         5)
             echo -e "${YELLOW}You selected: Official Plugin Uninstallation${NC}"
-            echo -e "${YELLOW}Maintainance....${NC}"
-            exit 1
+            bash <(curl -fsSL $SCRIPT_URI/plugins/uninstall.sh) || error_exit "Failed to execute Plugin Uninstallation"
             ;;
         6)
             echo -e "${YELLOW}Returning to Tools...${NC}"
@@ -63,7 +73,7 @@ while true; do
             ;;
         0)
             echo -e "${GREEN}Exiting...${NC}"
-            exit 1
+            exit 0
             ;;
         *)
             echo -e "${RED}Invalid choice! Please enter a number between 0 and 7.${NC}"
@@ -71,10 +81,6 @@ while true; do
             ;;
     esac
 
-    # Only pause for non-exit choices
-    if [[ "$choice" != "0" ]]; then
-        echo ""
-        exit 1
-    fi
+    echo ""
+    read -p "Press Enter to continue..." dummy
 done
-
