@@ -49,44 +49,72 @@ show_main_menu() {
 # ----------------------------
 install_cpanel() {
     echo -e "${GREEN}Installing cPanel...${NC}"
-    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) cPanel >/dev/null 2>&1
-    RcLicenseCP >/dev/null 2>&1
+    sleep 2
+    cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest --tier=stable
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) cPanel; RcLicenseCP
+    t4s tweak
+    echo -e "${GREEN}cPanel installation completed!${NC}"
 }
 
 install_litespeed() {
     echo -e "${GREEN}Installing LiteSpeed...${NC}"
-    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) liteSpeed >/dev/null 2>&1
-    RcLicenseLSWS >/dev/null 2>&1
+    sleep 2
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) liteSpeed; RcLicenseLSWS
 }
 
 install_litespeed_lb() {
     echo -e "${GREEN}Installing LiteSpeed Load Balancer...${NC}"
-    RCUpdate lslb >/dev/null 2>&1
-    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) LSLB >/dev/null 2>&1
-    RcLSLB >/dev/null 2>&1
+    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) LSLB; RCUpdate lslb
+    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) LSLB; RcLSLB
 }
 
 install_softaculous() {
     echo -e "${GREEN}Installing Softaculous...${NC}"
-    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Softaculous >/dev/null 2>&1
-    RcLicenseSoftaculous >/dev/null 2>&1
+    t4s tweak
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) Softaculous; RcLicenseSoftaculous
 }
 
 install_jetbackup() {
     echo -e "${GREEN}Installing JetBackup...${NC}"
-    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) JetBackup >/dev/null 2>&1
-    RcLicenseJetBackup >/dev/null 2>&1
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) JetBackup; RcLicenseJetBackup
 }
 
 # Placeholder for other software, define similar functions
-install_whmreseller() { echo -e "${GREEN}Installing WHMReseller...${NC}"; }
-install_im360() { echo -e "${GREEN}Installing Imunify360...${NC}"; }
-install_cpguard() { echo -e "${GREEN}Installing cPGuard...${NC}"; }
-install_dareseller() { echo -e "${GREEN}Installing Da-Reseller...${NC}"; }
-install_osm() { echo -e "${GREEN}Installing OSM...${NC}"; }
-install_cxs() { echo -e "${GREEN}Installing CXS...${NC}"; }
-install_cloudlinux() { echo -e "${GREEN}Installing CloudLinux...${NC}"; }
-install_sitepad() { echo -e "${GREEN}Installing SitePad...${NC}"; }
+install_whmreseller() {
+    echo -e "${GREEN}Installing WHMReseller...${NC}"
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) WHMReseller; RcLicenseWHMReseller
+}
+install_im360() {
+    echo -e "${GREEN}Installing Imunify360...${NC}"
+    wget https://repo.imunify360.cloudlinux.com/defence360/i360deploy.sh -O i360deploy.sh
+    bash i360deploy.sh
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) Imunify360; RcLicenseImunify360
+    rm -rf i360deploy.sh
+}
+install_cpguard() {
+    echo -e "${GREEN}Installing cPGuard...${NC}"
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) CPGuard; RcLicenseCPGuard
+}
+install_dareseller() {
+    echo -e "${GREEN}Installing Da-Reseller...${NC}"
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) DAReseller; RcLicenseDAReseller
+}
+install_osm() {
+    echo -e "${GREEN}Installing OSM...${NC}"
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) OSM; RcLicenseOSM
+}
+install_cxs() {
+    echo -e "${GREEN}Installing CXS...${NC}"
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) CXS; RcLicenseCXS
+}
+install_cloudlinux() {
+    echo -e "${GREEN}Installing CloudLinux...${NC}"
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) CloudLinux; RcLicenseCLN
+}
+install_sitepad() {
+    echo -e "${GREEN}Installing SitePad...${NC}"
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) Sitepad; RcLicenseSitepad
+}
 
 # ----------------------------
 # All-in-One Installer
