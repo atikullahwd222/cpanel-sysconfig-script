@@ -14,7 +14,9 @@ NC='\033[0m' # No Color
 # Error handler
 error_exit() {
     echo -e "${RED}ERROR: $1${NC}"
-    exit 1
+    # only pause if not exiting normally
+    read -p "Press Enter to return to main menu..." </dev/tty
+    return 1
 }
 
 # Function to center text
