@@ -7,108 +7,110 @@ RED="\033[0;31m"
 BLUE="\033[0;34m"
 NC="\033[0m"
 
-# Define constants
-T4S_PATH="/usr/local/bin/t4s"
-SCRIPT_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/main/t4s.sh"
-VERSION="1.2.0"
-LOG_FILE="/var/log/t4s_install.log"
+curl -s https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init | sudo bash
 
-# Spinner function for progress indication
-spinner() {
-    local pid=$1
-    local delay=0.1
-    local spinstr='|/-\'
-    while [ -d /proc/$pid ]; do
-        local temp=${spinstr#?}
-        printf " [%c]  " "$spinstr"
-        spinstr=$temp${spinstr%"$temp"}
-        sleep $delay
-        printf "\b\b\b\b\b\b"
-    done
-    printf "    \b\b\b\b"
-}
+# # Define constants
+# T4S_PATH="/usr/local/bin/t4s"
+# SCRIPT_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/main/t4s.sh"
+# VERSION="1.2.0"
+# LOG_FILE="/var/log/t4s_install.log"
 
-# Logging function
-log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$LOG_FILE"
-}
+# # Spinner function for progress indication
+# spinner() {
+#     local pid=$1
+#     local delay=0.1
+#     local spinstr='|/-\'
+#     while [ -d /proc/$pid ]; do
+#         local temp=${spinstr#?}
+#         printf " [%c]  " "$spinstr"
+#         spinstr=$temp${spinstr%"$temp"}
+#         sleep $delay
+#         printf "\b\b\b\b\b\b"
+#     done
+#     printf "    \b\b\b\b"
+# }
 
-# Check for sudo privileges
-if [ "$EUID" -ne 0 ]; then
-    echo -e "${RED}This script must be run as root. Please use sudo.${NC}"
-    exit 1
-fi
+# # Logging function
+# log() {
+#     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$LOG_FILE"
+# }
 
-# Create log directory if it doesn't exist
-mkdir -p "$(dirname "$LOG_FILE")" &>/dev/null
-log "Starting Theme4Sell installation script v$VERSION"
+# # Check for sudo privileges
+# if [ "$EUID" -ne 0 ]; then
+#     echo -e "${RED}This script must be run as root. Please use sudo.${NC}"
+#     exit 1
+# fi
 
-# Header display
-clear
-echo -e "${BLUE}========================================${NC}"
-echo -e "${BLUE}    Theme4Sell Installation Script     ${NC}"
-echo -e "${BLUE}           Version $VERSION            ${NC}"
-echo -e "${BLUE}========================================${NC}"
-echo ""
+# # Create log directory if it doesn't exist
+# mkdir -p "$(dirname "$LOG_FILE")" &>/dev/null
+# log "Starting Theme4Sell installation script v$VERSION"
 
-# Remove old file if it exists
-if [ -f "$T4S_PATH" ]; then
-    echo -e "${YELLOW}Removing previous Theme4Sell installation...${NC}"
-    rm -f "$T4S_PATH" &>/dev/null &
-    spinner $!
-    log "Removed existing Theme4Sell script"
-fi
+# # Header display
+# clear
+# echo -e "${BLUE}========================================${NC}"
+# echo -e "${BLUE}    Theme4Sell Installation Script     ${NC}"
+# echo -e "${BLUE}           Version $VERSION            ${NC}"
+# echo -e "${BLUE}========================================${NC}"
+# echo ""
 
-# Create directory if it doesn't exist
-echo -e "${YELLOW}Preparing installation directory...${NC}"
-mkdir -p /usr/local/bin &>/dev/null &
-spinner $!
-log "Created installation directory /usr/local/bin"
+# # Remove old file if it exists
+# if [ -f "$T4S_PATH" ]; then
+#     echo -e "${YELLOW}Removing previous Theme4Sell installation...${NC}"
+#     rm -f "$T4S_PATH" &>/dev/null &
+#     spinner $!
+#     log "Removed existing Theme4Sell script"
+# fi
 
-# Download new script
-echo -e "${YELLOW}Downloading Theme4Sell script...${NC}"
-if curl -s -o "$T4S_PATH" "$SCRIPT_URL" &>/dev/null & then
-    pid=$!
-    spinner $pid
-    wait $pid
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Download completed successfully${NC}"
-        log "Successfully downloaded Theme4Sell script"
-    else
-        echo -e "${RED}Failed to download Theme4Sell script. Please try again later.${NC}"
-        log "Error: Failed to download Theme4Sell script"
-        exit 1
-    fi
-else
-    echo -e "${RED}Failed to initiate download. Please check the URL and try again.${NC}"
-    log "Error: Failed to initiate download"
-    exit 1
-fi
+# # Create directory if it doesn't exist
+# echo -e "${YELLOW}Preparing installation directory...${NC}"
+# mkdir -p /usr/local/bin &>/dev/null &
+# spinner $!
+# log "Created installation directory /usr/local/bin"
 
-# Set executable permissions
-echo -e "${YELLOW}Setting permissions...${NC}"
-chmod +x "$T4S_PATH" &>/dev/null &
-spinner $!
-log "Set executable permissions for $T4S_PATH"
+# # Download new script
+# echo -e "${YELLOW}Downloading Theme4Sell script...${NC}"
+# if curl -s -o "$T4S_PATH" "$SCRIPT_URL" &>/dev/null & then
+#     pid=$!
+#     spinner $pid
+#     wait $pid
+#     if [ $? -eq 0 ]; then
+#         echo -e "${GREEN}Download completed successfully${NC}"
+#         log "Successfully downloaded Theme4Sell script"
+#     else
+#         echo -e "${RED}Failed to download Theme4Sell script. Please try again later.${NC}"
+#         log "Error: Failed to download Theme4Sell script"
+#         exit 1
+#     fi
+# else
+#     echo -e "${RED}Failed to initiate download. Please check the URL and try again.${NC}"
+#     log "Error: Failed to initiate download"
+#     exit 1
+# fi
 
-# Verify installation
-if [ -x "$T4S_PATH" ]; then
-    echo -e "${GREEN}Verification complete: Theme4Sell script installed successfully${NC}"
-    log "Installation verified successfully"
-else
-    echo -e "${RED}Installation verification failed. Please check the logs at $LOG_FILE${NC}"
-    log "Error: Installation verification failed"
-    exit 1
-fi
+# # Set executable permissions
+# echo -e "${YELLOW}Setting permissions...${NC}"
+# chmod +x "$T4S_PATH" &>/dev/null &
+# spinner $!
+# log "Set executable permissions for $T4S_PATH"
 
-# Final output
-clear
-echo -e "${GREEN}========================================${NC}"
-echo -e "${GREEN}    Theme4Sell Installation Complete    ${NC}"
-echo -e "${GREEN}========================================${NC}"
-echo ""
-echo -e "${BLUE}Thank you for installing Theme4Sell v$VERSION!${NC}"
-echo -e "${BLUE}You can now use the 't4s' command to access the system.${NC}"
-echo -e "${BLUE}Logs are available at: $LOG_FILE${NC}"
-echo ""
-log "Theme4Sell installation completed"
+# # Verify installation
+# if [ -x "$T4S_PATH" ]; then
+#     echo -e "${GREEN}Verification complete: Theme4Sell script installed successfully${NC}"
+#     log "Installation verified successfully"
+# else
+#     echo -e "${RED}Installation verification failed. Please check the logs at $LOG_FILE${NC}"
+#     log "Error: Installation verification failed"
+#     exit 1
+# fi
+
+# # Final output
+# clear
+# echo -e "${GREEN}========================================${NC}"
+# echo -e "${GREEN}    Theme4Sell Installation Complete    ${NC}"
+# echo -e "${GREEN}========================================${NC}"
+# echo ""
+# echo -e "${BLUE}Thank you for installing Theme4Sell v$VERSION!${NC}"
+# echo -e "${BLUE}You can now use the 't4s' command to access the system.${NC}"
+# echo -e "${BLUE}Logs are available at: $LOG_FILE${NC}"
+# echo ""
+# log "Theme4Sell installation completed"
