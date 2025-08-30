@@ -25,8 +25,7 @@ show_menu() {
     echo -e "${GREEN}3)${NC} Full Server Config"
     echo -e "${GREEN}4)${NC} Allow IP"
     echo -e "${GREEN}5)${NC} Block IP"
-    echo -e "${GREEN}6)${NC} Auto Config"
-    echo -e "${GREEN}7)${NC} Flush Firewall"
+    echo -e "${GREEN}6)${NC} Flush Firewall"
     echo -e "${GREEN}0)${NC} Back to Main Menu"
     echo ""
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
@@ -58,17 +57,13 @@ while true; do
             ;;
         4)
             read -p "Enter IP or hostname to allow: " target_ip
-            curl -fsSL "$SCRIPT_URI/whitelist.sh" -o /tmp/whitelist.sh || error_exit "Failed to download whitelist.sh"
-            bash /tmp/whitelist.sh "$target_ip" || error_exit "Failed to execute Allow IP"
-            rm -f /tmp/whitelist.sh
+            t4s allow "$target_ip"
             ;;
         5)
             read -p "Enter IP or hostname to Block: " target_ip
+            t4s block "$target_ip"
             ;;
         6)
-            echo -e "${YELLOW}You selected: Auto Config${NC}"
-            ;;
-        7)
             bash <(curl -fsSL $SCRIPT_URI/tools.sh) || error_exit "Failed to execute Tools"
             ;;
         0)

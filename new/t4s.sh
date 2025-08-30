@@ -59,7 +59,9 @@ manage_ip() {
         echo -e "${YELLOW}[CSF]${NC} Applying..."
         case "$action" in
             whitelist) csf -a "$ip" "t4s whitelist" &>/dev/null ;;
+            allow) csf -a "$ip" "t4s whitelist" &>/dev/null ;;
             blacklist) csf -d "$ip" "t4s blacklist" &>/dev/null ;;
+            block) csf -d "$ip" "t4s blacklist" &>/dev/null ;;
             delete)    csf -ar "$ip" &>/dev/null; csf -dr "$ip" &>/dev/null ;;
         esac
         echo -e "${GREEN}[CSF] Done${NC}"
@@ -72,7 +74,9 @@ manage_ip() {
         echo -e "${YELLOW}[Imunify360]${NC} Applying..."
         case "$action" in
             whitelist) imunify360-agent whitelist ip add "$ip" &>/dev/null ;;
+            allow) imunify360-agent whitelist ip add "$ip" &>/dev/null ;;
             blacklist) imunify360-agent blacklist ip add "$ip" &>/dev/null ;;
+            block) imunify360-agent blacklist ip add "$ip" &>/dev/null ;;
             delete)
                 imunify360-agent whitelist ip delete "$ip" &>/dev/null
                 imunify360-agent blacklist ip delete "$ip" &>/dev/null
@@ -88,7 +92,9 @@ manage_ip() {
         echo -e "${YELLOW}[iptables]${NC} Applying..."
         case "$action" in
             whitelist) iptables -I INPUT -s "$ip" -j ACCEPT &>/dev/null ;;
+            allow) iptables -I INPUT -s "$ip" -j ACCEPT &>/dev/null ;;
             blacklist) iptables -I INPUT -s "$ip" -j DROP &>/dev/null ;;
+            block) iptables -I INPUT -s "$ip" -j DROP &>/dev/null ;;
             delete)
                 iptables -D INPUT -s "$ip" -j ACCEPT 2>/dev/null
                 iptables -D INPUT -s "$ip" -j DROP 2>/dev/null
@@ -104,7 +110,9 @@ manage_ip() {
         echo -e "${YELLOW}[cPHulk]${NC} Applying..."
         case "$action" in
             whitelist) /usr/local/cpanel/scripts/cphulkdwhitelist "$ip" &>/dev/null ;;
+            allow) /usr/local/cpanel/scripts/cphulkdwhitelist "$ip" &>/dev/null ;;
             blacklist) /usr/local/cpanel/scripts/cphulkdblacklist "$ip" &>/dev/null ;;
+            block) /usr/local/cpanel/scripts/cphulkdblacklist "$ip" &>/dev/null ;;
             delete)    /usr/local/cpanel/scripts/cphulkdwhitelist "$ip" &>/dev/null ;;
         esac
         echo -e "${GREEN}[cPHulk] Done${NC}"
@@ -180,7 +188,7 @@ case "$1" in
     "update")
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init.sh) || error_exit "Failed to update the script"
         ;;
-    "whitelist"|"blacklist"|"delete")
+    "whitelist"|"allow"|"blacklist"|"block"|"delete")
         [[ -z "$2" ]] && error_exit "Usage: $0 $1 <ip/domain/ip-cidr>"
         manage_ip "$1" "$2"
         ;;
