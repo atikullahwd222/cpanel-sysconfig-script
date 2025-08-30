@@ -18,9 +18,26 @@ show_menu() {
     echo -e "${BLUE}================================================================================${NC}"
 
     # Menu options
-    echo -e "${GREEN}1)${NC} Server Basic Config (Before Installation) ${RED}[Required]${NC}"
-    echo -e "${GREEN}2)${NC} All in One Script"
-    echo -e "${GREEN}0)${NC} Go Back to Main Menu"
+    printf "${BOLD}Select an installation option:${NC}\n"
+
+    printf "${BLUE} 1)${NC} All-in-One Auto Installer ${YELLOW}(Beginner Friendly)${NC}\n"
+    printf "${BLUE} 2)${NC} Install/Activate cPanel License\n"
+    printf "${BLUE} 3)${NC} Install/Activate LiteSpeed Web Server License\n"
+    printf "${BLUE} 4)${NC} Install/Activate LiteSpeed Load Balancer ${RED}(DDoS Protection)${NC} License\n"
+    printf "${BLUE} 5)${NC} Install/Activate Softaculous License\n"
+    printf "${BLUE} 6)${NC} Install/Activate JetBackup License\n"
+    printf "${BLUE} 7)${NC} Install/Activate WHMReseller License\n"
+    printf "${BLUE} 8)${NC} Install/Activate Imunify360 License\n"
+    printf "${BLUE} 9)${NC} Install/Activate cPGuard License\n"
+    printf "${BLUE}10)${NC} Install/Activate Da-Reseller License\n"
+    printf "${BLUE}11)${NC} Install/Activate OSM License\n"
+    printf "${BLUE}12)${NC} Install/Activate CXS License\n"
+    printf "${BLUE}13)${NC} Install/Activate CloudLinux License\n"
+    printf "${BLUE}14)${NC} Install/Activate SitePad License\n\n"
+
+    printf "${RED} 0) Go Back${NC}\n"
+    echo
+    read -p "Enter your choice [0-14]: " choice
     echo ""
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
     echo ""
