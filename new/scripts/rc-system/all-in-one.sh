@@ -1,4 +1,7 @@
+```bash
 #!/bin/bash
+
+# Constants
 HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
 
 # Color definitions
@@ -11,18 +14,21 @@ NC='\033[0m' # No Color
 # Function to display header
 display_header() {
     clear
-
-    source <(curl -sL $HEADER_URL)
-    echo -e "${BLUE==================================================NC}"
-    echo -e "${GREEN}cPanel & Software Installation Script RC System${NC}"
-    echo -e "${BLUE==================================================NC}"
+    echo -e "${BLUE}================================================================================${NC}"
+    if curl -sL "$HEADER_URL" | bash; then
+        echo -e "${GREEN}Loaded custom header successfully${NC}"
+    else
+        echo -e "${RED}Failed to load custom header, using default${NC}"
+        echo -e "${GREEN}           cPanel & Software Installation Script - RC System${NC}"
+    fi
+    echo -e "${BLUE}================================================================================${NC}"
     echo
 }
 
 # Function to prompt user input with color
 prompt_input() {
     local prompt="$1"
-    echo -e "${YELLOW}${prompt}${NC} ${GREEN}[y/n]${NC}: "
+    printf "${YELLOW}%-50s${NC} ${GREEN}[y/n]: ${NC}" "$prompt"
     read -r response
     echo "$response" | tr '[:upper:]' '[:lower:]'
 }
@@ -30,12 +36,24 @@ prompt_input() {
 # Function to display progress bar
 show_progress() {
     local msg="$1"
-    echo -ne "${BLUE}[Installing] ${msg} ["
+    printf "${BLUE}%-50s [" "$msg"
     for ((i=0; i<5; i++)); do
-        echo -ne "==="
-        sleep 0.3
+        printf "==="
+        sleep 0.5 # Slower animation for visibility
     done
     echo -e "] ${GREEN}Done${NC}"
+}
+
+# Function to check command success
+check_command() {
+    local cmd="$1"
+    local msg="$2"
+    if eval "$cmd"; then
+        echo -e "${GREEN}$msg completed successfully${NC}"
+    else
+        echo -e "${RED}Error: $msg failed${NC}"
+        exit 1
+    fi
 }
 
 # Main installation function
@@ -43,6 +61,8 @@ main() {
     display_header
 
     # Collect user inputs
+    echo -e "${BLUE}Select software to install:${NC}"
+    echo
     remove_license=$(prompt_input "Remove existing license?")
     install_cpanel=$(prompt_input "Install cPanel VPS? (Select Carefully)")
     install_litespeed=$(prompt_input "Install and activate LiteSpeed License?")
@@ -60,8 +80,27 @@ main() {
     echo -e "${BLUE}================================================================================${NC}"
     echo
 
+    # Display summary of selections
+    echo -e "${BLUE}Installation Summary:${NC}"
+    echo -e "${YELLOW}Remove License: ${GREEN}$remove_license${NC}"
+    echo -e "${YELLOW}cPanel VPS: ${GREEN}$install_cpanel${NC}"
+    echo -e "${YELLOW}LiteSpeed: ${GREEN}$install_litespeed${NC}"
+    echo -e "${YELLOW}LiteSpeed Load Balancer: ${GREEN}$install_litespeed_lb${NC}"
+    echo -e "${YELLOW}Softaculous: ${GREEN}$install_softaculous${NC}"
+    echo -e "${YELLOW}JetBackup: ${GREEN}$install_jetbackup${NC}"
+    echo -e "${YELLOW}WHMReseller: ${GREEN}$install_whmreseller${NC}"
+    echo -e "${YELLOW}Imunify360: ${GREEN}$install_im360${NC}"
+    echo -e "${YELLOW}cPGuard: ${GREEN}$install_cpguard${NC}"
+    echo -e "${YELLOW}Da-Reseller: ${GREEN}$install_dareseller${NC}"
+    echo -e "${YELLOW}OSM: ${GREEN}$install_osm${NC}"
+    echo -e "${YELLOW}CXS: ${GREEN}$install_cxs${NC}"
+    echo -e "${YELLOW}CloudLinux: ${GREEN}$install_cloudlinux${NC}"
+    echo -e "${YELLOW}SitePad: ${GREEN}$install_sitepad${NC}"
+    echo -e "${BLUE}================================================================================${NC}"
+    echo
+
     # Confirmation
-    echo -e "${YELLOW}Do you want to proceed with the installation?${NC} ${GREEN}[y/n]${NC}: "
+    printf "${YELLOW}Proceed with the installation?${NC} ${GREEN}[y/n]: ${NC}"
     read proceed
     proceed=$(echo "$proceed" | tr '[:upper:]' '[:lower:]')
 
@@ -76,117 +115,94 @@ main() {
     # Remove existing license
     if [[ "$remove_license" == "y" ]]; then
         show_progress "Removing existing license"
-        wget -q -O remover https://mirror.resellercenter.ir/remover && chmod +x remover && ./remover >/dev/null 2>&1
+        check_command "wget -q -O remover https://mirror.resellercenter.ir/remover && chmod +x remover && ./remover" "License removal"
     fi
 
     # Install cPanel
     if [[ "$install_cpanel" == "y" ]]; then
         show_progress "cPanel VPS"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) cPanel >/dev/null 2>&1
-        RcLicenseCP >/dev/null 2>&1
-        RcLicenseCP -fleetssl >/dev/null 2>&1
-        /scripts/configure_firewall_for_cpanel >/dev/null 2>&1
-        /usr/local/cpanel/cpsrvd >/dev/null 2>&1
-        iptables -P INPUT ACCEPT >/dev/null 2>&1
-        iptables -P FORWARD ACCEPT >/dev/null 2>&1
-        iptables -P OUTPUT ACCEPT >/dev/null 2>&1
-        iptables -t nat -F >/dev/null 2>&1
-        iptables -t mangle -F >/dev/null 2>&1
-        /usr/sbin/iptables -F >/dev/null 2>&1
-        /usr/sbin/iptables -X >/dev/null 2>&1
-        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh) &>/dev/null
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) cPanel && RcLicenseCP && RcLicenseCP -fleetssl && /scripts/configure_firewall_for_cpanel && /usr/local/cpanel/cpsrvd && iptables -P INPUT ACCEPT && iptables -P FORWARD ACCEPT && iptables -P OUTPUT ACCEPT && iptables -t nat -F && iptables -t mangle -F && /usr/sbin/iptables -F && /usr/sbin/iptables -X && bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh)" "cPanel installation"
     fi
 
     # Install LiteSpeed Load Balancer
     if [[ "$install_litespeed_lb" == "y" ]]; then
         show_progress "LiteSpeed Load Balancer"
-        RCUpdate lslb >/dev/null 2>&1
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) LSLB >/dev/null 2>&1
-        RcLSLB >/dev/null 2>&1
+        check_command "RCUpdate lslb && bash <(curl -s https://mirror.resellercenter.ir/pre.sh) LSLB && RcLSLB" "LiteSpeed Load Balancer installation"
     fi
 
     # Install LiteSpeed
     if [[ "$install_litespeed" == "y" ]]; then
         show_progress "LiteSpeed"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) liteSpeed >/dev/null 2>&1
-        RcLicenseLSWS >/dev/null 2>&1
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) liteSpeed && RcLicenseLSWS" "LiteSpeed installation"
     fi
 
     # Install Softaculous
     if [[ "$install_softaculous" == "y" ]]; then
         show_progress "Softaculous"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) Softaculous >/dev/null 2>&1
-        RcLicenseSoftaculous >/dev/null 2>&1
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Softaculous && RcLicenseSoftaculous" "Softaculous installation"
     fi
 
     # Install JetBackup
     if [[ "$install_jetbackup" == "y" ]]; then
         show_progress "JetBackup"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) JetBackup >/dev/null 2>&1
-        RcLicenseJetBackup >/dev/null 2>&1
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) JetBackup && RcLicenseJetBackup" "JetBackup installation"
     fi
 
     # Install WHMReseller
     if [[ "$install_whmreseller" == "y" ]]; then
         show_progress "WHMReseller"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) WHMReseller >/dev/null 2>&1
-        RcLicenseWHMReseller >/dev/null 2>&1
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) WHMReseller && RcLicenseWHMReseller" "WHMReseller installation"
     fi
 
     # Install Imunify360
     if [[ "$install_im360" == "y" ]]; then
         show_progress "Imunify360"
-        wget -q https://repo.imunify360.cloudlinux.com/defence360/i360deploy.sh && bash i360deploy.sh >/dev/null 2>&1
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) Imunify360 >/dev/null 2>&1
-        RcLicenseImunify360 >/dev/null 2>&1
+        check_command "wget -q https://repo.imunify360.cloudlinux.com/defence360/i360deploy.sh && bash i360deploy.sh && bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Imunify360 && RcLicenseImunify360" "Imunify360 installation"
     fi
 
     # Install CloudLinux
     if [[ "$install_cloudlinux" == "y" ]]; then
         show_progress "CloudLinux"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) CloudLinux >/dev/null 2>&1
-        RcLicenseCLN >/dev/null 2>&1
-        t4srcCLN -install >/dev/null 2>&1
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) CloudLinux && RcLicenseCLN && t4srcCLN -install" "CloudLinux installation"
     fi
 
     # Install SitePad
     if [[ "$install_sitepad" == "y" ]]; then
         show_progress "SitePad"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) Sitepad >/dev/null 2>&1
-        RcLicenseSitepad >/dev/null 2>&1
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Sitepad && RcLicenseSitepad" "SitePad installation"
     fi
 
     # Install cPGuard
     if [[ "$install_cpguard" == "y" ]]; then
         show_progress "cPGuard"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) CPGuard >/dev/null 2>&1
-        RcLicenseCPGuard >/dev/null 2>&1
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) CPGuard && RcLicenseCPGuard" "cPGuard installation"
     fi
 
     # Install Da-Reseller
     if [[ "$install_dareseller" == "y" ]]; then
         show_progress "Da-Reseller"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) DAReseller >/dev/null 2>&1
-        RcLicenseDAReseller >/dev/null 2>&1
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) DAReseller && RcLicenseDAReseller" "Da-Reseller installation"
     fi
 
     # Install OSM
     if [[ "$install_osm" == "y" ]]; then
         show_progress "OSM"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) OSM >/dev/null 2>&1
-        RcLicenseOSM >/dev/null 2>&1
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) OSM && RcLicenseOSM" "OSM installation"
     fi
 
     # Install CXS
     if [[ "$install_cxs" == "y" ]]; then
         show_progress "CXS"
-        bash <(curl https://mirror.resellercenter.ir/pre.sh) CXS >/dev/null 2>&1
-        RcLicenseCXS >/dev/null 2>&1
+        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) CXS && RcLicenseCXS" "CXS installation"
     fi
 
     echo -e "${GREEN}Installation completed successfully!${NC}"
     echo -e "${BLUE}================================================================================${NC}"
 }
 
+# Trap errors and display message
+trap 'echo -e "${RED}An error occurred. Exiting...${NC}"; exit 1' ERR
+
 # Execute main function
 main
+```
