@@ -180,7 +180,7 @@ case "$1" in
         ;;
 
     "update")
-        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/init-t4s) || error_exit "Failed to update the script"
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init.sh) || error_exit "Failed to update the script"
         echo -e "[root@$HOSTNAME ~]#"
         ;;
 
