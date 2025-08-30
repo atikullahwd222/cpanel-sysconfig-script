@@ -63,7 +63,7 @@ while true; do
             rm -f /tmp/whitelist.sh
             ;;
         5)
-            echo -e "${YELLOW}You selected: Official Plugin Uninstallation${NC}"
+            read -p "Enter IP or hostname to Block: " target_ip
             ;;
         6)
             echo -e "${YELLOW}You selected: Auto Config${NC}"

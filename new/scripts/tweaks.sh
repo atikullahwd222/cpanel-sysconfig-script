@@ -57,6 +57,14 @@ whmapi1 set_tweaksetting key=cgihidepass value=1 &>/dev/null
 whmapi1 set_tweaksetting key=email_outbound_spam_detect_enable value=0 &>/dev/null
 echo -e "${GREEN}✔ Security settings applied.${NC}"
 
+
+# ----------------------------
+# Enable cPHulk
+# ----------------------------
+echo -e "${BLUE}Applying cpHulk settings...${NC}"
+whmapi1 enable_cphulkd &>/dev/null
+echo -e "${GREEN}✔ cpHulk settings applied.${NC}"
+
 # ----------------------------
 # MySQL Settings
 # ----------------------------
