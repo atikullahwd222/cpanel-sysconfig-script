@@ -13,6 +13,9 @@ show_menu() {
 
     source <(curl -sL $HEADER_URL)
 
+    echo -e "${BLUE}================================================================================${NC}"
+    echo -e "${GREEN}           cPanel & Software Installation Script RC System${NC}"
+    echo -e "${BLUE}================================================================================${NC}"
 
     # Menu options
     echo -e "${GREEN}1)${NC} Server Basic Config (Before Installation) ${RED}[Required]${NC}"
