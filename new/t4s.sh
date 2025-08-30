@@ -159,7 +159,7 @@ case "$1" in
         bash <(curl -fsSL $SCRIPT_URI/tweaks.sh) || error_exit "Failed to execute Tweak Settings"
         ;;
     "update")
-        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init.sh) || error_exit "Failed to update the script"
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init) || error_exit "Failed to update the script"
         ;;
     "install-csf")
         bash <(curl -fsSL $SCRIPT_URI/csf.sh) || error_exit "Installation of CSF failed"
