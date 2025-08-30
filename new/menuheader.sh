@@ -9,6 +9,8 @@ NC="\033[0m" # No Color
 
 # Version
 SCRIPT_VERSION=$(curl -s https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/version.sh | grep 'SCRIPT_VERSION=' | cut -d'=' -f2 | tr -d '"')
+TOOLS_VERSION=$(curl -s https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/version.sh | grep 'TOOLS_VERSION=' | cut -d'=' -f2 | tr -d '"')
+
 
 # Width of the menu
 WIDTH=50

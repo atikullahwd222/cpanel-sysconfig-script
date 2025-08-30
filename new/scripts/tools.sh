@@ -15,6 +15,7 @@ show_menu() {
 
     echo ""
     echo -e "${GREEN}PAGE${NC}:${YELLOW} Tools${NC}"
+    echo -e "${GREEN}Version${NC}:${YELLOW} $TOOLS_VERSION ${NC}"
     echo ""
 
 
