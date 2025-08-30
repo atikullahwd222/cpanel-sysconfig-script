@@ -17,15 +17,12 @@ NC='\033[0m'
 # ----------------------------
 display_header() {
     clear
-    echo -e "${BLUE}================================================================================${NC}"
     if curl -sL "$HEADER_URL" | bash; then
         echo -e "${GREEN}Loaded custom header successfully${NC}"
     else
         echo -e "${RED}Failed to load custom header, using default${NC}"
         echo -e "${GREEN}           cPanel & Software Installation Script - RC System${NC}"
     fi
-    echo -e "${BLUE}================================================================================${NC}"
-    echo
 }
 
 # ----------------------------
