@@ -12,12 +12,6 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Error handler
-error_exit() {
-    echo -e "${RED}ERROR: $1${NC}"
-    # only pause if not exiting normally
-    read -p "Press Enter to return to main menu..." </dev/tty
-    return 1
-}
 
 # Function to center text
 center() {
@@ -54,11 +48,11 @@ while true; do
             ;;
         2)
             echo -e "${YELLOW}You selected: RC License Script${NC}"
-            bash <(curl -fsSL $SCRIPT_URI/rc-system/rc.sh) || error_exit "Failed to execute RC System"
+            bash <(curl -fsSL $SCRIPT_URI/rc-system/rc.sh)
             ;;
         3)
             echo -e "${YELLOW}You selected: Syslic License Script${NC}"
-            bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic.sh) || error_exit "Failed to execute Syslic System"
+            bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic.sh)
             ;;
         4)
             echo -e "${YELLOW}You selected: Official Plugin Installation${NC}"
@@ -73,7 +67,7 @@ while true; do
         6)
             echo -e "${YELLOW}Returning to Tools...${NC}"
             sleep 1
-            bash <(curl -fsSL $SCRIPT_URI/tools.sh) || error_exit "Failed to execute Tools"
+            bash <(curl -fsSL $SCRIPT_URI/tools.sh)
             ;;
         0)
             echo -e "${GREEN}Exiting...${NC}"
