@@ -32,7 +32,7 @@ show_menu() {
     echo ""
 
     # Warning
-    echo -e "${RED}$(center "⚠⚠⚠ WARNING ⚠⚠⚠")${NC}"
+    echo -e "${RED}$(center "⚠ ⚠ ⚠ WARNING ⚠ ⚠ ⚠")${NC}"
     echo -e "${YELLOW}$(center "Please complete the server basic configuration")${NC}"
     echo -e "${YELLOW}$(center "before proceeding with installation!")${NC}"
     echo -e "${CYAN}$(center "Select option 1 for server preparation.")${NC}"
