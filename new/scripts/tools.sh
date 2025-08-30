@@ -58,7 +58,9 @@ while true; do
             ;;
         4)
             read -p "Enter IP or hostname to allow: " target_ip
-            bash -c "$(curl -fsSL $SCRIPT_URI/whitelist.sh)" -- "$target_ip" || error_exit "Failed to execute Allow IP"
+            curl -fsSL "$SCRIPT_URI/whitelist.sh" -o /tmp/whitelist.sh || error_exit "Failed to download whitelist.sh"
+            bash /tmp/whitelist.sh "$target_ip" || error_exit "Failed to execute Allow IP"
+            rm -f /tmp/whitelist.sh
             ;;
         5)
             echo -e "${YELLOW}You selected: Official Plugin Uninstallation${NC}"
