@@ -99,6 +99,11 @@ install_dareseller() {
     echo -e "${GREEN}Installing Da-Reseller...${NC}"
     bash <( curl https://mirror.resellercenter.ir/pre.sh ) DAReseller; RcLicenseDAReseller
 }
+install_csf() {
+    echo -e "${GREEN}Installing CSF...${NC}"
+    t4s install csf
+}
+
 install_osm() {
     echo -e "${GREEN}Installing OSM...${NC}"
     bash <( curl https://mirror.resellercenter.ir/pre.sh ) OSM; RcLicenseOSM
@@ -132,8 +137,9 @@ all_in_one_installer() {
     install_im360_choice=$(prompt_input "Install Imunify360?")
     install_cpguard_choice=$(prompt_input "Install cPGuard?")
     install_dareseller_choice=$(prompt_input "Install Da-Reseller?")
-    install_osm_choice=$(prompt_input "Install OSM?")
+    install_csf_choice=$(prompt_input "Install CSF?")
     install_cxs_choice=$(prompt_input "Install CXS?")
+    install_osm_choice=$(prompt_input "Install OSM?")
     install_cloudlinux_choice=$(prompt_input "Install CloudLinux?")
     install_sitepad_choice=$(prompt_input "Install SitePad?")
 
@@ -148,6 +154,7 @@ all_in_one_installer() {
     echo -e "Imunify360:          ${install_im360_choice}"
     echo -e "cPGuard:             ${install_cpguard_choice}"
     echo -e "Da-Reseller:         ${install_dareseller_choice}"
+    echo -e "CSF:                 ${install_csf_choice}"
     echo -e "OSM:                 ${install_osm_choice}"
     echo -e "CXS:                 ${install_cxs_choice}"
     echo -e "CloudLinux:          ${install_cloudlinux_choice}"
@@ -173,6 +180,7 @@ all_in_one_installer() {
     [[ "$install_im360_choice" == "y" ]] && install_im360
     [[ "$install_cpguard_choice" == "y" ]] && install_cpguard
     [[ "$install_dareseller_choice" == "y" ]] && install_dareseller
+    [[ "$install_csf_choice" == "y" ]] && install_csf
     [[ "$install_osm_choice" == "y" ]] && install_osm
     [[ "$install_cxs_choice" == "y" ]] && install_cxs
     [[ "$install_cloudlinux_choice" == "y" ]] && install_cloudlinux

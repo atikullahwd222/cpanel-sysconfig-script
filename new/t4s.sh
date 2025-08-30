@@ -149,6 +149,9 @@ case "$1" in
     "update")
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init.sh) || error_exit "Failed to update the script"
         ;;
+    "install csf")
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/csf.sh) || error_exit "Installation of CSF failed"
+        ;;
     "whitelist"|"allow"|"blacklist"|"block"|"delete")
         [[ -z "$2" ]] && error_exit "Usage: $0 $1 <ip/domain/ip-cidr>"
         manage_ip "$1" "$2"
