@@ -57,7 +57,8 @@ while true; do
             bash <(curl -fsSL $SCRIPT_URI/ini.sh) || error_exit "Failed to execute PHP ini Settings"
             ;;
         4)
-            echo -e "${YELLOW}You selected: Official Plugin Installation${NC}"
+            read -p "Enter IP or hostname to allow: " target_ip
+            bash -c "$(curl -fsSL $SCRIPT_URI/whitelist.sh)" -- "$target_ip" || error_exit "Failed to execute Allow IP"
             ;;
         5)
             echo -e "${YELLOW}You selected: Official Plugin Uninstallation${NC}"
