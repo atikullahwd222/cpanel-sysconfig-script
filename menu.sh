@@ -7,7 +7,6 @@ RED="\033[0;31m"
 BLUE="\033[0;34m"
 NC="\033[0m" # No Color
 
-
 # Constants
 SCRIPT_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/main/theme4sell.sh"
 VERSION_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/main/version.sh"
@@ -84,7 +83,9 @@ display_menu() {
     echo -e "6 - Whitelist an IP"
     echo -e "7 - Blacklist an IP"
     echo -e "8 - DNS Flush"
-    echo -e "9 - Allow Our ip's"
+    echo -e "9 - Hard DNS Flush"
+    echo -e "10 - Reset All DNS Zones"
+    echo -e "11 - Allow Our IPs"
     echo -e "0 - Exit"
     echo -e ""
 }
@@ -92,8 +93,8 @@ display_menu() {
 # Validate user input
 validate_input() {
     local input=$1
-    if ! [[ "$input" =~ ^[0-9]$ ]]; then
-        error_exit "Invalid option! Please select 0-9."
+    if ! [[ "$input" =~ ^[0-9]+$ ]] || [ "$input" -lt 0 ] || [ "$input" -gt 11 ]; then
+        error_exit "Invalid option! Please select 0-11."
     fi
 }
 
@@ -117,7 +118,7 @@ load_version
 # Main loop
 while true; do
     display_menu
-    read -p "Enter your choice (0-9): " choice
+    read -p "Enter your choice (0-11): " choice
     validate_input "$choice"
     log "User selected option $choice"
 
@@ -255,15 +256,16 @@ while true; do
             echo -e "${YELLOW}Flushing DNS cache...${NC}"
             systemctl restart named &>/dev/null &
             spinner $!
-                /scripts/configure_firewall_for_cpanel
-                /usr/local/cpanel/cpsrvd
-                iptables -P INPUT ACCEPT
-                iptables -P FORWARD ACCEPT
-                iptables -P OUTPUT ACCEPT
-                iptables -t nat -F
-                iptables -t mangle -F
-                /usr/sbin/iptables -F
-                /usr/sbin/iptables -X
+            /scripts/configure_firewall_for_cpanel
+            /usr/local/cpanel/cpsrvd
+            iptables -P INPUT ACCEPT
+            iptables -P FORWARD ACCEPT
+            iptables -P OUTPUT ACCEPT
+            iptables -t nat -F
+            iptables -t mangle -F
+            /usr/sbin/iptables -F
+            /usr/sbin/iptables -X
+            echo -e "${GREEN}DNS cache flushed successfully.${NC}"
             log "DNS cache flushed"
             sleep 3
             bash "$0" # Restart script
@@ -301,6 +303,59 @@ while true; do
 
             echo -e "${GREEN}Hard DNS flush completed successfully.${NC}"
             log "Hard DNS flush completed (named + PowerDNS caches)"
+            sleep 3
+            bash "$0" # Restart script
+            ;;
+        10)
+            echo -e "${YELLOW}Resetting all DNS zones for cPanel domains...${NC}"
+            BACKUP_DIR="/root/dnsbackup_$(date +%F_%H%M)"
+            mkdir -p "$BACKUP_DIR" &>/dev/null
+
+            echo -e "${YELLOW}Backing up all DNS zones to $BACKUP_DIR...${NC}"
+            cp /var/named/*.db "$BACKUP_DIR/" &>/dev/null || { echo -e "${RED}Backup failed!${NC}"; log "DNS backup failed"; exit 1; }
+            log "Backed up DNS zones to $BACKUP_DIR"
+
+            # Get all unique domains from /etc/trueuserdomains
+            domains=$(awk -F: '{gsub(/ /,"",$1); if ($1) print $1}' /etc/trueuserdomains | sort -u)
+
+            for domain in $domains; do
+                if [ -n "$domain" ]; then
+                    echo -e "${YELLOW}Resetting DNS zone for $domain...${NC}"
+
+                    # Reset zone using WHM API
+                    if /usr/local/cpanel/bin/whmapi1 resetzone domain="$domain" &>/dev/null; then
+                        echo -e "${GREEN}Zone reset successfully${NC}"
+                        log "Reset DNS zone for $domain"
+                    else
+                        echo -e "${RED}Error: Failed to reset zone for $domain${NC}"
+                        log "Failed to reset DNS zone for $domain"
+                    fi
+                fi
+            done
+
+            # Reload named once at the end
+            if /scripts/restartsrv_named &>/dev/null; then
+                echo -e "${GREEN}named service restarted successfully${NC}"
+                log "Restarted named service"
+            else
+                echo -e "${YELLOW}Warning: Failed to restart named service${NC}"
+                log "Failed to restart named service"
+            fi
+
+            echo -e "${GREEN}All DNS zones reset. Backup saved in $BACKUP_DIR${NC}"
+            log "All DNS zones reset completed"
+            sleep 3
+            bash "$0" # Restart script
+            ;;
+        11)
+            echo -e "${YELLOW}Allowing our IPs...${NC}"
+            # Placeholder for allowing specific IPs (e.g., company IPs)
+            # Add actual IPs here, e.g., iptables commands or csf.allow
+            echo -e "${YELLOW}Adding predefined IPs to whitelist...${NC}"
+            # Example: csf -a 192.168.1.1 "Company IP 1"
+            # csf -a 192.168.1.2 "Company IP 2"
+            echo -e "${GREEN}Our IPs allowed (placeholder).${NC}"
+            log "Allowed our IPs (placeholder)"
             sleep 3
             bash "$0" # Restart script
             ;;
