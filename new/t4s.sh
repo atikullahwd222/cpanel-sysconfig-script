@@ -52,19 +52,24 @@ manage_ip() {
     ip=$(resolve_ip "$target")
     validate_ip "$ip"
 
-    echo -e "${YELLOW}Processing $action for $ip...${NC}"
+    echo -e "${YELLOW}Processing $action for ${GREEN}$ip${NC}...${NC}"
 
     # --- CSF ---
     if command -v csf &>/dev/null; then
+        echo -e "${YELLOW}[CSF]${NC} Applying..."
         case "$action" in
             whitelist) csf -a "$ip" "t4s whitelist" &>/dev/null ;;
             blacklist) csf -d "$ip" "t4s blacklist" &>/dev/null ;;
             delete)    csf -ar "$ip" &>/dev/null; csf -dr "$ip" &>/dev/null ;;
         esac
+        echo -e "${GREEN}[CSF] Done${NC}"
+    else
+        echo -e "${RED}[CSF] Not installed${NC}"
     fi
 
     # --- Imunify360 ---
     if command -v imunify360-agent &>/dev/null; then
+        echo -e "${YELLOW}[Imunify360]${NC} Applying..."
         case "$action" in
             whitelist) imunify360-agent whitelist ip add "$ip" &>/dev/null ;;
             blacklist) imunify360-agent blacklist ip add "$ip" &>/dev/null ;;
@@ -73,39 +78,43 @@ manage_ip() {
                 imunify360-agent blacklist ip delete "$ip" &>/dev/null
                 ;;
         esac
+        echo -e "${GREEN}[Imunify360] Done${NC}"
+    else
+        echo -e "${RED}[Imunify360] Not installed${NC}"
     fi
 
     # --- iptables ---
     if command -v iptables &>/dev/null; then
+        echo -e "${YELLOW}[iptables]${NC} Applying..."
         case "$action" in
             whitelist) iptables -I INPUT -s "$ip" -j ACCEPT &>/dev/null ;;
             blacklist) iptables -I INPUT -s "$ip" -j DROP &>/dev/null ;;
             delete)
-                iptables -D INPUT -s "$ip" -j ACCEPT &>/dev/null
-                iptables -D INPUT -s "$ip" -j DROP &>/dev/null
+                iptables -D INPUT -s "$ip" -j ACCEPT 2>/dev/null
+                iptables -D INPUT -s "$ip" -j DROP 2>/dev/null
                 ;;
         esac
-        # Save iptables
-        if command -v netfilter-persistent &>/dev/null; then
-            netfilter-persistent save &>/dev/null
-        elif command -v service &>/dev/null; then
-            service iptables save &>/dev/null || iptables-save > /etc/iptables/rules.v4
-        fi
+        echo -e "${GREEN}[iptables] Done${NC}"
+    else
+        echo -e "${RED}[iptables] Not installed${NC}"
     fi
 
     # --- cPHulk ---
-    if command -v whmapi1 &>/dev/null; then
+    if [[ -x /usr/local/cpanel/scripts/cphulkdwhitelist ]]; then
+        echo -e "${YELLOW}[cPHulk]${NC} Applying..."
         case "$action" in
             whitelist) /usr/local/cpanel/scripts/cphulkdwhitelist "$ip" &>/dev/null ;;
             blacklist) /usr/local/cpanel/scripts/cphulkdblacklist "$ip" &>/dev/null ;;
-            delete)
-                /usr/local/cpanel/scripts/cphulkdwhitelist "$ip" &>/dev/null
-                ;;
+            delete)    /usr/local/cpanel/scripts/cphulkdwhitelist "$ip" &>/dev/null ;;
         esac
+        echo -e "${GREEN}[cPHulk] Done${NC}"
+    else
+        echo -e "${RED}[cPHulk] Not installed${NC}"
     fi
 
     echo -e "${GREEN}✅ $action complete for $ip${NC}"
 }
+
 
 # Flush manually added rules
 flush_rules() {
