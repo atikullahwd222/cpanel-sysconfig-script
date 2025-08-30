@@ -13,7 +13,7 @@
 # - upload_max_filesize = 256M
 # - allow_url_fopen = On
 
-# Define colors for pretty output
+# Define colors
 GREEN=$(tput setaf 2)
 YELLOW=$(tput setaf 3)
 RED=$(tput setaf 1)
@@ -30,16 +30,14 @@ if [[ ! "$confirmation" =~ ^[Yy]$ ]]; then
     exit 0
 fi
 
-# Function to apply sed commands to a given php.ini file
+# Function to apply sed commands
 apply_changes() {
     local ini_file="$1"
     if [ -f "$ini_file" ]; then
         echo "${BLUE}Processing: ${YELLOW}$ini_file${RESET}"
-        # Backup the file
         cp "$ini_file" "$ini_file.bak"
         echo "${GREEN}Backup created: ${YELLOW}$ini_file.bak${RESET}"
         
-        # Apply the changes
         sed -i 's/^zlib.output_compression = .*/zlib.output_compression = On/' "$ini_file"
         sed -i 's/^disable_functions =.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' "$ini_file"
         sed -i 's/^max_execution_time = .*/max_execution_time = 3000/' "$ini_file"
@@ -50,32 +48,33 @@ apply_changes() {
         sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' "$ini_file"
         sed -i 's/^allow_url_fopen = .*/allow_url_fopen = On/' "$ini_file"
         
-        echo "${GREEN}Changes applied successfully to: ${YELLOW}$ini_file${RESET}"
+        echo "${GREEN}✔ Changes applied successfully${RESET}"
         echo ""
+    else
+        echo "${YELLOW}${ini_file%/root/etc/php.ini}${ini_file%/etc/php.ini} not installed${RESET}"
     fi
-    # Removed else branch to avoid cluttering output with non-existent files
 }
 
 echo "${BLUE}Starting PHP.ini modifications...${RESET}"
 echo ""
 
-# Handle ea-php versions
+# EA-PHP
 echo "${BLUE}Processing ea-php versions:${RESET}"
 for dir in /opt/cpanel/ea-php*/; do
+    php_ini="${dir}root/etc/php.ini"
     if [ -d "$dir" ]; then
-        php_ini="${dir}root/etc/php.ini"
         apply_changes "$php_ini"
     fi
 done
 
-# Handle alt-php versions
+# ALT-PHP
 echo "${BLUE}Processing alt-php versions:${RESET}"
 for dir in /opt/alt/php*/; do
+    php_ini="${dir}etc/php.ini"
     if [ -d "$dir" ]; then
-        php_ini="${dir}etc/php.ini"
         apply_changes "$php_ini"
     fi
 done
 
 echo "${GREEN}All modifications complete.${RESET}"
-echo "${YELLOW}Note: You may need to restart PHP services (e.g., via WHM or systemctl restart httpd/php-fpm) for changes to take effect.${RESET}"
+echo "${YELLOW}Note: You may need to restart PHP services (systemctl restart httpd ea-php*-php-fpm alt-php*-php-fpm) for changes to take effect.${RESET}"
