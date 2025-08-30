@@ -54,7 +54,7 @@ show_main_menu() {
     echo -e "${CYAN}15) RC Menu${NC}"
     echo -e " 0) Exit"
     echo -e "${BLUE}==================================================${NC}"
-    read -p "Enter your choice [0-14]: " main_choice
+    read -p "Enter your choice [0-15]: " main_choice
 }
 
 # ----------------------------
