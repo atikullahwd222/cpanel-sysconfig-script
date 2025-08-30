@@ -13,9 +13,9 @@ display_header() {
     clear
 
     source <(curl -sL $HEADER_URL)
-    echo -e "${BLUE}================================================================================${NC}"
-    echo -e "${GREEN}           cPanel & Software Installation Script RC System${NC}"
-    echo -e "${BLUE}================================================================================${NC}"
+    echo -e "${BLUE==================================================NC}"
+    echo -e "${GREEN}cPanel & Software Installation Script RC System${NC}"
+    echo -e "${BLUE==================================================NC}"
     echo
 }
 
