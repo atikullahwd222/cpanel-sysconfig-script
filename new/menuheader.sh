@@ -8,7 +8,7 @@ CYAN="\033[0;36m"
 NC="\033[0m" # No Color
 
 # Version
-SCRIPT_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new"
+SCRIPT_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts"
 SCRIPT_VERSION="1.0.0"
 TOOLS_VERSION="1.0.0"
 
