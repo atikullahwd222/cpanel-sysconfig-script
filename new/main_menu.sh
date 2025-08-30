@@ -62,11 +62,13 @@ while true; do
             ;;
         4)
             echo -e "${YELLOW}You selected: Official Plugin Installation${NC}"
-            bash <(curl -fsSL $SCRIPT_URI/plugins/install.sh) || error_exit "Failed to execute Plugin Installation"
+            echo -e "${YELLOW}Feature coming soon...${NC}"
+            exit 0
             ;;
         5)
             echo -e "${YELLOW}You selected: Official Plugin Uninstallation${NC}"
-            bash <(curl -fsSL $SCRIPT_URI/plugins/uninstall.sh) || error_exit "Failed to execute Plugin Uninstallation"
+            echo -e "${YELLOW}Feature coming soon...${NC}"
+            exit 0
             ;;
         6)
             echo -e "${YELLOW}Returning to Tools...${NC}"
