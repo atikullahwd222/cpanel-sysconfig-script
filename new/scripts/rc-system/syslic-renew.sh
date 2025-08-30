@@ -47,6 +47,7 @@ show_main_menu() {
     echo -e " 8) Renew Imunify360 License"
     echo -e " 9) Renew CloudLinux License"
     echo -e "10) Renew SitePad License"
+    echo -e "${CYAN}11) Syslic Menue${NC}"
     echo -e " 0) Exit"
     echo -e "${BLUE}========================================================${NC}"
     read -p "Enter your choice [0-10]: " main_choice
@@ -108,6 +109,18 @@ renew_sitepad() {
     echo -e "${GREEN}Renewing SitePad License...${NC}"
     sysconfig sitepad enable
     echo -e "${GREEN}SitePad License renewed!${NC}"
+}
+
+syslic() {
+    echo -e "${GREEN}Redirecting to Renewal Page...${NC}"
+    sleep 2
+    t4s syslic
+}
+
+goback() {
+    echo -e "${GREEN}Redirecting to Main Menue...${NC}"
+    sleep 2
+    t4s
 }
 
 # ----------------------------
@@ -182,7 +195,8 @@ while true; do
         8) renew_im360 ;;
         9) renew_cloudlinux ;;
         10) renew_sitepad ;;
-        0) echo "Redirecting to t4s rc..."; exec t4s syslic ;;
+        11) syslic ;;
+        0) goback ;;
         *) echo -e "${RED}Invalid option!${NC}" ;;
     esac
     read -p "Press Enter to return to main menu..."

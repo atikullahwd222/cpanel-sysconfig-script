@@ -51,6 +51,7 @@ show_main_menu() {
     echo -e "12) Renew CXS License"
     echo -e "13) Renew CloudLinux License"
     echo -e "14) Renew SitePad License"
+    echo -e "${CYAN}11) RC Menue${NC}"
     echo -e " 0) Exit"
     echo -e "${BLUE}==================================================${NC}"
     read -p "Enter your choice [0-14]: " main_choice
@@ -128,6 +129,18 @@ renew_cloudlinux() {
 renew_sitepad() {
     echo -e "${GREEN}Renewing SitePad...${NC}"
     RcLicenseSitepad
+}
+
+rc() {
+    echo -e "${GREEN}Redirecting to Renewal Page...${NC}"
+    sleep 2
+    t4s rc
+}
+
+goback() {
+    echo -e "${GREEN}Redirecting to Main Menue...${NC}"
+    sleep 2
+    t4s
 }
 
 # ----------------------------

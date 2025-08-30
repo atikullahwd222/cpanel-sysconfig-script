@@ -121,6 +121,18 @@ install_sitepad() {
     sysconfig sitepad enable
 }
 
+renew() {
+    echo -e "${GREEN}Redirecting to Renewal Page...${NC}"
+    sleep 2
+    t4s syslic renew
+}
+
+goback() {
+    echo -e "${GREEN}Redirecting to Main Menue...${NC}"
+    sleep 2
+    t4s
+}
+
 # ----------------------------
 # All-in-One Installer (Init First)
 # ----------------------------
@@ -193,8 +205,8 @@ while true; do
         8) install_im360 ;;
         9) install_cloudlinux ;;
         10) install_sitepad ;;
-        11) echo "Redirecting to Syslic Renew..."; exec t4s syslic renew;;
-        0) echo "Redirecting to t4s rc..."; exec t4s;;
+        11) renew ;;
+        0) goback ;;
         *) echo -e "${RED}Invalid option!${NC}" ;;
     esac
     read -p "Press Enter to return to main menu..."

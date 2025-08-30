@@ -139,6 +139,19 @@ install_sitepad() {
     bash <( curl https://mirror.resellercenter.ir/pre.sh ) Sitepad; RcLicenseSitepad
 }
 
+renew() {
+    echo -e "${GREEN}Redirecting to Renewal Page...${NC}"
+    sleep 2
+    t4s rc renew
+}
+
+goback() {
+    echo -e "${GREEN}Redirecting to Main Menue...${NC}"
+    sleep 2
+    t4s
+}
+
+
 # ----------------------------
 # All-in-One Installer
 # ----------------------------
@@ -228,8 +241,8 @@ while true; do
         13) install_cloudlinux ;;
         14) install_sitepad ;;
         14) install_sitepad ;;
-        15) echo "Redirecting to RC Renew..."; exec t4s rc renew;;
-        0) echo "Redirecting to Main Menu..."; exec t4s;;
+        15) renew ;;
+        0) goback ;;
         *) echo -e "${RED}Invalid option!${NC}" ;;
     esac
     read -p "Press Enter to return to main menu..."
