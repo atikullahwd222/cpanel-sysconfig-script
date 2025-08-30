@@ -47,7 +47,14 @@ while true; do
             bash <(curl -fsSL $SCRIPT_URI/ini.sh) || error_exit "Failed to execute PHP ini Settings"
             ;;
         3)
-            echo -e "${YELLOW}You selected: Syslic License Script${NC}"
+            echo -e "${YELLOW}Running Tweaks Settings first...${NC}"
+            bash <(curl -fsSL $SCRIPT_URI/tweaks.sh) || error_exit "Failed to execute Tweaks Settings"
+
+            echo -e "${YELLOW}Go to EasyApache4, find BH-Profile, click Provision and wait until the process is done.${NC}"
+            read -p "Press Enter once you have completed the provisioning..." dummy
+
+            echo -e "${YELLOW}Running PHP ini Config now...${NC}"
+            bash <(curl -fsSL $SCRIPT_URI/ini.sh) || error_exit "Failed to execute PHP ini Settings"
             ;;
         4)
             echo -e "${YELLOW}You selected: Official Plugin Installation${NC}"
