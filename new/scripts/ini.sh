@@ -42,10 +42,8 @@ apply_changes() {
         
         echo "${GREEN}Changes applied successfully to: ${YELLOW}$ini_file${RESET}"
         echo ""
-    else
-        echo "${RED}File not found: ${YELLOW}$ini_file${RESET}"
-        echo ""
     fi
+    # Removed else branch to avoid cluttering output with non-existent files
 }
 
 echo "${BLUE}Starting PHP.ini modifications...${RESET}"
