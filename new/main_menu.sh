@@ -48,9 +48,13 @@ while true; do
             ;;
         4)
             echo -e "${YELLOW}You selected: Official Plugin Installation${NC}"
+            echo -e "${YELLOW}Maintainance....${NC}"
+            exit 1
             ;;
         5)
             echo -e "${YELLOW}You selected: Official Plugin Uninstallation${NC}"
+            echo -e "${YELLOW}Maintainance....${NC}"
+            exit 1
             ;;
         6)
             echo -e "${YELLOW}Returning to Tools...${NC}"
