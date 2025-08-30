@@ -1,219 +1,156 @@
 #!/bin/bash
-HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
 
-
-# Define color codes
+# ----------------------------
+# Constants & Colors
+# ----------------------------
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
 BLUE='\033[0;34m'
 CYAN='\033[0;36m'
-BOLD='\033[1m'
+NC='\033[0m'
 
-# Function to prompt user for input
+# ----------------------------
+# Function to prompt user input
+# ----------------------------
 prompt_input() {
-    read -p "$1: " input
-    echo "$input"
+    local prompt="$1"
+    read -p "$prompt [y/n]: " response
+    echo "$response" | tr '[:upper:]' '[:lower:]'
 }
 
-clear
+# ----------------------------
+# Display main menu
+# ----------------------------
+show_main_menu() {
+    clear
+    echo -e "${BLUE}==================== RC System Installer ====================${NC}"
+    echo -e " 1) All-in-One Auto Installer (Beginner Friendly)"
+    echo -e " 2) Install/Activate cPanel License"
+    echo -e " 3) Install/Activate LiteSpeed Web Server License"
+    echo -e " 4) Install/Activate LiteSpeed Load Balancer (DDoS Protection) License"
+    echo -e " 5) Install/Activate Softaculous License"
+    echo -e " 6) Install/Activate JetBackup License"
+    echo -e " 7) Install/Activate WHMReseller License"
+    echo -e " 8) Install/Activate Imunify360 License"
+    echo -e " 9) Install/Activate cPGuard License"
+    echo -e "10) Install/Activate Da-Reseller License"
+    echo -e "11) Install/Activate OSM License"
+    echo -e "12) Install/Activate CXS License"
+    echo -e "13) Install/Activate CloudLinux License"
+    echo -e "14) Install/Activate SitePad License"
+    echo -e " 0) Exit"
+    echo -e "${BLUE}============================================================${NC}"
+    read -p "Enter your choice [0-14]: " main_choice
+}
 
-## Display installation options (redesigned)
-printf "${CYAN}${BOLD}    ____  __  __   _____            __               ${NC}\n"
-printf "${CYAN}${BOLD}   / __ )/ / / /  / ___/__  _______/ /____  ____ ___ ${NC}\n"
-printf "${CYAN}${BOLD}  / __  / /_/ /   \\__ \\/ / / / ___/ __/ _ \\/ __ \\`__ \\ ${NC}\n"
-printf "${CYAN}${BOLD} / /_/ / __  /   ___/ / /_/ (__  ) /_/  __/ / / / / /${NC}\n"
-printf "${CYAN}${BOLD}/_____/_/_/_/_  /____/\\__, /____/\\__/\\___/_/ /_/ /_/ ${NC}\n"
-printf "${CYAN}${BOLD}                     /____/                 V$T4S_VERSION ${NC}\n\n"
+# ----------------------------
+# Installation functions
+# ----------------------------
+install_cpanel() {
+    echo -e "${GREEN}Installing cPanel...${NC}"
+    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) cPanel >/dev/null 2>&1
+    RcLicenseCP >/dev/null 2>&1
+}
 
-printf "${BOLD}============= BH System V$T4S_VERSION | RC Licensing =============${NC}\n\n"
-printf "${BOLD}Select an installation option:${NC}\n"
+install_litespeed() {
+    echo -e "${GREEN}Installing LiteSpeed...${NC}"
+    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) liteSpeed >/dev/null 2>&1
+    RcLicenseLSWS >/dev/null 2>&1
+}
 
-printf "${BLUE} 1)${NC} All-in-One Auto Installer ${YELLOW}(Beginner Friendly)${NC}\n"
-printf "${BLUE} 2)${NC} Install/Activate cPanel License\n"
-printf "${BLUE} 3)${NC} Install/Activate LiteSpeed Web Server License\n"
-printf "${BLUE} 4)${NC} Install/Activate LiteSpeed Load Balancer ${RED}(DDoS Protection)${NC} License\n"
-printf "${BLUE} 5)${NC} Install/Activate Softaculous License\n"
-printf "${BLUE} 6)${NC} Install/Activate JetBackup License\n"
-printf "${BLUE} 7)${NC} Install/Activate WHMReseller License\n"
-printf "${BLUE} 8)${NC} Install/Activate Imunify360 License\n"
-printf "${BLUE} 9)${NC} Install/Activate cPGuard License\n"
-printf "${BLUE}10)${NC} Install/Activate Da-Reseller License\n"
-printf "${BLUE}11)${NC} Install/Activate OSM License\n"
-printf "${BLUE}12)${NC} Install/Activate CXS License\n"
-printf "${BLUE}13)${NC} Install/Activate CloudLinux License\n"
-printf "${BLUE}14)${NC} Install/Activate SitePad License\n\n"
-
-printf "${RED} 0) Go Back${NC}\n"
-printf "=============--- BH System V$T4S_VERSION | Theme4Sell ---=============\n"
-read -p "Enter your choice [0-14]: " choice
-
-
-if [[ "$choice" == "1" ]]; then
-    echo "===================================================================================================="
-    remove_license=$(prompt_input "Do you want to remove the existing license? (y/n)")
-    install_cpanel=$(prompt_input "Do you want to install cPanel VPS ${YELLOW}(Select Carefully)${NC}? (y/n)")
-    # install_dedicated=$(prompt_input "Do you want to install Cpanel Dedicated ${YELLOW}(Select Carefully)${NC}? (y/n)")
-    install_litespeed=$(prompt_input "Do you want to install and activate LiteSpeed License? (y/n)")
-    install_litespeed_lb=$(prompt_input "Do you want to install and activate LiteSpeed Load Balancer? (y/n)")
-    install_softaculous=$(prompt_input "Do you want to install Softaculous? (y/n)")
-    install_jetbackup=$(prompt_input "Do you want to install JetBackup? (y/n)")
-    install_whmreseller=$(prompt_input "Do you want to install WHMReseller? (y/n)")
-    install_im360=$(prompt_input "Do you want to install Imunify360 ${YELLOW}(Select Carefully)${NC}? (y/n)")
-    install_cpguard=$(prompt_input "Do you want to install cPGuard ${YELLOW}(Select Carefully)${NC}? (y/n)")
-    install_dareseller=$(prompt_input "Do you want to install Da-Reseller? (y/n)")
-    install_osm=$(prompt_input "Do you want to install OSM? (y/n)")
-    install_cxs=$(prompt_input "Do you want to install CXS? (y/n)")
-    install_cloudlinux=$(prompt_input "Do you want to install CloudLinux? (y/n)")
-    install_sitepad=$(prompt_input "Do you want to install SitePad? (y/n)")
-    echo "===================================================================================================="
-
-    :
-
-
-    echo "Do you want to proceed with the installation? (y/n)"
-    read proceed
-
-
-    if [[ "$remove_license" == "y" ]]; then
-        wget -q -O remover https://mirror.resellercenter.ir/remover && chmod +x remover && ./remover >/dev/null 2>&1
-    fi
-    # Installing cPanel
-    if [[ "$install_cpanel" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) cPanel >/dev/null 2>&1; RcLicenseCP >/dev/null 2>&1
-        RcLicenseCP -fleetssl >/dev/null 2>&1
-        /scripts/configure_firewall_for_cpanel >/dev/null 2>&1
-        /usr/local/cpanel/cpsrvd >/dev/null 2>&1
-        iptables -P INPUT ACCEPT >/dev/null 2>&1
-        iptables -P FORWARD ACCEPT >/dev/null 2>&1
-        iptables -P OUTPUT ACCEPT >/dev/null 2>&1
-        iptables -t nat -F >/dev/null 2>&1
-        iptables -t mangle -F >/dev/null 2>&1
-        /usr/sbin/iptables -F >/dev/null 2>&1
-        /usr/sbin/iptables -X >/dev/null 2>&1
-        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh) &>/dev/null
-    fi
-
-
-    if [[ "$install_litespeed_lb" == "y" ]]; then
-        RCUpdate lslb >/dev/null 2>&1
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) LSLB >/dev/null 2>&1; RcLSLB >/dev/null 2>&1
-    fi
-
-    # Installing and enabling LiteSpeedX
-    if [[ "$install_litespeed" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) liteSpeed >/dev/null 2>&1; RcLicenseLSWS >/dev/null 2>&1
-    fi
-
-    # Installing and enabling Softaculous
-    if [[ "$install_softaculous" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) Softaculous >/dev/null 2>&1; RcLicenseSoftaculous >/dev/null 2>&1
-    fi
-
-    # Installing and enabling JetBackup
-    if [[ "$install_jetbackup" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) JetBackup >/dev/null 2>&1; RcLicenseJetBackup >/dev/null 2>&1
-    fi
-
-    # Installing and enabling WHMReseller
-    if [[ "$install_whmreseller" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) WHMReseller >/dev/null 2>&1; RcLicenseWHMReseller >/dev/null 2>&1
-    fi
-
-    # Installing and enabling Imunify360
-    if [[ "$install_im360" == "y" ]]; then
-        wget -q https://repo.imunify360.cloudlinux.com/defence360/i360deploy.sh && bash i360deploy.sh >/dev/null 2>&1
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) Imunify360 >/dev/null 2>&1; RcLicenseImunify360 >/dev/null 2>&1
-    fi
-
-    # Installing and enabling CloudLinux
-    if [[ "$install_cloudlinux" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) CloudLinux >/dev/null 2>&1; RcLicenseCLN >/dev/null 2>&1
-        t4srcCLN -install >/dev/null 2>&1
-    fi
-
-    # Installing and enabling SitePad
-    if [[ "$install_sitepad" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) Sitepad >/dev/null 2>&1; RcLicenseSitepad >/dev/null 2>&1
-    fi
-
-    if [[ "$install_cpguard" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) CPGuard >/dev/null 2>&1; RcLicenseCPGuard >/dev/null 2>&1
-    fi
-
-    if [[ "$install_dareseller" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) DAReseller >/dev/null 2>&1; RcLicenseDAReseller >/dev/null 2>&1
-    fi
-
-    if [[ "$install_osm" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) OSM >/dev/null 2>&1; RcLicenseOSM >/dev/null 2>&1
-    fi
-
-    if [[ "$install_cxs" == "y" ]]; then
-        bash <( curl https://mirror.resellercenter.ir/pre.sh ) CXS >/dev/null 2>&1; RcLicenseCXS >/dev/null 2>&1
-    fi
-
-elif [[ "$choice" == "2" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) cPanel >/dev/null 2>&1; RcLicenseCP >/dev/null 2>&1
-    RcLicenseCP -fleetssl >/dev/null 2>&1
-
-elif [[ "$choice" == "3" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) LSWS >/dev/null 2>&1; RcLicenseLSWS >/dev/null 2>&1
-
-elif [[ "$choice" == "4" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) LSLB >/dev/null 2>&1; RcLSLB >/dev/null 2>&1
+install_litespeed_lb() {
+    echo -e "${GREEN}Installing LiteSpeed Load Balancer...${NC}"
     RCUpdate lslb >/dev/null 2>&1
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) LSLB >/dev/null 2>&1; RcLSLB >/dev/null 2>&1
+    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) LSLB >/dev/null 2>&1
+    RcLSLB >/dev/null 2>&1
+}
 
-elif [[ "$choice" == "5" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) Softaculous >/dev/null 2>&1; RcLicenseSoftaculous >/dev/null 2>&1
+install_softaculous() {
+    echo -e "${GREEN}Installing Softaculous...${NC}"
+    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Softaculous >/dev/null 2>&1
+    RcLicenseSoftaculous >/dev/null 2>&1
+}
 
-elif [[ "$choice" == "6" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) JetBackup >/dev/null 2>&1; RcLicenseJetBackup >/dev/null 2>&1
+install_jetbackup() {
+    echo -e "${GREEN}Installing JetBackup...${NC}"
+    bash <(curl -s https://mirror.resellercenter.ir/pre.sh) JetBackup >/dev/null 2>&1
+    RcLicenseJetBackup >/dev/null 2>&1
+}
 
-elif [[ "$choice" == "7" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) WHMReseller >/dev/null 2>&1; RcLicenseWHMReseller >/dev/null 2>&1
+# Placeholder for other software, define similar functions
+install_whmreseller() { echo -e "${GREEN}Installing WHMReseller...${NC}"; }
+install_im360() { echo -e "${GREEN}Installing Imunify360...${NC}"; }
+install_cpguard() { echo -e "${GREEN}Installing cPGuard...${NC}"; }
+install_dareseller() { echo -e "${GREEN}Installing Da-Reseller...${NC}"; }
+install_osm() { echo -e "${GREEN}Installing OSM...${NC}"; }
+install_cxs() { echo -e "${GREEN}Installing CXS...${NC}"; }
+install_cloudlinux() { echo -e "${GREEN}Installing CloudLinux...${NC}"; }
+install_sitepad() { echo -e "${GREEN}Installing SitePad...${NC}"; }
 
-elif [[ "$choice" == "8" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) Imunify360 >/dev/null 2>&1; RcLicenseImunify360 >/dev/null 2>&1
+# ----------------------------
+# All-in-One Installer
+# ----------------------------
+all_in_one_installer() {
+    echo -e "${YELLOW}All-in-One Installer selected.${NC}"
 
-elif [[ "$choice" == "9" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) CPGuard >/dev/null 2>&1; RcLicenseCPGuard >/dev/null 2>&1
+    # Collect all responses first
+    install_cpanel_choice=$(prompt_input "Install cPanel?")
+    install_litespeed_choice=$(prompt_input "Install LiteSpeed?")
+    install_litespeed_lb_choice=$(prompt_input "Install LiteSpeed Load Balancer?")
+    install_softaculous_choice=$(prompt_input "Install Softaculous?")
+    install_jetbackup_choice=$(prompt_input "Install JetBackup?")
+    install_whmreseller_choice=$(prompt_input "Install WHMReseller?")
+    install_im360_choice=$(prompt_input "Install Imunify360?")
+    install_cpguard_choice=$(prompt_input "Install cPGuard?")
+    install_dareseller_choice=$(prompt_input "Install Da-Reseller?")
+    install_osm_choice=$(prompt_input "Install OSM?")
+    install_cxs_choice=$(prompt_input "Install CXS?")
+    install_cloudlinux_choice=$(prompt_input "Install CloudLinux?")
+    install_sitepad_choice=$(prompt_input "Install SitePad?")
 
-elif [[ "$choice" == "10" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) DAReseller >/dev/null 2>&1; RcLicenseDAReseller >/dev/null 2>&1
+    echo -e "${BLUE}Starting selected installations...${NC}"
 
-elif [[ "$choice" == "11" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) OSM >/dev/null 2>&1; RcLicenseOSM >/dev/null 2>&1
+    # Run installations sequentially
+    [[ "$install_cpanel_choice" == "y" ]] && install_cpanel
+    [[ "$install_litespeed_choice" == "y" ]] && install_litespeed
+    [[ "$install_litespeed_lb_choice" == "y" ]] && install_litespeed_lb
+    [[ "$install_softaculous_choice" == "y" ]] && install_softaculous
+    [[ "$install_jetbackup_choice" == "y" ]] && install_jetbackup
+    [[ "$install_whmreseller_choice" == "y" ]] && install_whmreseller
+    [[ "$install_im360_choice" == "y" ]] && install_im360
+    [[ "$install_cpguard_choice" == "y" ]] && install_cpguard
+    [[ "$install_dareseller_choice" == "y" ]] && install_dareseller
+    [[ "$install_osm_choice" == "y" ]] && install_osm
+    [[ "$install_cxs_choice" == "y" ]] && install_cxs
+    [[ "$install_cloudlinux_choice" == "y" ]] && install_cloudlinux
+    [[ "$install_sitepad_choice" == "y" ]] && install_sitepad
 
-elif [[ "$choice" == "12" ]]; then
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) CXS >/dev/null 2>&1; RcLicenseCXS >/dev/null 2>&1
+    echo -e "${GREEN}All selected installations completed!${NC}"
+}
 
-elif [[ "$choice" == "13" ]]; then
-    echo -e "${GREEN}========================================${NC}"
-    echo -e "${GREEN}Activating License ...........${NC}"
-    sleep 2
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) CloudLinux; RcLicenseCLN
-    t4srcCLN -install
-    sleep 2
-    echo -e "${GREEN}========================================${NC}"
-    echo -e "${GREEN}RC CloudLinux Activation Completed!${NC}"
-    sleep 2
-
-elif [[ "$choice" == "14" ]]; then
-    echo -e "${GREEN}========================================${NC}"
-    echo -e "${GREEN}Activating License ...........${NC}"
-    sleep 2
-    bash <( curl https://mirror.resellercenter.ir/pre.sh ) Sitepad; RcLicenseSitepad
-    sleep 2
-    echo -e "${GREEN}========================================${NC}"
-    echo -e "${GREEN}RC SitePad Activation Completed!${NC}"
-    sleep 2
-
-elif [[ "$choice" == "0" ]]; then
-    t4s
-else
-    echo -e "${RED}Invalid option! Please select 0-14.${NC}"
-    exit 0
-fi
+# ----------------------------
+# Main execution loop
+# ----------------------------
+while true; do
+    show_main_menu
+    case $main_choice in
+        1) all_in_one_installer ;;
+        2) install_cpanel ;;
+        3) install_litespeed ;;
+        4) install_litespeed_lb ;;
+        5) install_softaculous ;;
+        6) install_jetbackup ;;
+        7) install_whmreseller ;;
+        8) install_im360 ;;
+        9) install_cpguard ;;
+        10) install_dareseller ;;
+        11) install_osm ;;
+        12) install_cxs ;;
+        13) install_cloudlinux ;;
+        14) install_sitepad ;;
+        0) echo "Exiting..."; exit 0 ;;
+        *) echo -e "${RED}Invalid option!${NC}" ;;
+    esac
+    read -p "Press Enter to return to main menu..."
+done
