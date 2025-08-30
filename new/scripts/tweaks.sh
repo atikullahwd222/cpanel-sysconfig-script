@@ -25,12 +25,6 @@ whmapi1 set_tweaksetting key=referrersafety value=1 &>/dev/null
 whmapi1 set_tweaksetting key=cgihidepass value=1 &>/dev/null
 whmapi1 set_tweaksetting key=email_outbound_spam_detect_enable value=0 &>/dev/null
 
-# TimezoneDB
-yum install ea-php74-php-timezonedb ea-php80-php-timezonedb ea-php81-php-timezonedb ea-php82-php-timezonedb -y &>/dev/null
-systemctl restart httpd &>/dev/null
-for version in 74 80 81 82; do
-  /opt/cpanel/ea-php$version/root/usr/bin/php -m | grep -q timezonedb
-done
 
 # MySQL settings
 grep -q '^sql_mode=' /etc/my.cnf && sed -i 's/^sql_mode=.*/sql_mode=""'/ /etc/my.cnf || sed -i '/^\[mysqld\]/a sql_mode=""' /etc/my.cnf
