@@ -1,4 +1,6 @@
 #!/bin/bash
+HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
+
 
 # Define color codes
 RED='\033[0;31m'

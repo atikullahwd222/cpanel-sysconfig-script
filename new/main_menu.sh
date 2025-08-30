@@ -38,6 +38,9 @@ while true; do
             ;;
         2)
             echo -e "${YELLOW}You selected: RC License Script${NC}"
+            echo -e "${YELLOW}Redirecting....${NC}"
+            sleep 2
+            bash <(curl -fsSL $SCRIPT_URI/rc-system/rc.sh) || error_exit "Failed to execute RC System"
             ;;
         3)
             echo -e "${YELLOW}You selected: Syslic License Script${NC}"
