@@ -142,7 +142,7 @@ install_sitepad() {
 renew() {
     echo -e "${GREEN}Redirecting to Renewal Page...${NC}"
     sleep 2
-    t4s rc renew
+    t4s rc-renew
 }
 
 goback() {

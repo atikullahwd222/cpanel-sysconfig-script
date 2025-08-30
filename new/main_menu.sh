@@ -44,9 +44,7 @@ while true; do
             ;;
         3)
             echo -e "${YELLOW}You selected: Syslic License Script${NC}"
-            echo -e "${YELLOW}Redirecting....${NC}"
-            sleep 2
-            bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic.sh) || error_exit "Failed to execute RC System"
+            bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic.sh) || error_exit "Failed to execute Syslic System"
             ;;
         4)
             echo -e "${YELLOW}You selected: Official Plugin Installation${NC}"
@@ -61,7 +59,7 @@ while true; do
             ;;
         0)
             echo -e "${GREEN}Exiting...${NC}"
-            exit 0
+            exit 1
             ;;
         *)
             echo -e "${RED}Invalid choice! Please enter a number between 0 and 7.${NC}"
@@ -72,7 +70,7 @@ while true; do
     # Only pause for non-exit choices
     if [[ "$choice" != "0" ]]; then
         echo ""
-        exit 0
+        exit 1
     fi
 done
 

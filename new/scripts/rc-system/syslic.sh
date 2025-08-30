@@ -124,7 +124,7 @@ install_sitepad() {
 renew() {
     echo -e "${GREEN}Redirecting to Renewal Page...${NC}"
     sleep 2
-    t4s syslic renew
+    t4s syslic-renew
 }
 
 goback() {

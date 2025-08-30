@@ -36,7 +36,7 @@ show_main_menu() {
     clear
     source <(curl -sL $HEADER_URL)
 
-    echo -e "${BLUE}================ Syslic Renewal Manager ================${NC}"
+    echo -e "${BLUE}================ syslic-renewal Manager ================${NC}"
     echo -e " 1) Init the System ${RED}! Important !${NC}"
     echo -e " 2) All-in-One Auto Renewal (Beginner Friendly)"
     echo -e " 3) Renew cPanel License"

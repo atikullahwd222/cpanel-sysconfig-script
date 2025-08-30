@@ -140,31 +140,41 @@ flush_rules() {
 
 # --- Main ---
 case "$1" in
-    tools) bash <(curl -fsSL $SCRIPT_URI/tools.sh) || error_exit "Failed to execute Tools" ;;
-    rc)
-        if [[ "$2" == "renew" ]]; then
-            bash <(curl -fsSL $SCRIPT_URI/rc-system/rc-renew.sh) || error_exit "Failed to execute RC Renew"
-        else
-            bash <(curl -fsSL $SCRIPT_URI/rc-system/rc.sh) || error_exit "Failed to execute RC System"
-        fi
+    "tools")
+        bash <(curl -fsSL $SCRIPT_URI/tools.sh) || error_exit "Failed to execute Tools"
         ;;
-    syslic)
-        if [[ "$2" == "renew" ]]; then
-            bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic-renew.sh) || error_exit "Failed to execute Syslic Renew"
-        else
-            bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic.sh) || error_exit "Failed to execute Syslic"
-        fi
+    "rc")
+        bash <(curl -fsSL $SCRIPT_URI/rc-system/rc.sh) || error_exit "Failed to execute RC System"
         ;;
-    tweak) bash <(curl -fsSL $SCRIPT_URI/tweaks.sh) || error_exit "Failed to execute Tweak Settings" ;;
-    update) bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init.sh) || error_exit "Failed to update the script" ;;
-    "install")
-        [[ "$2" == "csf" ]] && bash <(curl -fsSL $SCRIPT_URI/csf.sh) || error_exit "Installation of CSF failed"
+    "rc-renew")
+        bash <(curl -fsSL $SCRIPT_URI/rc-system/rc-renew.sh) || error_exit "Failed to execute RC System"
         ;;
-    whitelist|allow|blacklist|block|delete)
-        [[ -z "$2" ]] && error_exit "Usage: $0 $1 <ip/domain>"
+    "syslic")
+        bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic.sh) || error_exit "Failed to execute Syslic"
+        ;;
+    "syslic-renew")
+        bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic-renew.sh) || error_exit "Failed to execute Syslic"
+        ;;
+    "tweak")
+        bash <(curl -fsSL $SCRIPT_URI/tweaks.sh) || error_exit "Failed to execute Tweak Settings"
+        ;;
+    "update")
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init.sh) || error_exit "Failed to update the script"
+        ;;
+    "install csf")
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/csf.sh) || error_exit "Installation of CSF failed"
+        ;;
+    "whitelist"|"allow"|"blacklist"|"block"|"delete")
+        [[ -z "$2" ]] && error_exit "Usage: $0 $1 <ip/domain/ip-cidr>"
         manage_ip "$1" "$2"
         ;;
-    flush|flush-all|flush_all|flushall|"flush all") flush_rules ;;
-    "") bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/main_menu.sh) || error_exit "Failed to execute t4s" ;;
-    *) error_exit "Unknown command: $1" ;;
+    "flush"|"flush-all"|"flush_all"|"flushall"|"flush all")
+        flush_rules
+        ;;
+    "")
+        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/main_menu.sh) || error_exit "Failed to execute t4s"
+        ;;
+    *)
+        error_exit "Unknown command: $1"
+        ;;
 esac
