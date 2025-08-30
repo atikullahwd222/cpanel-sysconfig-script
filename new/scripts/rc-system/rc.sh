@@ -38,7 +38,7 @@ while true; do
             bash <(curl -fsSL $SCRIPT_URI/rc-system/all-in-one.sh) || error_exit "Failed to execute All in One Script."
             ;;
         0)
-            echo -e "${GREEN}Exiting...${NC}"
+            echo -e "${GREEN}Going back to Main Menu...${NC}"
             t4s
             ;;
         *)

@@ -69,7 +69,7 @@ while true; do
     # Only pause for non-exit choices
     if [[ "$choice" != "0" ]]; then
         echo ""
-        read -p "Press Enter to return to menu..."
+        exit 0
     fi
 done
 
