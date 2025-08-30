@@ -1,5 +1,11 @@
 #!/bin/bash
-
+HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
+# Function to center text
+center() {
+    local text="$1"
+    local padding=$(( (WIDTH - ${#text}) / 2 ))
+    printf "%*s%s%*s\n" $padding "" "$text" $padding ""
+}
 # ----------------------------
 # Constants & Colors
 # ----------------------------
@@ -24,6 +30,8 @@ prompt_input() {
 # ----------------------------
 show_main_menu() {
     clear
+    source <(curl -sL $HEADER_URL)
+    
     echo -e "${BLUE}==================== RC System Installer ====================${NC}"
     echo -e " 1) All-in-One Auto Installer (Beginner Friendly)"
     echo -e " 2) Install/Activate cPanel License"
