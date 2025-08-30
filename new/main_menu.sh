@@ -44,6 +44,9 @@ while true; do
             ;;
         3)
             echo -e "${YELLOW}You selected: Syslic License Script${NC}"
+            echo -e "${YELLOW}Redirecting....${NC}"
+            sleep 2
+            bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic.sh) || error_exit "Failed to execute RC System"
             ;;
         4)
             echo -e "${YELLOW}You selected: Official Plugin Installation${NC}"
