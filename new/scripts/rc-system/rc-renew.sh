@@ -36,7 +36,7 @@ show_main_menu() {
     clear
     source <(curl -sL $HEADER_URL)
 
-    echo -e "${BLUE}============== RC System Installer ===============${NC}"
+    echo -e "${BLUE}============== RC System Renewal ===============${NC}"
     echo -e " 1) All-in-One Auto Renewal (Beginner Friendly)"
     echo -e " 2) Renew cPanel License"
     echo -e " 3) Renew LiteSpeed Web Server License"
