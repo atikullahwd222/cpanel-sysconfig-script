@@ -1,4 +1,0 @@
-#!/bin/bash
-
-SCRIPT_VERSION="1.0.0"
-TOOLS_VERSION="1.0.0"
