@@ -40,8 +40,7 @@ while true; do
 
     case $choice in
         1)
-            echo -e "${YELLOW}You selected: Server Basic Config${NC}"
-            # Place your code here later
+            bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/tweaks.sh) || error_exit "Failed to execute Twekas Settings"
             ;;
         2)
             echo -e "${YELLOW}You selected: RC License Script${NC}"
