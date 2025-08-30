@@ -19,14 +19,14 @@ show_menu() {
 
 
     # Menu options
-    echo -e "${GREEN}1)${NC} Server Basic Config (Before Installation) ${RED}[Required]${NC}"
-    echo -e "${GREEN}2)${NC} RC License Script"
-    echo -e "${GREEN}3)${NC} Syslic License Script"
-    echo -e "${GREEN}4)${NC} Official Plugin Installation"
-    echo -e "${GREEN}5)${NC} Official Plugin Uninstallation"
+    echo -e "${GREEN}1)${NC} Tweak Settings"
+    echo -e "${GREEN}2)${NC} PHP ini Config"
+    echo -e "${GREEN}3)${NC} Full Server Config"
+    echo -e "${GREEN}4)${NC} Allow IP"
+    echo -e "${GREEN}5)${NC} Block IP"
     echo -e "${GREEN}6)${NC} Auto Config"
-    echo -e "${GREEN}7)${NC} Tools"
-    echo -e "${GREEN}0)${NC} Exit"
+    echo -e "${GREEN}7)${NC} Flush Firewall"
+    echo -e "${GREEN}0)${NC} Back to Main Menu"
     echo ""
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
     echo ""
@@ -61,8 +61,8 @@ while true; do
             bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/tools.sh) || error_exit "Failed to execute Tools"
             ;;
         0)
-            echo -e "${GREEN}Exiting...${NC}"
-            exit 0
+            echo -e "${GREEN}Going back to main menu...${NC}"
+            t4s
             ;;
         *)
             echo -e "${RED}Invalid choice! Please enter a number between 0 and 7.${NC}"
