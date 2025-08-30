@@ -43,8 +43,6 @@ main() {
     display_header
 
     # Collect user inputs
-    echo -e "${BLUE}Please select the software to install:${NC}"
-    echo
     remove_license=$(prompt_input "Remove existing license?")
     install_cpanel=$(prompt_input "Install cPanel VPS? (Select Carefully)")
     install_litespeed=$(prompt_input "Install and activate LiteSpeed License?")
