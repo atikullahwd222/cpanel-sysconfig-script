@@ -20,6 +20,16 @@ RED=$(tput setaf 1)
 BLUE=$(tput setaf 4)
 RESET=$(tput sgr0)
 
+# Display warning and get confirmation
+echo "${RED}WARNING: Do the tweak and EA4 Setting and then come to ini config${RESET}"
+echo ""
+echo "${YELLOW}Are you sure you want to proceed with the PHP.ini modifications? (y/n)${RESET}"
+read -p "" confirmation
+if [[ ! "$confirmation" =~ ^[Yy]$ ]]; then
+    echo "${RED}Operation cancelled.${RESET}"
+    exit 0
+fi
+
 # Function to apply sed commands to a given php.ini file
 apply_changes() {
     local ini_file="$1"
@@ -34,7 +44,7 @@ apply_changes() {
         sed -i 's/^disable_functions =.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' "$ini_file"
         sed -i 's/^max_execution_time = .*/max_execution_time = 3000/' "$ini_file"
         sed -i 's/^max_input_time = .*/max_input_time = 6000/' "$ini_file"
-        sed -i 's/^max_input_vars =.*/max_input_vars = 1000/' "$ini_file"
+        sed -i 's/^;*max_input_vars =.*/max_input_vars = 1000/' "$ini_file"
         sed -i 's/^memory_limit = .*/memory_limit = 256M/' "$ini_file"
         sed -i 's/^post_max_size = .*/post_max_size = 256M/' "$ini_file"
         sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' "$ini_file"
