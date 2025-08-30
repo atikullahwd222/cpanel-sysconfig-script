@@ -40,10 +40,11 @@ while true; do
 
     case $choice in
         1)
-            bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/tweaks.sh) || error_exit "Failed to execute Twekas Settings"
+            bash <(curl -fsSL $SCRIPT_URI/tweaks.sh) || error_exit "Failed to execute Twekas Settings"
             ;;
         2)
-            echo -e "${YELLOW}You selected: RC License Script${NC}"
+            echo -e "${YELLOW}Running PHP ini Config...${NC}"
+            bash <(curl -fsSL $SCRIPT_URI/ini.sh) || error_exit "Failed to execute PHP ini Settings"
             ;;
         3)
             echo -e "${YELLOW}You selected: Syslic License Script${NC}"
@@ -58,7 +59,7 @@ while true; do
             echo -e "${YELLOW}You selected: Auto Config${NC}"
             ;;
         7)
-            bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/tools.sh) || error_exit "Failed to execute Tools"
+            bash <(curl -fsSL $SCRIPT_URI/tools.sh) || error_exit "Failed to execute Tools"
             ;;
         0)
             echo -e "${GREEN}Going back to main menu...${NC}"
