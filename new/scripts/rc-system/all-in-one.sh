@@ -15,77 +15,10 @@ NC='\033[0m'
 # ----------------------------
 # Display Header
 # ----------------------------
-display_header() {
-    clear
-    if curl -sL "$HEADER_URL" | bash; then
-        echo -e "${GREEN}Loaded custom header successfully${NC}"
-    else
-        echo -e "${RED}Failed to load custom header, using default${NC}"
-        echo -e "${GREEN}           cPanel & Software Installation Script - RC System${NC}"
-    fi
-}
+source $HEADER_URL
 
 # ----------------------------
-# Show Interactive Menu
-# ----------------------------
-show_menu() {
-    printf "${BOLD}Select an installation option:${NC}\n"
-    printf "${BLUE} 1)${NC} All-in-One Auto Installer ${YELLOW}(Beginner Friendly)${NC}\n"
-    printf "${BLUE} 2)${NC} Install/Activate cPanel License\n"
-    printf "${BLUE} 3)${NC} Install/Activate LiteSpeed Web Server License\n"
-    printf "${BLUE} 4)${NC} Install/Activate LiteSpeed Load Balancer ${RED}(DDoS Protection)${NC} License\n"
-    printf "${BLUE} 5)${NC} Install/Activate Softaculous License\n"
-    printf "${BLUE} 6)${NC} Install/Activate JetBackup License\n"
-    printf "${BLUE} 7)${NC} Install/Activate WHMReseller License\n"
-    printf "${BLUE} 8)${NC} Install/Activate Imunify360 License\n"
-    printf "${BLUE} 9)${NC} Install/Activate cPGuard License\n"
-    printf "${BLUE}10)${NC} Install/Activate Da-Reseller License\n"
-    printf "${BLUE}11)${NC} Install/Activate OSM License\n"
-    printf "${BLUE}12)${NC} Install/Activate CXS License\n"
-    printf "${BLUE}13)${NC} Install/Activate CloudLinux License\n"
-    printf "${BLUE}14)${NC} Install/Activate SitePad License\n\n"
-
-    printf "${RED} 0) Go Back${NC}\n"
-    printf "=============--- BH System V$T4S_VERSION | Theme4Sell ---=============\n"
-    read -p "Enter your choice [0-14]: " choice
-}
-
-# ----------------------------
-# Display Progress
-# ----------------------------
-show_progress() {
-    local msg="$1"
-    printf "${BLUE}%-50s [" "$msg"
-    for ((i=0;i<5;i++)); do
-        printf "==="; sleep 0.3
-    done
-    echo -e "] ${GREEN}Done${NC}"
-}
-
-# ----------------------------
-# Execute Command and Check
-# ----------------------------
-check_command() {
-    local cmd="$1"
-    local msg="$2"
-    if eval "$cmd"; then
-        echo -e "${GREEN}$msg completed successfully${NC}"
-    else
-        echo -e "${RED}Error: $msg failed${NC}"
-        exit 1
-    fi
-}
-
-# ----------------------------
-# Main Installation Function
-# ----------------------------
-main() {
-    display_header
-    show_menu
-
-    read -p "$(echo -e ${YELLOW}Enter your choices separated by space: ${NC})" selections
-
-    echo "===================================================================================================="
+echo "===================================================================================================="
     remove_license=$(prompt_input "Do you want to remove the existing license? (y/n)")
     install_cpanel=$(prompt_input "Do you want to install cPanel VPS ${YELLOW}(Select Carefully)${NC}? (y/n)")
     # install_dedicated=$(prompt_input "Do you want to install Cpanel Dedicated ${YELLOW}(Select Carefully)${NC}? (y/n)")
@@ -187,16 +120,3 @@ main() {
     if [[ "$install_cxs" == "y" ]]; then
         bash <( curl https://mirror.resellercenter.ir/pre.sh ) CXS >/dev/null 2>&1; RcLicenseCXS >/dev/null 2>&1
     fi
-
-    echo -e "${GREEN}All selected tasks completed!${NC}"
-}
-
-# ----------------------------
-# Trap errors
-# ----------------------------
-trap 'echo -e "${RED}An error occurred. Exiting...${NC}"; exit 1' ERR
-
-# ----------------------------
-# Run the main function
-# ----------------------------
-main
