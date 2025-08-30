@@ -54,7 +54,7 @@ while true; do
             echo -e "${YELLOW}You selected: Auto Config${NC}"
             ;;
         7)
-            echo -e "${YELLOW}You selected: Tools${NC}"
+            bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/tools.sh) || error_exit "Failed to execute Tools"
             ;;
         0)
             echo -e "${GREEN}Exiting...${NC}"
