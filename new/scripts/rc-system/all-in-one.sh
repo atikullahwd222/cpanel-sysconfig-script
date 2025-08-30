@@ -32,23 +32,25 @@ display_header() {
 # Show Interactive Menu
 # ----------------------------
 show_menu() {
-    echo -e "${CYAN}Select software to install (enter numbers separated by space):${NC}"
-    echo -e "${GREEN}1)${NC} Remove existing license"
-    echo -e "${GREEN}2)${NC} Install cPanel VPS"
-    echo -e "${GREEN}3)${NC} Install LiteSpeed License"
-    echo -e "${GREEN}4)${NC} Install LiteSpeed Load Balancer"
-    echo -e "${GREEN}5)${NC} Install Softaculous"
-    echo -e "${GREEN}6)${NC} Install JetBackup"
-    echo -e "${GREEN}7)${NC} Install WHMReseller"
-    echo -e "${GREEN}8)${NC} Install Imunify360"
-    echo -e "${GREEN}9)${NC} Install cPGuard"
-    echo -e "${GREEN}10)${NC} Install Da-Reseller"
-    echo -e "${GREEN}11)${NC} Install OSM"
-    echo -e "${GREEN}12)${NC} Install CXS"
-    echo -e "${GREEN}13)${NC} Install CloudLinux"
-    echo -e "${GREEN}14)${NC} Install SitePad"
-    echo -e "${GREEN}0)${NC} Exit"
-    echo
+    printf "${BOLD}Select an installation option:${NC}\n"
+    printf "${BLUE} 1)${NC} All-in-One Auto Installer ${YELLOW}(Beginner Friendly)${NC}\n"
+    printf "${BLUE} 2)${NC} Install/Activate cPanel License\n"
+    printf "${BLUE} 3)${NC} Install/Activate LiteSpeed Web Server License\n"
+    printf "${BLUE} 4)${NC} Install/Activate LiteSpeed Load Balancer ${RED}(DDoS Protection)${NC} License\n"
+    printf "${BLUE} 5)${NC} Install/Activate Softaculous License\n"
+    printf "${BLUE} 6)${NC} Install/Activate JetBackup License\n"
+    printf "${BLUE} 7)${NC} Install/Activate WHMReseller License\n"
+    printf "${BLUE} 8)${NC} Install/Activate Imunify360 License\n"
+    printf "${BLUE} 9)${NC} Install/Activate cPGuard License\n"
+    printf "${BLUE}10)${NC} Install/Activate Da-Reseller License\n"
+    printf "${BLUE}11)${NC} Install/Activate OSM License\n"
+    printf "${BLUE}12)${NC} Install/Activate CXS License\n"
+    printf "${BLUE}13)${NC} Install/Activate CloudLinux License\n"
+    printf "${BLUE}14)${NC} Install/Activate SitePad License\n\n"
+
+    printf "${RED} 0) Go Back${NC}\n"
+    printf "=============--- BH System V$T4S_VERSION | Theme4Sell ---=============\n"
+    read -p "Enter your choice [0-14]: " choice
 }
 
 # ----------------------------
