@@ -143,6 +143,18 @@ case "$1" in
     "tools")
         bash <(curl -fsSL $SCRIPT_URI/tools.sh) || error_exit "Failed to execute Tools"
         ;;
+    "rc")
+        bash <(curl -fsSL $SCRIPT_URI/rc-system/rc.sh) || error_exit "Failed to execute RC System"
+        ;;
+    "rc renew")
+        bash <(curl -fsSL $SCRIPT_URI/rc-system/rc-renew.sh) || error_exit "Failed to execute RC System"
+        ;;
+    "syslic")
+        bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic.sh) || error_exit "Failed to execute Syslic"
+        ;;
+    "syslic renew")
+        bash <(curl -fsSL $SCRIPT_URI/rc-system/syslic-renew.sh) || error_exit "Failed to execute Syslic"
+        ;;
     "tweak")
         bash <(curl -fsSL $SCRIPT_URI/tweaks.sh) || error_exit "Failed to execute Tweak Settings"
         ;;
