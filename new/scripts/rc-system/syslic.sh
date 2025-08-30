@@ -209,5 +209,4 @@ while true; do
         0) goback ;;
         *) echo -e "${RED}Invalid option!${NC}" ;;
     esac
-    read -p "Press Enter to return to main menu..."
 done

@@ -231,5 +231,4 @@ while true; do
         0) echo "Exiting... Redirecting to t4s rc"; t4s rc;;
         *) echo -e "${RED}Invalid option!${NC}" ;;
     esac
-    read -p "Press Enter to return to main menu..."
 done
