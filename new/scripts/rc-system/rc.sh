@@ -109,6 +109,30 @@ all_in_one_installer() {
     install_cloudlinux_choice=$(prompt_input "Install CloudLinux?")
     install_sitepad_choice=$(prompt_input "Install SitePad?")
 
+    # Display summary of choices
+    echo -e "${BLUE}================== Summary of Selected Installations ==================${NC}"
+    echo -e "cPanel:              ${install_cpanel_choice}"
+    echo -e "LiteSpeed:           ${install_litespeed_choice}"
+    echo -e "LiteSpeed LB:        ${install_litespeed_lb_choice}"
+    echo -e "Softaculous:         ${install_softaculous_choice}"
+    echo -e "JetBackup:           ${install_jetbackup_choice}"
+    echo -e "WHMReseller:         ${install_whmreseller_choice}"
+    echo -e "Imunify360:          ${install_im360_choice}"
+    echo -e "cPGuard:             ${install_cpguard_choice}"
+    echo -e "Da-Reseller:         ${install_dareseller_choice}"
+    echo -e "OSM:                 ${install_osm_choice}"
+    echo -e "CXS:                 ${install_cxs_choice}"
+    echo -e "CloudLinux:          ${install_cloudlinux_choice}"
+    echo -e "SitePad:             ${install_sitepad_choice}"
+    echo -e "${BLUE}======================================================================${NC}"
+
+    # Double confirmation
+    confirm=$(prompt_input "Are you sure you want to proceed with all selected installations?")
+    if [[ "$confirm" != "y" ]]; then
+        echo -e "${RED}Installation aborted by user.${NC}"
+        return
+    fi
+
     echo -e "${BLUE}Starting selected installations...${NC}"
 
     # Run installations sequentially
