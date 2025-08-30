@@ -26,7 +26,10 @@ show_menu() {
     echo -e "${GREEN}4)${NC} Allow IP"
     echo -e "${GREEN}5)${NC} Block IP"
     echo -e "${GREEN}6)${NC} Flush Firewall"
-    echo -e "${GREEN}0)${NC} Back to Main Menu"
+    echo -e "${GREEN}7)${NC} Reset All DNS Zones"
+    echo -e "${GREEN}8)${NC} Suspend All Accounts"
+    echo -e "${GREEN}9)${NC} Unsuspend All Accounts"
+    echo -e "${YELLOW}0)${NC} Back to Main Menu"
     echo ""
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
     echo ""
@@ -35,7 +38,7 @@ show_menu() {
 # Loop until valid choice
 while true; do
     show_menu
-    read -p "$(echo -e ${CYAN}Enter your choice [0-7]: ${NC})" choice
+    read -p "$(echo -e ${CYAN}Enter your choice [0-9]: ${NC})" choice
 
     case $choice in
         1)
@@ -64,7 +67,37 @@ while true; do
             t4s block "$target_ip"
             ;;
         6)
-            bash <(curl -fsSL $SCRIPT_URI/tools.sh) || error_exit "Failed to execute Tools"
+            echo -e "${YELLOW}Flushing DNS cache...${NC}"
+            echo -e "${RED}⚠️ ⚠️ ⚠️${NC}"
+            echo -e "${RED}Do not modify nameserver configuration files while this process runs.${NC}"
+            read -p "${YELLOW}Press Enter wehn you are ready... ${NC}${RED}Ctrl+C to cancel${NC}" dummy
+            /usr/local/cpanel/scripts/cleandns
+
+            /scripts/configure_firewall_for_cpanel
+            /usr/local/cpanel/cpsrvd
+            iptables -P INPUT ACCEPT
+            iptables -P FORWARD ACCEPT
+            iptables -P OUTPUT ACCEPT
+            iptables -t nat -F
+            iptables -t mangle -F
+            /usr/sbin/iptables -F
+            /usr/sbin/iptables -X
+            ;;
+        7)
+            echo -e "${YELLOW}Resetting all DNS zones...${NC}"
+            bash <(curl -fsSL $SCRIPT_URI/reset_all_dns_zone.sh) || error_exit "Failed to execute Tools"
+            ;;
+        8)
+            echo -e "${YELLOW}Suspending all accounts...${NC}"
+            for user in $(ls /var/cpanel/suspended/); do
+                /scripts/unsuspendacct $user
+            done
+            ;;
+        9)
+            echo -e "${YELLOW}Unsuspending all accounts...${NC}"
+            for user in $(ls /var/cpanel/suspended/); do
+                /scripts/unsuspendacct $user
+            done
             ;;
         0)
             echo -e "${GREEN}Going back to main menu...${NC}"

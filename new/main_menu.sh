@@ -35,7 +35,6 @@ while true; do
     case $choice in
         1)
             echo -e "${YELLOW}You selected: Server Basic Config${NC}"
-            # Place your code here later
             ;;
         2)
             echo -e "${YELLOW}You selected: RC License Script${NC}"
@@ -64,7 +63,10 @@ while true; do
             ;;
     esac
 
-    # Pause before returning to menu
-    echo ""
-    read -p "Press Enter to return to menu..."
+    # Only pause for non-exit choices
+    if [[ "$choice" != "0" ]]; then
+        echo ""
+        read -p "Press Enter to return to menu..."
+    fi
 done
+
