@@ -1,6 +1,4 @@
-```bash
 #!/bin/bash
-
 # Constants
 HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
 
@@ -205,4 +203,3 @@ trap 'echo -e "${RED}An error occurred. Exiting...${NC}"; exit 1' ERR
 
 # Execute main function
 main
-```
