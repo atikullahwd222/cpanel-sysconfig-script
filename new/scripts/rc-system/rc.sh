@@ -30,12 +30,12 @@ while true; do
 
     case $choice in
         1)
+            echo -e "${YELLOW}Redirecting to the System Setup Script...${NC}"
+            ;;
+        2)
             echo -e "${YELLOW}Redirecting to All in one Script....${NC}"
             sleep 2
             bash <(curl -fsSL $SCRIPT_URI/rc-system/all-in-one.sh) || error_exit "Failed to execute All in One Script."
-            ;;
-        2)
-            echo -e "${YELLOW}You selected: RC License Script${NC}"
             ;;
         0)
             echo -e "${GREEN}Exiting...${NC}"
