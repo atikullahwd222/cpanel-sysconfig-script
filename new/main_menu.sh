@@ -1,6 +1,5 @@
 #!/bin/bash
 HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
-
 # Function to center text
 center() {
     local text="$1"

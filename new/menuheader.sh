@@ -8,7 +8,7 @@ CYAN="\033[0;36m"
 NC="\033[0m" # No Color
 
 # Version
-VERSION="1.0"
+SCRIPT_VERSION="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/version.sh"
 
 # Width of the menu
 WIDTH=50
@@ -23,7 +23,7 @@ center() {
 # Header
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
     echo -e "${BLUE}$(center "🌟 Theme4Sell Configuration Menu 🌟")${NC}"
-    echo -e "${BLUE}$(center "Version $VERSION")${NC}"
+    echo -e "${BLUE}$(center "Version $SCRIPT_VERSION")${NC}"
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
     echo ""
 
