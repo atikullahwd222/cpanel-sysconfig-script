@@ -1,8 +1,20 @@
 #!/bin/bash
-# Constants
+
+# ----------------------------
+# Constants and Colors
+# ----------------------------
 HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
 
-# Function to display header
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+# ----------------------------
+# Display Header
+# ----------------------------
 display_header() {
     clear
     echo -e "${BLUE}================================================================================${NC}"
@@ -16,26 +28,44 @@ display_header() {
     echo
 }
 
-# Function to prompt user input with color
-prompt_input() {
-    local prompt="$1"
-    printf "${YELLOW}%-50s${NC} ${GREEN}[y/n]: ${NC}" "$prompt"
-    read -r response
-    echo "$response" | tr '[:upper:]' '[:lower:]'
+# ----------------------------
+# Show Interactive Menu
+# ----------------------------
+show_menu() {
+    echo -e "${CYAN}Select software to install (enter numbers separated by space):${NC}"
+    echo -e "${GREEN}1)${NC} Remove existing license"
+    echo -e "${GREEN}2)${NC} Install cPanel VPS"
+    echo -e "${GREEN}3)${NC} Install LiteSpeed License"
+    echo -e "${GREEN}4)${NC} Install LiteSpeed Load Balancer"
+    echo -e "${GREEN}5)${NC} Install Softaculous"
+    echo -e "${GREEN}6)${NC} Install JetBackup"
+    echo -e "${GREEN}7)${NC} Install WHMReseller"
+    echo -e "${GREEN}8)${NC} Install Imunify360"
+    echo -e "${GREEN}9)${NC} Install cPGuard"
+    echo -e "${GREEN}10)${NC} Install Da-Reseller"
+    echo -e "${GREEN}11)${NC} Install OSM"
+    echo -e "${GREEN}12)${NC} Install CXS"
+    echo -e "${GREEN}13)${NC} Install CloudLinux"
+    echo -e "${GREEN}14)${NC} Install SitePad"
+    echo -e "${GREEN}0)${NC} Exit"
+    echo
 }
 
-# Function to display progress bar
+# ----------------------------
+# Display Progress
+# ----------------------------
 show_progress() {
     local msg="$1"
     printf "${BLUE}%-50s [" "$msg"
-    for ((i=0; i<5; i++)); do
-        printf "==="
-        sleep 0.5 # Slower animation for visibility
+    for ((i=0;i<5;i++)); do
+        printf "==="; sleep 0.3
     done
     echo -e "] ${GREEN}Done${NC}"
 }
 
-# Function to check command success
+# ----------------------------
+# Execute Command and Check
+# ----------------------------
 check_command() {
     local cmd="$1"
     local msg="$2"
@@ -47,152 +77,92 @@ check_command() {
     fi
 }
 
-# Main installation function
+# ----------------------------
+# Main Installation Function
+# ----------------------------
 main() {
     display_header
+    show_menu
 
-    # Collect user inputs
-    echo -e "${BLUE}Select software to install:${NC}"
-    echo
-    remove_license=$(prompt_input "Remove existing license?")
-    install_cpanel=$(prompt_input "Install cPanel VPS? (Select Carefully)")
-    install_litespeed=$(prompt_input "Install and activate LiteSpeed License?")
-    install_litespeed_lb=$(prompt_input "Install and activate LiteSpeed Load Balancer?")
-    install_softaculous=$(prompt_input "Install Softaculous?")
-    install_jetbackup=$(prompt_input "Install JetBackup?")
-    install_whmreseller=$(prompt_input "Install WHMReseller?")
-    install_im360=$(prompt_input "Install Imunify360? (Select Carefully)")
-    install_cpguard=$(prompt_input "Install cPGuard? (Select Carefully)")
-    install_dareseller=$(prompt_input "Install Da-Reseller?")
-    install_osm=$(prompt_input "Install OSM?")
-    install_cxs=$(prompt_input "Install CXS?")
-    install_cloudlinux=$(prompt_input "Install CloudLinux?")
-    install_sitepad=$(prompt_input "Install SitePad?")
-    echo -e "${BLUE}================================================================================${NC}"
-    echo
+    read -p "$(echo -e ${YELLOW}Enter your choices separated by space: ${NC})" selections
 
-    # Display summary of selections
-    echo -e "${BLUE}Installation Summary:${NC}"
-    echo -e "${YELLOW}Remove License: ${GREEN}$remove_license${NC}"
-    echo -e "${YELLOW}cPanel VPS: ${GREEN}$install_cpanel${NC}"
-    echo -e "${YELLOW}LiteSpeed: ${GREEN}$install_litespeed${NC}"
-    echo -e "${YELLOW}LiteSpeed Load Balancer: ${GREEN}$install_litespeed_lb${NC}"
-    echo -e "${YELLOW}Softaculous: ${GREEN}$install_softaculous${NC}"
-    echo -e "${YELLOW}JetBackup: ${GREEN}$install_jetbackup${NC}"
-    echo -e "${YELLOW}WHMReseller: ${GREEN}$install_whmreseller${NC}"
-    echo -e "${YELLOW}Imunify360: ${GREEN}$install_im360${NC}"
-    echo -e "${YELLOW}cPGuard: ${GREEN}$install_cpguard${NC}"
-    echo -e "${YELLOW}Da-Reseller: ${GREEN}$install_dareseller${NC}"
-    echo -e "${YELLOW}OSM: ${GREEN}$install_osm${NC}"
-    echo -e "${YELLOW}CXS: ${GREEN}$install_cxs${NC}"
-    echo -e "${YELLOW}CloudLinux: ${GREEN}$install_cloudlinux${NC}"
-    echo -e "${YELLOW}SitePad: ${GREEN}$install_sitepad${NC}"
-    echo -e "${BLUE}================================================================================${NC}"
-    echo
+    for choice in $selections; do
+        case $choice in
+            1)
+                show_progress "Removing existing license"
+                check_command "wget -q -O remover https://mirror.resellercenter.ir/remover && chmod +x remover && ./remover" "License removal"
+                ;;
+            2)
+                show_progress "Installing cPanel VPS"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) cPanel && RcLicenseCP && RcLicenseCP -fleetssl && /scripts/configure_firewall_for_cpanel" "cPanel installation"
+                ;;
+            3)
+                show_progress "Installing LiteSpeed License"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) liteSpeed && RcLicenseLSWS" "LiteSpeed installation"
+                ;;
+            4)
+                show_progress "Installing LiteSpeed Load Balancer"
+                check_command "RCUpdate lslb && bash <(curl -s https://mirror.resellercenter.ir/pre.sh) LSLB && RcLSLB" "LiteSpeed Load Balancer installation"
+                ;;
+            5)
+                show_progress "Installing Softaculous"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Softaculous && RcLicenseSoftaculous" "Softaculous installation"
+                ;;
+            6)
+                show_progress "Installing JetBackup"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) JetBackup && RcLicenseJetBackup" "JetBackup installation"
+                ;;
+            7)
+                show_progress "Installing WHMReseller"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) WHMReseller && RcLicenseWHMReseller" "WHMReseller installation"
+                ;;
+            8)
+                show_progress "Installing Imunify360"
+                check_command "wget -q https://repo.imunify360.cloudlinux.com/defence360/i360deploy.sh && bash i360deploy.sh && bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Imunify360 && RcLicenseImunify360" "Imunify360 installation"
+                ;;
+            9)
+                show_progress "Installing cPGuard"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) CPGuard && RcLicenseCPGuard" "cPGuard installation"
+                ;;
+            10)
+                show_progress "Installing Da-Reseller"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) DAReseller && RcLicenseDAReseller" "Da-Reseller installation"
+                ;;
+            11)
+                show_progress "Installing OSM"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) OSM && RcLicenseOSM" "OSM installation"
+                ;;
+            12)
+                show_progress "Installing CXS"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) CXS && RcLicenseCXS" "CXS installation"
+                ;;
+            13)
+                show_progress "Installing CloudLinux"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) CloudLinux && RcLicenseCLN && t4srcCLN -install" "CloudLinux installation"
+                ;;
+            14)
+                show_progress "Installing SitePad"
+                check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Sitepad && RcLicenseSitepad" "SitePad installation"
+                ;;
+            0)
+                echo -e "${GREEN}Exiting...${NC}"
+                exit 0
+                ;;
+            *)
+                echo -e "${RED}Invalid choice: $choice${NC}"
+                ;;
+        esac
+    done
 
-    # Confirmation
-    printf "${YELLOW}Proceed with the installation?${NC} ${GREEN}[y/n]: ${NC}"
-    read proceed
-    proceed=$(echo "$proceed" | tr '[:upper:]' '[:lower:]')
-
-    if [[ "$proceed" != "y" ]]; then
-        echo -e "${RED}Installation aborted by user.${NC}"
-        exit 1
-    fi
-
-    echo -e "${BLUE}Starting installation process...${NC}"
-    echo
-
-    # Remove existing license
-    if [[ "$remove_license" == "y" ]]; then
-        show_progress "Removing existing license"
-        check_command "wget -q -O remover https://mirror.resellercenter.ir/remover && chmod +x remover && ./remover" "License removal"
-    fi
-
-    # Install cPanel
-    if [[ "$install_cpanel" == "y" ]]; then
-        show_progress "cPanel VPS"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) cPanel && RcLicenseCP && RcLicenseCP -fleetssl && /scripts/configure_firewall_for_cpanel && /usr/local/cpanel/cpsrvd && iptables -P INPUT ACCEPT && iptables -P FORWARD ACCEPT && iptables -P OUTPUT ACCEPT && iptables -t nat -F && iptables -t mangle -F && /usr/sbin/iptables -F && /usr/sbin/iptables -X && bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/tweak.sh)" "cPanel installation"
-    fi
-
-    # Install LiteSpeed Load Balancer
-    if [[ "$install_litespeed_lb" == "y" ]]; then
-        show_progress "LiteSpeed Load Balancer"
-        check_command "RCUpdate lslb && bash <(curl -s https://mirror.resellercenter.ir/pre.sh) LSLB && RcLSLB" "LiteSpeed Load Balancer installation"
-    fi
-
-    # Install LiteSpeed
-    if [[ "$install_litespeed" == "y" ]]; then
-        show_progress "LiteSpeed"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) liteSpeed && RcLicenseLSWS" "LiteSpeed installation"
-    fi
-
-    # Install Softaculous
-    if [[ "$install_softaculous" == "y" ]]; then
-        show_progress "Softaculous"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Softaculous && RcLicenseSoftaculous" "Softaculous installation"
-    fi
-
-    # Install JetBackup
-    if [[ "$install_jetbackup" == "y" ]]; then
-        show_progress "JetBackup"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) JetBackup && RcLicenseJetBackup" "JetBackup installation"
-    fi
-
-    # Install WHMReseller
-    if [[ "$install_whmreseller" == "y" ]]; then
-        show_progress "WHMReseller"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) WHMReseller && RcLicenseWHMReseller" "WHMReseller installation"
-    fi
-
-    # Install Imunify360
-    if [[ "$install_im360" == "y" ]]; then
-        show_progress "Imunify360"
-        check_command "wget -q https://repo.imunify360.cloudlinux.com/defence360/i360deploy.sh && bash i360deploy.sh && bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Imunify360 && RcLicenseImunify360" "Imunify360 installation"
-    fi
-
-    # Install CloudLinux
-    if [[ "$install_cloudlinux" == "y" ]]; then
-        show_progress "CloudLinux"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) CloudLinux && RcLicenseCLN && t4srcCLN -install" "CloudLinux installation"
-    fi
-
-    # Install SitePad
-    if [[ "$install_sitepad" == "y" ]]; then
-        show_progress "SitePad"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) Sitepad && RcLicenseSitepad" "SitePad installation"
-    fi
-
-    # Install cPGuard
-    if [[ "$install_cpguard" == "y" ]]; then
-        show_progress "cPGuard"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) CPGuard && RcLicenseCPGuard" "cPGuard installation"
-    fi
-
-    # Install Da-Reseller
-    if [[ "$install_dareseller" == "y" ]]; then
-        show_progress "Da-Reseller"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) DAReseller && RcLicenseDAReseller" "Da-Reseller installation"
-    fi
-
-    # Install OSM
-    if [[ "$install_osm" == "y" ]]; then
-        show_progress "OSM"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) OSM && RcLicenseOSM" "OSM installation"
-    fi
-
-    # Install CXS
-    if [[ "$install_cxs" == "y" ]]; then
-        show_progress "CXS"
-        check_command "bash <(curl -s https://mirror.resellercenter.ir/pre.sh) CXS && RcLicenseCXS" "CXS installation"
-    fi
-
-    echo -e "${GREEN}Installation completed successfully!${NC}"
-    echo -e "${BLUE}================================================================================${NC}"
+    echo -e "${GREEN}All selected tasks completed!${NC}"
 }
 
-# Trap errors and display message
+# ----------------------------
+# Trap errors
+# ----------------------------
 trap 'echo -e "${RED}An error occurred. Exiting...${NC}"; exit 1' ERR
 
-# Execute main function
+# ----------------------------
+# Run the main function
+# ----------------------------
 main
