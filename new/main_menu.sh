@@ -20,8 +20,7 @@ show_menu() {
     echo -e "${GREEN}3)${NC} Syslic License Script"
     echo -e "${GREEN}4)${NC} Official Plugin Installation"
     echo -e "${GREEN}5)${NC} Official Plugin Uninstallation"
-    echo -e "${GREEN}6)${NC} Auto Config"
-    echo -e "${GREEN}7)${NC} Tools"
+    echo -e "${GREEN}6)${NC} Tools"
     echo -e "${GREEN}0)${NC} Exit"
     echo ""
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
@@ -51,9 +50,6 @@ while true; do
             echo -e "${YELLOW}You selected: Official Plugin Uninstallation${NC}"
             ;;
         6)
-            echo -e "${YELLOW}You selected: Auto Config${NC}"
-            ;;
-        7)
             echo -e "${YELLOW}Returning to Tools...${NC}"
             sleep 1
             bash <(curl -fsSL $SCRIPT_URI/tools.sh) || error_exit "Failed to execute Tools"
