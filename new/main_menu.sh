@@ -58,54 +58,44 @@ while true; do
             echo -e "${YELLOW}Updating hosts file...${NC}"
             echo "$server_ip $hostname $hostname_prefix" | tee -a /etc/hosts &>/dev/null &
             spinner $!
-            log "Updated /etc/hosts with $server_ip $hostname $hostname_prefix"
 
             echo -e "${YELLOW}Configuring DNS...${NC}"
             echo "nameserver 8.8.8.8" | tee /etc/resolv.conf &>/dev/null
             echo "nameserver 8.8.4.4" | tee -a /etc/resolv.conf &>/dev/null &
             spinner $!
-            log "Configured DNS with Google nameservers"
 
             echo -e "${YELLOW}Installing AlmaLinux release...${NC}"
             yum install almalinux-release -y &>/dev/null &
             spinner $!
-            log "Installed AlmaLinux release"
 
             echo -e "${YELLOW}Installing nano...${NC}"
             yum install nano -y &>/dev/null &
             spinner $!
-            log "Installed nano"
 
             echo -e "${YELLOW}Setting timezone to Asia/Dhaka...${NC}"
             timedatectl set-timezone Asia/Dhaka &>/dev/null &
             spinner $!
-            log "Set timezone to Asia/Dhaka"
 
             echo -e "${YELLOW}Updating packages...${NC}"
             yum update -y &>/dev/null &
             spinner $!
-            log "Updated system packages"
 
             echo -e "${YELLOW}Installing curl and perl...${NC}"
             yum install perl curl -y &>/dev/null &
             spinner $!
-            log "Installed curl and perl"
 
             echo -e "${YELLOW}Configuring firewall for WHM...${NC}"
             iptables-save > ~/firewall.rules &>/dev/null
             systemctl stop firewalld.service &>/dev/null
             systemctl disable firewalld.service &>/dev/null &
             spinner $!
-            log "Disabled firewalld and saved iptables"
 
             clear
             echo -e "${RED}Server configuration complete. Reboot required.${NC}"
             echo -e "${GREEN}Press Ctrl+C to skip reboot, or wait 30 seconds.${NC}"
-            log "Prompting for system reboot"
             sleep 30
             echo -e "${GREEN}After reboot, run 't4s' to continue.${NC}"
             echo -e "${RED}Rebooting...${NC}"
-            log "Initiating system reboot"
             reboot now
             ;;
         2)
