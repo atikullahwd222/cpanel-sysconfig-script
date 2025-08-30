@@ -80,7 +80,4 @@ while true; do
             sleep 2
             ;;
     esac
-
-    echo ""
-    read -p "Press Enter to continue..." dummy
 done
