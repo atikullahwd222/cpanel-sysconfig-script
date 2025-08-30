@@ -31,8 +31,8 @@ prompt_input() {
 show_main_menu() {
     clear
     source <(curl -sL $HEADER_URL)
-    
-    echo -e "${BLUE}==================== RC System Installer ====================${NC}"
+
+    echo -e "${BLUE}============== RC System Installer ===============${NC}"
     echo -e " 1) All-in-One Auto Installer (Beginner Friendly)"
     echo -e " 2) Install/Activate cPanel License"
     echo -e " 3) Install/Activate LiteSpeed Web Server License"
@@ -48,7 +48,7 @@ show_main_menu() {
     echo -e "13) Install/Activate CloudLinux License"
     echo -e "14) Install/Activate SitePad License"
     echo -e " 0) Exit"
-    echo -e "${BLUE}============================================================${NC}"
+    echo -e "${BLUE}==================================================${NC}"
     read -p "Enter your choice [0-14]: " main_choice
 }
 
