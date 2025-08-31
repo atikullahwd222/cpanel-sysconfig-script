@@ -95,7 +95,7 @@ renew_whmreseller() {
 
 renew_im360() {
     echo -e "${GREEN}Renewing Imunify360...${NC}"
-    RcLicenseImunify360
+    bash <( curl https://mirror.resellercenter.ir/pre.sh ) Imunify360; RcLicenseImunify360
 }
 
 renew_cpguard() {
