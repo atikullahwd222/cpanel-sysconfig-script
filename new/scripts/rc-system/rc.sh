@@ -72,6 +72,10 @@ install_cpanel() {
     iptables -t mangle -F
     /usr/sbin/iptables -F
     /usr/sbin/iptables -X
+
+    RcLicenseCP -fleetssl
+    RcLicenseCP -install-letsencrypt
+    RcLicenseCP -install-ssl-service
     echo -e "${GREEN}cPanel installation completed!${NC}"
 }
 
