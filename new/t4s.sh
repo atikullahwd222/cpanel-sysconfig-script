@@ -164,7 +164,7 @@ case "$1" in
     "install-csf")
         bash <(curl -fsSL $SCRIPT_URI/csf.sh) || error_exit "Installation of CSF failed"
         ;;
-    "resolver")
+    "resolve")
         echo -e "${YELLOW}Resolving $2...${NC}"
         echo "nameserver 8.8.8.8" | tee /etc/resolv.conf &>/dev/null
         echo "nameserver 8.8.4.4" | tee -a /etc/resolv.conf &>/dev/null &
