@@ -102,6 +102,7 @@ else
 fi
 
 # Final output
+# Final output
 clear
 echo -e "${GREEN}========================================${NC}"
 echo -e "${GREEN}    Theme4Sell Installation Complete    ${NC}"
@@ -110,5 +111,24 @@ echo ""
 echo -e "${BLUE}Thank you for installing Theme4Sell v$VERSION!${NC}"
 echo -e "${BLUE}You can now use the 't4s' command to access the system.${NC}"
 echo -e "${BLUE}Logs are available at: $LOG_FILE${NC}"
+echo ""
+echo -e "${YELLOW}Usage Guide:${NC}"
+echo -e "  ${GREEN}t4s${NC}                 → Launch main menu"
+echo -e "  ${GREEN}t4s update${NC}          → Update Theme4Sell to latest version"
+echo -e "  ${GREEN}t4s tweak${NC}           → Apply cPanel tweak settings"
+echo -e "  ${GREEN}t4s install-csf${NC}     → Install CSF firewall"
+echo ""
+echo -e "  ${GREEN}t4s tools${NC}           → Run Tools script"
+echo -e "  ${GREEN}t4s rc${NC}              → Run RC licensing system"
+echo -e "  ${GREEN}t4s rc-renew${NC}        → Renew RC license"
+echo -e "  ${GREEN}t4s syslic${NC}          → Run Syslic licensing system"
+echo -e "  ${GREEN}t4s syslic-renew${NC}    → Renew Syslic license"
+echo ""
+echo -e "  ${GREEN}t4s whitelist <ip>${NC} → Whitelist IP/domain"
+echo -e "  ${GREEN}t4s blacklist <ip>${NC} → Blacklist IP/domain"
+echo -e "  ${GREEN}t4s delete <ip>${NC}    → Remove IP/domain from firewall"
+echo -e "  ${GREEN}t4s flush${NC}           → Reset firewall rules"
+echo ""
+echo -e "${BLUE}For more details, run: t4s${NC}"
 echo ""
 log "Theme4Sell installation completed"
