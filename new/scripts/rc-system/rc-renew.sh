@@ -95,10 +95,7 @@ renew_whmreseller() {
 
 renew_im360() {
     echo -e "${GREEN}Renewing Imunify360...${NC}"
-    wget https://repo.imunify360.cloudlinux.com/defence360/i360deploy.sh -O i360deploy.sh
-    bash i360deploy.sh
     RcLicenseImunify360
-    rm -rf i360deploy.sh
 }
 
 renew_cpguard() {
