@@ -39,7 +39,8 @@ apply_changes() {
         echo "${GREEN}Backup created: ${YELLOW}$ini_file.bak${RESET}"
         
         sed -i 's/^zlib.output_compression = .*/zlib.output_compression = On/' "$ini_file"
-        sed -i 's/^disable_functions =.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' "$ini_file"
+        sed -i 's/^disable_functions =.*/disable_functions = mail/' "$ini_file"
+        # sed -i 's/^disable_functions =.*/disable_functions = show_source, system, shell_exec, passthru, exec, mail/' "$ini_file"
         sed -i 's/^max_execution_time = .*/max_execution_time = 30000/' "$ini_file"
         sed -i 's/^max_input_time = .*/max_input_time = 60000/' "$ini_file"
         sed -i 's/^;*max_input_vars =.*/max_input_vars = 10000/' "$ini_file"
