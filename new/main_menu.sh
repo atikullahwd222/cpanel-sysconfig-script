@@ -131,7 +131,7 @@ while true; do
             exit 0
             ;;
         *)
-            echo -e "${RED}Invalid choice! Please enter a number between 0 and 7.${NC}"
+            echo -e "${RED}Invalid choice! Please enter a number between 0 and 6.${NC}"
             sleep 2
             ;;
     esac
