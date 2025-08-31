@@ -133,6 +133,7 @@ install_cxs() {
 install_cloudlinux() {
     echo -e "${GREEN}Installing CloudLinux...${NC}"
     bash <( curl https://mirror.resellercenter.ir/pre.sh ) CloudLinux; RcLicenseCLN
+    RcLicenseCLN -install
 }
 install_sitepad() {
     echo -e "${GREEN}Installing SitePad...${NC}"
