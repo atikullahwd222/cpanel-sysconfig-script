@@ -229,23 +229,21 @@ while true; do
     show_main_menu
     case $main_choice in
         1) all_in_one_installer ;;
-        2) install_cpanel ;;
-        3) install_litespeed ;;
-        4) install_litespeed_lb ;;
-        5) install_softaculous ;;
-        6) install_jetbackup ;;
-        7) install_whmreseller ;;
-        8) install_im360 ;;
-        9) install_cpguard ;;
-        10) install_dareseller ;;
-        11) install_osm ;;
-        12) install_cxs ;;
-        13) install_cloudlinux ;;
-        14) install_sitepad ;;
-        14) install_sitepad ;;
-        15) renew ;;
+        2) install_cpanel ; read -p "Press Enter to continue..." ;;
+        3) install_litespeed ; read -p "Press Enter to continue..." ;;
+        4) install_litespeed_lb ; read -p "Press Enter to continue..." ;;
+        5) install_softaculous ; read -p "Press Enter to continue..." ;;
+        6) install_jetbackup ; read -p "Press Enter to continue..." ;;
+        7) install_whmreseller ; read -p "Press Enter to continue..." ;;
+        8) install_im360 ; read -p "Press Enter to continue..." ;;
+        9) install_cpguard ; read -p "Press Enter to continue..." ;;
+        10) install_dareseller ; read -p "Press Enter to continue..." ;;
+        11) install_osm ; read -p "Press Enter to continue..." ;;
+        12) install_cxs ; read -p "Press Enter to continue..." ;;
+        13) install_cloudlinux ; read -p "Press Enter to continue..." ;;
+        14) install_sitepad ; read -p "Press Enter to continue..." ;;
+        15) renew ; read -p "Press Enter to continue..." ;;
         0) goback ;;
         *) echo -e "${RED}Invalid option!${NC}" ;;
     esac
 done
-    read -p "Press Enter to continue..."
