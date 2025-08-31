@@ -29,6 +29,7 @@ show_menu() {
     echo -e "${GREEN}7)${NC} Reset All DNS Zones"
     echo -e "${GREEN}8)${NC} Suspend All Accounts"
     echo -e "${GREEN}9)${NC} Unsuspend All Accounts"
+    echo -e "${GREEN}10)${NC} Disable Root mail sendings"
     echo -e "${YELLOW}0)${NC} Back to Main Menu"
     echo ""
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
@@ -98,6 +99,20 @@ while true; do
             for user in $(ls /var/cpanel/suspended/); do
                 /scripts/unsuspendacct $user
             done
+            ;;
+        10)
+            echo -e "${YELLOW}Disabling root mail sendings...${NC}"
+            read -p "Are you sure you want to disable all root mail sendings? (y/n): " confirm
+            if [[ "$confirm" == "y" ]]; then
+                whmapi1 set_tweaksetting key=skipdiskusage value=0
+                whmapi1 set_tweaksetting key=skipdiskcheck value=0
+                whmapi1 set_tweaksetting key=skipoomcheck value=1
+                whmapi1 set_tweaksetting key=skipboxcheck value=0
+                whmapi1 set_tweaksetting key=skipbwlimitcheck value=1
+                whmapi1 set_tweaksetting key=notify_expiring_certificates value=0
+            else
+                echo -e "${RED}Operation cancelled.${NC}"
+            fi
             ;;
         0)
             echo -e "${GREEN}Going back to main menu...${NC}"
