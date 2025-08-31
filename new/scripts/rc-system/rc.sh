@@ -218,6 +218,7 @@ all_in_one_installer() {
     [[ "$install_sitepad_choice" == "y" ]] && install_sitepad
 
     echo -e "${GREEN}All selected installations completed!${NC}"
+    read -p "Press Enter to continue..."
 }
 
 # ----------------------------
@@ -246,3 +247,4 @@ while true; do
         *) echo -e "${RED}Invalid option!${NC}" ;;
     esac
 done
+    read -p "Press Enter to continue..."
