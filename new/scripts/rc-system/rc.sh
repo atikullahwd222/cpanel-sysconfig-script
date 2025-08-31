@@ -46,8 +46,9 @@ show_main_menu() {
     echo -e "11) Install/Activate OSM License"
     echo -e "12) Install/Activate CXS License"
     echo -e "13) Install/Activate CloudLinux License"
-    echo -e "14) Install/Activate SitePad License"
-    echo -e "${CYAN}15) Renew Licenses${NC}"
+    echo -e "14) Install Cloudlinux Packages"
+    echo -e "15) Install/Activate SitePad License"
+    echo -e "${CYAN}16) Renew Licenses${NC}"
     echo -e " 0) Exit"
     echo -e "${BLUE}==================================================${NC}"
     read -p "Enter your choice [0-14]: " main_choice
@@ -134,6 +135,11 @@ install_cloudlinux() {
     echo -e "${GREEN}Installing CloudLinux...${NC}"
     bash <( curl https://mirror.resellercenter.ir/pre.sh ) CloudLinux; RcLicenseCLN
     RcLicenseCLN -install
+}
+
+install_cloudlinux_packages() {
+    echo -e "${GREEN}Installing CloudLinux Packages...${NC}"
+    yum groupinstall alt-nodejs alt-php alt-python alt-ruby -y && yum install alt-nodejs22 alt-nodejs24 alt-php83 alt-php84 alt-php44 alt-python312 alt-python313 alt-ruby33 alt-ruby34 -y
 }
 install_sitepad() {
     echo -e "${GREEN}Installing SitePad...${NC}"
@@ -241,8 +247,9 @@ while true; do
         11) install_osm ; read -p "Press Enter to continue..." ;;
         12) install_cxs ; read -p "Press Enter to continue..." ;;
         13) install_cloudlinux ; read -p "Press Enter to continue..." ;;
-        14) install_sitepad ; read -p "Press Enter to continue..." ;;
-        15) renew ; read -p "Press Enter to continue..." ;;
+        14) install_cloudlinux_packages ; read -p "Press Enter to continue..." ;;
+        15) install_sitepad ; read -p "Press Enter to continue..." ;;
+        16) renew ; read -p "Press Enter to continue..." ;;
         0) goback ;;
         *) echo -e "${RED}Invalid option!${NC}" ;;
     esac
