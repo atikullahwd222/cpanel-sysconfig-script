@@ -206,6 +206,7 @@ all_in_one_renewal() {
     [[ "$renew_sitepad_choice" == "y" ]] && renew_sitepad
 
     echo -e "${GREEN}All selected renewals completed!${NC}"
+    read -p "Press Enter to continue..."
 }
 
 # ----------------------------
@@ -215,19 +216,19 @@ while true; do
     show_main_menu
     case $main_choice in
         1) all_in_one_renewal ;;
-        2) renew_cpanel ;;
-        3) renew_litespeed ;;
-        4) renew_litespeed_lb ;;
-        5) renew_softaculous ;;
-        6) renew_jetbackup ;;
-        7) renew_whmreseller ;;
-        8) renew_im360 ;;
-        9) renew_cpguard ;;
-        10) renew_dareseller ;;
-        11) renew_osm ;;
-        12) renew_cxs ;;
-        13) renew_cloudlinux ;;
-        14) renew_sitepad ;;
+        2) renew_cpanel ; read -p "Press Enter to continue...";;
+        3) renew_litespeed ; read -p "Press Enter to continue...";;
+        4) renew_litespeed_lb ; read -p "Press Enter to continue...";;
+        5) renew_softaculous ; read -p "Press Enter to continue...";;
+        6) renew_jetbackup ; read -p "Press Enter to continue...";;
+        7) renew_whmreseller ; read -p "Press Enter to continue...";;
+        8) renew_im360 ; read -p "Press Enter to continue...";;
+        9) renew_cpguard ; read -p "Press Enter to continue...";;
+        10) renew_dareseller ; read -p "Press Enter to continue...";;
+        11) renew_osm ; read -p "Press Enter to continue...";;
+        12) renew_cxs ; read -p "Press Enter to continue...";;
+        13) renew_cloudlinux ; read -p "Press Enter to continue...";;
+        14) renew_sitepad ; read -p "Press Enter to continue...";;
         15) rc ;;
         0) echo "Exiting... Redirecting to t4s rc"; t4s rc;;
         *) echo -e "${RED}Invalid option!${NC}" ;;

@@ -177,6 +177,7 @@ all_in_one_renewal() {
     [[ "$renew_sitepad_choice" == "y" ]] && renew_sitepad
 
     echo -e "${GREEN}All selected renewals completed!${NC}"
+    read -p "Press Enter to continue..."
 }
 
 # ----------------------------
@@ -187,14 +188,14 @@ while true; do
     case $main_choice in
         1) init_system ;;
         2) all_in_one_renewal ;;
-        3) renew_cpanel ;;
-        4) renew_litespeed ;;
-        5) renew_softaculous ;;
-        6) renew_jetbackup ;;
-        7) renew_whmreseller ;;
-        8) renew_im360 ;;
-        9) renew_cloudlinux ;;
-        10) renew_sitepad ;;
+        3) renew_cpanel ; read -p "Press Enter to continue..." ;;
+        4) renew_litespeed ; read -p "Press Enter to continue..." ;;
+        5) renew_softaculous ; read -p "Press Enter to continue..." ;;
+        6) renew_jetbackup ; read -p "Press Enter to continue..." ;;
+        7) renew_whmreseller ; read -p "Press Enter to continue..." ;;
+        8) renew_im360 ; read -p "Press Enter to continue..." ;;
+        9) renew_cloudlinux ; read -p "Press Enter to continue..." ;;
+        10) renew_sitepad ; read -p "Press Enter to continue..." ;;
         11) syslic ;;
         0) goback ;;
         *) echo -e "${RED}Invalid option!${NC}" ;;

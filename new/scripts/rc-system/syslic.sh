@@ -187,6 +187,7 @@ all_in_one_installer() {
     [[ "$install_sitepad_choice" == "y" ]] && install_sitepad
 
     echo -e "${GREEN}All selected installations completed!${NC}"
+    read -p "Press Enter to continue..."
 }
 
 # ----------------------------
@@ -197,14 +198,14 @@ while true; do
     case $main_choice in
         1) init_system ;;
         2) all_in_one_installer ;;
-        3) install_cpanel ;;
-        4) install_litespeed ;;
-        5) install_softaculous ;;
-        6) install_jetbackup ;;
-        7) install_whmreseller ;;
-        8) install_im360 ;;
-        9) install_cloudlinux ;;
-        10) install_sitepad ;;
+        3) install_cpanel ; read -p "Press Enter to continue..." ;;
+        4) install_litespeed ; read -p "Press Enter to continue..." ;;
+        5) install_softaculous ; read -p "Press Enter to continue..." ;;
+        6) install_jetbackup ; read -p "Press Enter to continue..." ;;
+        7) install_whmreseller ; read -p "Press Enter to continue..." ;;
+        8) install_im360 ; read -p "Press Enter to continue..." ;;
+        9) install_cloudlinux ; read -p "Press Enter to continue..." ;;
+        10) install_sitepad ; read -p "Press Enter to continue..." ;;
         11) renew ;;
         0) goback ;;
         *) echo -e "${RED}Invalid option!${NC}" ;;
