@@ -93,6 +93,14 @@ log "Set executable permissions for $T4S_PATH"
 
 # Verify installation
 if [ -x "$T4S_PATH" ]; then
+    # Add cron job only if not already present
+    if ! crontab -l 2>/dev/null | grep -q "/usr/local/bin/t4s flush"; then
+        (crontab -l 2>/dev/null; echo "@reboot /usr/local/bin/t4s flush > /dev/null 2>&1") | crontab -
+        log "Added @reboot cron job for t4s flush"
+    else
+        log "Cron job for t4s flush already exists, skipping"
+    fi
+
     echo -e "${GREEN}Verification complete: Theme4Sell script installed successfully${NC}"
     log "Installation verified successfully"
 else
