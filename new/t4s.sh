@@ -164,6 +164,12 @@ case "$1" in
     "install-csf")
         bash <(curl -fsSL $SCRIPT_URI/csf.sh) || error_exit "Installation of CSF failed"
         ;;
+    "ssl")
+        echo -e "${GREEN}SSL certificates reconfiguration Srtarting...${NC}"
+        /usr/local/cpanel/scripts/install_lets_encrypt_autossl_provider
+        /usr/local/cpanel/bin/checkallsslcerts
+        echo -e "${GREEN}SSL certificates reconfiguration completed.${NC}"
+        ;;
     "resolve")
         echo -e "${YELLOW}Resolving $2...${NC}"
         echo "nameserver 8.8.8.8" | tee /etc/resolv.conf &>/dev/null
