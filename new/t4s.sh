@@ -176,7 +176,7 @@ case "$1" in
         fi
 
         # Fetch remote version
-        REMOTE_VERSION=$(curl -fsSL "$REMOTE_HEADER_URL" | grep 'SCRIPT_VERSION=' | cut -d'"' -f2) \
+        REMOTE_VERSION=$(curl -fsSL "$REMOTE_HEADER_URL" | grep 'LOCAL_SCRIPT_VERSION=' | cut -d'"' -f2) \
             || { echo -e "${RED}Failed to fetch remote version.${NC}"; exit 1; }
 
         # Compare versions

@@ -9,8 +9,9 @@ NC="\033[0m" # No Color
 
 # Version
 SCRIPT_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts"
-SCRIPT_VERSION="2.1.1"
-TOOLS_VERSION="2.1.1"
+LOCAL_SCRIPT_VERSION="2.1.1"
+SCRIPT_VERSION="1.0.0"
+TOOLS_VERSION="1.0.0"
 
 spinner() {
     local pid=$1
