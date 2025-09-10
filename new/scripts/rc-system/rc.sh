@@ -60,7 +60,7 @@ show_main_menu() {
 install_cpanel() {
     echo -e "${GREEN}Installing cPanel...${NC}"
     sleep 2
-    cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest --tier=stable
+    # cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest --tier=stable
     bash <( curl https://mirror.resellercenter.ir/pre.sh ) cPanel; RcLicenseCP
     t4s tweak
     /scripts/configure_firewall_for_cpanel
