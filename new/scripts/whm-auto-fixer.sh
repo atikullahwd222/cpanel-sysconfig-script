@@ -16,7 +16,7 @@ if [ "$1" == "resolved" ]; then
     
     RESOLVED_MESSAGE="🎉 **WHM Accessibility Issue Solved!** 🎉\n\n**Server:** $HOST ($IP)\n**Date:** $(date)\nThe WHM server is now accessible and fully operational ✅"
     
-    echo "$(date) - Manual resolved trigger called, sending celebration message" >> "$LOGFILE"
+    echo "$(date) - Manual resolved trigger called, sending celebration message Server: $HOST ($IP)" >> "$LOGFILE"
     
     # Telegram
     TELEGRAM_BOT_TOKEN="8173063501:AAG6zIL8f8xgQO7Bg-63rq_NdqKuGEoY8-E"
