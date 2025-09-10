@@ -184,7 +184,6 @@ case "$1" in
             echo -e "${GREEN}Update available!${NC} Local: $LOCAL_VERSION → Remote: $REMOTE_VERSION"
             echo -e "${YELLOW}Updating t4s automatically...${NC}"
             bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init) || error_exit "Failed to update the script"
-            chmod +x "$LOCAL_SCRIPT"
             echo -e "${GREEN}t4s updated successfully to version $REMOTE_VERSION!${NC}"
         else
             echo -e "${GREEN}t4s is up to date (version $LOCAL_VERSION).${NC}"
