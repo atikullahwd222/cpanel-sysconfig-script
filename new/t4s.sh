@@ -4,7 +4,7 @@ YELLOW="\033[0;33m"
 GREEN="\033[0;32m"
 RED="\033[0;31m"
 NC="\033[0m"
-LOCAL_SCRIPT_VERSION="1.0.0"
+LOCAL_SCRIPT_VERSION="2.1.1"
 HOSTNAME=$(hostname)
 SCRIPT_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts"
 
