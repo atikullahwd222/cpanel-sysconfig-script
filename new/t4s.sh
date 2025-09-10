@@ -4,7 +4,7 @@ YELLOW="\033[0;33m"
 GREEN="\033[0;32m"
 RED="\033[0;31m"
 NC="\033[0m"
-
+LOCAL_SCRIPT_VERSION="1.0.0"
 HOSTNAME=$(hostname)
 SCRIPT_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts"
 
@@ -160,6 +160,35 @@ case "$1" in
         ;;
     "update")
         bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init) || error_exit "Failed to update the script"
+        ;;
+    "check-for-update")
+        echo -e "${YELLOW}Checking for updates...${NC}"
+
+        LOCAL_SCRIPT="/usr/local/bin/t4s"
+        REMOTE_HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
+
+        # Get local version
+        if [[ -f "$LOCAL_SCRIPT" ]]; then
+            LOCAL_VERSION=$(grep 'LOCAL_SCRIPT_VERSION=' "$LOCAL_SCRIPT" | cut -d'"' -f2)
+        else
+            echo -e "${RED}Local t4s script not found at $LOCAL_SCRIPT${NC}"
+            exit 1
+        fi
+
+        # Fetch remote version
+        REMOTE_VERSION=$(curl -fsSL "$REMOTE_HEADER_URL" | grep 'SCRIPT_VERSION=' | cut -d'"' -f2) \
+            || { echo -e "${RED}Failed to fetch remote version.${NC}"; exit 1; }
+
+        # Compare versions
+        if [[ "$REMOTE_VERSION" != "$LOCAL_VERSION" ]]; then
+            echo -e "${GREEN}Update available!${NC} Local: $LOCAL_VERSION → Remote: $REMOTE_VERSION"
+            echo -e "${YELLOW}Updating t4s automatically...${NC}"
+            bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init) || error_exit "Failed to update the script"
+            chmod +x "$LOCAL_SCRIPT"
+            echo -e "${GREEN}t4s updated successfully to version $REMOTE_VERSION!${NC}"
+        else
+            echo -e "${GREEN}t4s is up to date (version $LOCAL_VERSION).${NC}"
+        fi
         ;;
     "install-csf")
         bash <(curl -fsSL $SCRIPT_URI/csf.sh) || error_exit "Installation of CSF failed"
