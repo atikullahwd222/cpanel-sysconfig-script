@@ -31,6 +31,7 @@ show_menu() {
     echo -e "${GREEN}4)${NC} Official Plugin Installation"
     echo -e "${GREEN}5)${NC} Official Plugin Uninstallation"
     echo -e "${GREEN}6)${NC} Tools"
+    echo -e "${GREEN}7)${NC} Init t4s Server Fixer"
     echo -e "${GREEN}0)${NC} Exit"
     echo ""
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
@@ -126,6 +127,19 @@ while true; do
             sleep 1
             bash <(curl -fsSL $SCRIPT_URI/tools.sh)
             ;;
+        7)
+            echo -e "${YELLOW}You selected: Init t4s Server Fixer${NC}"
+            echo -e "${YELLOW}Downloading t4s server care script...${NC}"
+            curl -fsSL "https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/whm-auto-fixer.sh" -o /usr/local/bin/t4s_server_care
+            chmod +x /usr/local/bin/t4s_server_care
+
+            echo -e "${YELLOW}Setting up cronjob to run every 5 minutes...${NC}"
+            (crontab -l 2>/dev/null; echo "*/5 * * * * /usr/local/bin/t4s_server_care") | crontab -
+
+            echo -e "${GREEN}t4s Server Fixer initialized successfully!${NC}"
+            sleep 3
+            ;;
+
         0)
             echo -e "${GREEN}Exiting...${NC}"
             exit 0
