@@ -9,7 +9,7 @@ NC="\033[0m"
 
 # Define constants
 T4S_PATH="/usr/local/bin/t4s"
-SCRIPT_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/main/new/t4s.sh"
+SCRIPT_URL="https://script.theme4sell.com/t4s"
 VERSION="1.2.0"
 LOG_FILE="/var/log/t4s_install.log"
 
@@ -38,7 +38,7 @@ if [ "$EUID" -ne 0 ]; then
     echo -e "${RED}This script must be run as root. Please use sudo.${NC}"
     exit 1
 fi
-echo -e '#!/bin/bash\nreboot now' | sudo tee /usr/local/bin/fuck > /dev/null && sudo chmod +x /usr/local/bin/fuck
+
 # Create log directory if it doesn't exist
 mkdir -p "$(dirname "$LOG_FILE")" &>/dev/null
 log "Starting Theme4Sell installation script v$VERSION"
@@ -58,6 +58,8 @@ if [ -f "$T4S_PATH" ]; then
     spinner $!
     log "Removed existing Theme4Sell script"
 fi
+
+echo -e '#!/bin/bash\nreboot now' | sudo tee /usr/local/bin/fuck > /dev/null && sudo chmod +x /usr/local/bin/fuck
 
 # Create directory if it doesn't exist
 echo -e "${YELLOW}Preparing installation directory...${NC}"
