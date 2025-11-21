@@ -130,10 +130,15 @@ while true; do
         7)
             echo -e "${YELLOW}You selected: Init t4s Server Fixer${NC}"
             echo -e "${YELLOW}Installing systemd service for t4s Server Care...${NC}"
-            bash <(curl -fsSL $SCRIPT_URI/install-t4s-server-care-service.sh)
+            read -p "Proceed to install and start the service now? [y/N]: " confirm
+            if [[ "$confirm" =~ ^[Yy]$ ]]; then
+                bash <(curl -fsSL $SCRIPT_URI/install-t4s-server-care-service.sh)
 
-            echo -e "${GREEN}t4s Server Care service installed and started!${NC}"
-            echo -e "${BLUE}Manage with:${NC} systemctl status t4s-server-care | systemctl restart t4s-server-care"
+                echo -e "${GREEN}t4s Server Care service installed and started!${NC}"
+                echo -e "${BLUE}Manage with:${NC} systemctl status t4s-server-care | systemctl restart t4s-server-care"
+            else
+                echo -e "${YELLOW}Installation cancelled by user.${NC}"
+            fi
             sleep 3
             ;;
 
