@@ -129,14 +129,11 @@ while true; do
             ;;
         7)
             echo -e "${YELLOW}You selected: Init t4s Server Fixer${NC}"
-            echo -e "${YELLOW}Downloading t4s server care script...${NC}"
-            curl -fsSL "https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/whm-auto-fixer.sh" -o /usr/local/bin/t4s_server_care
-            chmod +x /usr/local/bin/t4s_server_care
+            echo -e "${YELLOW}Installing systemd service for t4s Server Care...${NC}"
+            bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/install-t4s-server-care-service.sh)
 
-            echo -e "${YELLOW}Setting up cronjob to run every 5 minutes...${NC}"
-            (crontab -l 2>/dev/null; echo "*/5 * * * * /usr/local/bin/t4s_server_care") | crontab -
-
-            echo -e "${GREEN}t4s Server Fixer initialized successfully!${NC}"
+            echo -e "${GREEN}t4s Server Care service installed and started!${NC}"
+            echo -e "${BLUE}Manage with:${NC} systemctl status t4s-server-care | systemctl restart t4s-server-care"
             sleep 3
             ;;
 
