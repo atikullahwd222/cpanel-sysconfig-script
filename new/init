@@ -52,6 +52,13 @@ echo -e "${BLUE}           Version $VERSION            ${NC}"
 echo -e "${BLUE}========================================${NC}"
 echo ""
 
+for f in /usr/local/bin/t4s*; do
+    [ -e "$f" ] || break
+    rm -f "$f" &>/dev/null &
+    spinner $!
+    log "Removed legacy file $f"
+done
+
 # Remove old file if it exists
 if [ -f "$T4S_PATH" ]; then
     echo -e "${YELLOW}Removing previous Theme4Sell installation...${NC}"
