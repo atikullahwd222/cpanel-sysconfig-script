@@ -11,7 +11,7 @@ SERVICE_NAME="t4s-server-care.service"
 BIN_PATH="/usr/local/bin/t4s_server_care"
 ENV_FILE="/etc/default/t4s_server_care"
 UNIT_PATH="/etc/systemd/system/${SERVICE_NAME}"
-REPO_SCRIPT_PATH="http://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/whm-auto-fixer.sh"
+REPO_SCRIPT_PATH="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/whm-auto-fixer.sh"
 
 require_root() {
   if [ "${EUID:-$(id -u)}" -ne 0 ]; then
@@ -21,11 +21,20 @@ require_root() {
 }
 
 install_binary() {
-  if [ ! -f "$REPO_SCRIPT_PATH" ]; then
-    echo "Cannot find whm-auto-fixer.sh next to this installer (looked at: $REPO_SCRIPT_PATH)" >&2
-    exit 1
-  fi
-  install -m 0755 "$REPO_SCRIPT_PATH" "$BIN_PATH"
+  case "$REPO_SCRIPT_PATH" in
+    http://*|https://*)
+      echo "Downloading auto-fixer from: $REPO_SCRIPT_PATH"
+      curl -fsSL "$REPO_SCRIPT_PATH" -o "$BIN_PATH"
+      chmod 0755 "$BIN_PATH"
+      ;;
+    *)
+      if [ ! -f "$REPO_SCRIPT_PATH" ]; then
+        echo "Cannot find whm-auto-fixer.sh (looked at: $REPO_SCRIPT_PATH)" >&2
+        exit 1
+      fi
+      install -m 0755 "$REPO_SCRIPT_PATH" "$BIN_PATH"
+      ;;
+  esac
   echo "Installed: $BIN_PATH"
 }
 
