@@ -7,11 +7,15 @@ BLUE="\033[1;34m"
 CYAN="\033[0;36m"
 NC="\033[0m" # No Color
 
-# Version
-SCRIPT_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts"
-LOCAL_SCRIPT_VERSION="2.1.1"
-SCRIPT_VERSION="2.1.1"
-TOOLS_VERSION="2.1.1"
+# Version (centralized)
+BASE_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new"
+SCRIPT_URI="$BASE_URI/scripts"
+# Read toolkit and component versions from central version.sh
+VERS_CONTENT=$(curl -fsSL "$BASE_URI/version.sh" 2>/dev/null || true)
+T4S_VERSION=$(printf "%s" "$VERS_CONTENT" | grep '^T4S_VERSION=' | cut -d '"' -f2)
+T4S_MENU_VERSION=$(printf "%s" "$VERS_CONTENT" | grep '^T4S_MENU_VERSION=' | cut -d '"' -f2)
+T4S_FIXER_VERSION=$(printf "%s" "$VERS_CONTENT" | grep '^T4S_FIXER_VERSION=' | cut -d '"' -f2)
+SCRIPT_VERSION="${T4S_VERSION:-unknown}"
 
 spinner() {
     local pid=$1
@@ -40,7 +44,8 @@ center() {
 # Header
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
     echo -e "${BLUE}$(center "🌟 Theme4Sell Configuration Menu 🌟")${NC}"
-    echo -e "${BLUE}$(center "Version $SCRIPT_VERSION")${NC}"
+    echo -e "${BLUE}$(center "Toolkit: ${T4S_VERSION:-unknown}")${NC}"
+    echo -e "${BLUE}$(center "Menu: ${T4S_MENU_VERSION:-unknown}  |  Fixer: ${T4S_FIXER_VERSION:-unknown}")${NC}"
     echo -e "${BLUE}$(printf '=%.0s' $(seq 1 $WIDTH))${NC}"
     echo ""
 

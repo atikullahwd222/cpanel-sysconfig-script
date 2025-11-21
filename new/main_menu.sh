@@ -1,7 +1,9 @@
 #!/bin/bash
 
-HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
-SCRIPT_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new"
+LOCAL_SCRIPT_VERSION="1.0.0"
+BASE_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new"
+HEADER_URL="$BASE_URI/menuheader.sh"
+SCRIPT_URI="$BASE_URI"
 
 # Colors
 RED='\033[0;31m'

@@ -11,13 +11,15 @@ SERVICE_NAME="t4s-server-care.service"
 BIN_PATH="/usr/bin/t4s_server_care"
 ENV_FILE="/etc/default/t4s_server_care"
 UNIT_PATH="/etc/systemd/system/${SERVICE_NAME}"
-REPO_SCRIPT_PATH="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/whm-auto-fixer.sh"
+# Base GitHub raw path
+BASE_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new"
+REPO_SCRIPT_PATH="$BASE_URI/scripts/whm-auto-fixer.sh"
 
 # Updater artifacts
 UPDATER_BIN="/usr/bin/update-t4s-server-care"
 UPDATER_SERVICE="/etc/systemd/system/t4s-server-care-update.service"
 UPDATER_TIMER="/etc/systemd/system/t4s-server-care-update.timer"
-UPDATER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/update-t4s-server-care.sh"
+UPDATER_URL="$BASE_URI/scripts/update-t4s-server-care.sh"
 
 require_root() {
   if [ "${EUID:-$(id -u)}" -ne 0 ]; then

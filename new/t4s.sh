@@ -6,7 +6,9 @@ RED="\033[0;31m"
 NC="\033[0m"
 LOCAL_SCRIPT_VERSION="2.1.1"
 HOSTNAME=$(hostname)
-SCRIPT_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts"
+# Base GitHub raw path for this repo/branch
+BASE_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new"
+SCRIPT_URI="$BASE_URI/scripts"
 
 # Ensure curl is installed
 if ! command -v curl &> /dev/null; then
@@ -159,13 +161,13 @@ case "$1" in
         bash <(curl -fsSL $SCRIPT_URI/tweaks.sh) || error_exit "Failed to execute Tweak Settings"
         ;;
     "update")
-        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init) || error_exit "Failed to update the script"
+        bash <(curl -fsSL "$BASE_URI/init") || error_exit "Failed to update the script"
         ;;
     "check-for-update")
         echo -e "${YELLOW}Checking for updates...${NC}"
 
         LOCAL_SCRIPT="/usr/bin/t4s"
-        REMOTE_HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
+        REMOTE_VERSION_URL="$BASE_URI/version.sh"
 
         # Get local version
         if [[ -f "$LOCAL_SCRIPT" ]]; then
@@ -175,15 +177,15 @@ case "$1" in
             exit 1
         fi
 
-        # Fetch remote version
-        REMOTE_VERSION=$(curl -fsSL "$REMOTE_HEADER_URL" | grep 'LOCAL_SCRIPT_VERSION=' | cut -d'"' -f2) \
+        # Fetch remote version from central version.sh
+        REMOTE_VERSION=$(curl -fsSL "$REMOTE_VERSION_URL" | grep '^T4S_VERSION=' | cut -d '"' -f2) \
             || { echo -e "${RED}Failed to fetch remote version.${NC}"; exit 1; }
 
         # Compare versions
         if [[ "$REMOTE_VERSION" != "$LOCAL_VERSION" ]]; then
             echo -e "${GREEN}Update available!${NC} Local: $LOCAL_VERSION → Remote: $REMOTE_VERSION"
             echo -e "${YELLOW}Updating t4s automatically...${NC}"
-            bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/init) || error_exit "Failed to update the script"
+            bash <(curl -fsSL "$BASE_URI/init") || error_exit "Failed to update the script"
             echo -e "${GREEN}t4s updated successfully to version $REMOTE_VERSION!${NC}"
         else
             echo -e "${GREEN}t4s is up to date (version $LOCAL_VERSION).${NC}"
@@ -212,7 +214,7 @@ case "$1" in
         flush_rules
         ;;
     "")
-        bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/main_menu.sh) || error_exit "Failed to execute t4s"
+        bash <(curl -fsSL "$BASE_URI/main_menu.sh") || error_exit "Failed to execute t4s"
         ;;
     *)
         error_exit "Unknown command: $1"

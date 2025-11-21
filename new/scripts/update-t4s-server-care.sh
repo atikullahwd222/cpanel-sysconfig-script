@@ -10,7 +10,8 @@ set -euo pipefail
 BIN_PATH="/usr/bin/t4s_server_care"
 ENV_FILE="/etc/default/t4s_server_care"
 SERVICE_NAME="t4s-server-care.service"
-DEFAULT_UPDATE_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/whm-auto-fixer.sh"
+BASE_URI="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new"
+DEFAULT_UPDATE_URL="$BASE_URI/scripts/whm-auto-fixer.sh"
 LOGFILE="/var/log/t4s_update.log"
 
 # Load optional environment
