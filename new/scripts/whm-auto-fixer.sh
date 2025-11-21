@@ -26,9 +26,11 @@ SAMPLE_ATTEMPTS="${SAMPLE_ATTEMPTS:-3}"
 SAMPLE_SUCCESS="${SAMPLE_SUCCESS:-2}"
 
 # --- Enhanced Port Checking Endpoints ---
-# Multiple reliable port checking services (comma-separated)
-# These endpoints accept URL format: http://service.com/{port} and return "1" if open
-CHECK_URLS="${CHECK_URLS:-https://portchecker.co/check,https://www.yougetsignal.com/tools/open-ports,https://canyouseeme.org}"
+# Primary port checker service (returns JSON)
+PRIMARY_PORT_CHECKER="${PRIMARY_PORT_CHECKER:-https://portchecker.bdix.baharihost.com}"
+
+# Fallback port checking services (comma-separated)
+FALLBACK_CHECKERS="${FALLBACK_CHECKERS:-https://portchecker.co/check,https://canyouseeme.org}"
 
 # Alternative: Direct TCP connection check (most reliable)
 USE_DIRECT_CHECK="${USE_DIRECT_CHECK:-1}"
@@ -154,41 +156,51 @@ check_external_once() {
         fi
     fi
     
-    # Method 2: Try external port checking services
-    # Parse CHECK_URLS (comma or space separated)
-    local urls_str
-    urls_str=$(printf "%s" "$CHECK_URLS" | sed 's/,/ /g')
-    
+    # Method 2: Use primary port checker (baharihost.com JSON)
     local success=0
     local details=""
+    local resp resp_json open_val time_val service_val method_val
+    
+    # Try primary checker first
+    resp_json=$(curl -4 -s --max-time 6 "${PRIMARY_PORT_CHECKER}/?host=${ip}&port=${port}" 2>/dev/null)
+    if echo "$resp_json" | grep -q '"open"\s*:\s*true'; then
+        success=1
+        # extract optional fields from JSON without jq
+        time_val=$(printf "%s" "$resp_json" | sed -n 's/.*"time"\s*:\s*\([^,}]*\).*/\1/p' | head -n1)
+        service_val=$(printf "%s" "$resp_json" | sed -n 's/.*"service"\s*:\s*"\([^"]*\)".*/\1/p' | head -n1)
+        method_val=$(printf "%s" "$resp_json" | sed -n 's/.*"method"\s*:\s*"\([^"]*\)".*/\1/p' | head -n1)
+        details="bdix:open time=${time_val:-na} service=${service_val:-na} method=${method_val:-na}"
+        LAST_CHECK_DETAIL="$details"
+        echo 1
+        return 0
+    else
+        # include snippet for debugging
+        details="bdix:${resp_json:-err}"
+    fi
+    
+    # Method 3: Try fallback checkers if primary fails
+    local urls_str
+    urls_str=$(printf "%s" "$FALLBACK_CHECKERS" | sed 's/,/ /g')
     
     for url in $urls_str; do
-        # Skip if URL looks invalid
         [ -z "$url" ] && continue
         
-        local resp
-        local check_url
+        local check_resp
         
-        # Construct proper check URL based on service
+        # Handle different checker formats
         if echo "$url" | grep -q "portchecker.co"; then
-            check_url="https://portchecker.co/check"
-            resp=$(curl -4 -s --max-time 5 -X POST -d "port=$port" "$check_url" 2>/dev/null | grep -o "open" || echo "closed")
-            [ "$resp" = "open" ] && success=1
+            check_resp=$(curl -4 -s --max-time 5 -X POST -d "port=$port" -d "host=$ip" "$url" 2>/dev/null | grep -o "open" || echo "closed")
+            [ "$check_resp" = "open" ] && success=1
         elif echo "$url" | grep -q "canyouseeme.org"; then
-            # canyouseeme.org requires different approach
-            resp=$(curl -4 -s --max-time 5 "https://canyouseeme.org/" 2>/dev/null | grep -o "Success" || echo "Fail")
-            [ "$resp" = "Success" ] && success=1
+            check_resp=$(curl -4 -s --max-time 5 "https://canyouseeme.org/" 2>/dev/null | grep -o "Success" || echo "Fail")
+            [ "$check_resp" = "Success" ] && success=1
         else
             # Generic endpoint that returns "1" for open
-            resp=$(curl -4 -s --max-time 5 "${url}/${port}" 2>/dev/null)
-            [ "$resp" = "1" ] && success=1
+            check_resp=$(curl -4 -s --max-time 5 "${url}?host=${ip}&port=${port}" 2>/dev/null)
+            [ "$check_resp" = "1" ] && success=1
         fi
         
-        if [ -z "$details" ]; then
-            details="$url:${resp:-err}"
-        else
-            details="$details,$url:${resp:-err}"
-        fi
+        details="$details,${url##*/}:${check_resp:-err}"
         
         # Break on first success
         [ "$success" = "1" ] && break
@@ -217,7 +229,7 @@ check_reachable() {
     # Record sampling stats for notifications
     LAST_SAMPLE_OK="$ok"
     LAST_SAMPLE_TOTAL="$attempts"
-    LAST_CHECK_URL="${CHECK_URLS}"
+    LAST_CHECK_URL="${PRIMARY_PORT_CHECKER}"
     
     if [ "$ok" -ge "$need" ]; then
         echo 1
