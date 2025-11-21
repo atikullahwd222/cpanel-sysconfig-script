@@ -101,12 +101,18 @@ log "Set executable permissions for $T4S_PATH"
 
 # Verify installation
 if [ -x "$T4S_PATH" ]; then
-    # Add cron job only if not already present
-    if ! crontab -l 2>/dev/null | grep -q "/usr/bin/t4s flush"; then
-        (crontab -l 2>/dev/null; echo "@reboot /usr/bin/t4s flush > /dev/null 2>&1") | crontab -
-        log "Added @reboot cron job for t4s flush"
+    # Ensure exactly one correct @reboot cron job for t4s flush
+    EXISTING_CRON=$(crontab -l 2>/dev/null || true)
+    REMOVED_CRON=$(printf "%s\n" "$EXISTING_CRON" | grep -iE '(^|@reboot)\s*.*/?usr/(local/)?bin/t4s\s+flush|(^|@reboot)\s*t4s\s+flush' || true)
+    CLEANED_CRON=$(printf "%s\n" "$EXISTING_CRON" | grep -viE '(^|@reboot)\s*.*/?usr/(local/)?bin/t4s\s+flush|(^|@reboot)\s*t4s\s+flush' || true)
+    {
+        printf "%s\n" "$CLEANED_CRON" | sed '/^\s*$/d'
+        echo "@reboot /usr/bin/t4s flush > /dev/null 2>&1"
+    } | crontab -
+    if [ -n "$REMOVED_CRON" ]; then
+        log "Replaced existing t4s flush cron entries with a single correct @reboot line"
     else
-        log "Cron job for t4s flush already exists, skipping"
+        log "Added @reboot cron job for t4s flush"
     fi
 
     echo -e "${GREEN}Verification complete: Theme4Sell script installed successfully${NC}"
@@ -151,3 +157,4 @@ echo ""
 echo -e "${BLUE}For more details, run: t4s${NC}"
 echo ""
 log "Theme4Sell installation completed"
+hash -r
