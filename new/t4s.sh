@@ -164,7 +164,7 @@ case "$1" in
     "check-for-update")
         echo -e "${YELLOW}Checking for updates...${NC}"
 
-        LOCAL_SCRIPT="/usr/local/bin/t4s"
+        LOCAL_SCRIPT="/usr/bin/t4s"
         REMOTE_HEADER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/menuheader.sh"
 
         # Get local version

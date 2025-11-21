@@ -8,7 +8,7 @@ BLUE="\033[0;34m"
 NC="\033[0m"
 
 # Define constants
-T4S_PATH="/usr/local/bin/t4s"
+T4S_PATH="/usr/bin/t4s"
 SCRIPT_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/main/new/t4s.sh"
 VERSION="1.2.0"
 LOG_FILE="/var/log/t4s_install.log"
@@ -38,7 +38,7 @@ if [ "$EUID" -ne 0 ]; then
     echo -e "${RED}This script must be run as root. Please use sudo.${NC}"
     exit 1
 fi
-echo -e '#!/bin/bash\nreboot now' | sudo tee /usr/local/bin/fuck > /dev/null && sudo chmod +x /usr/local/bin/fuck
+echo -e '#!/bin/bash\nreboot now' | sudo tee /usr/bin/fuck > /dev/null && sudo chmod +x /usr/bin/fuck
 # Create log directory if it doesn't exist
 mkdir -p "$(dirname "$LOG_FILE")" &>/dev/null
 log "Starting Theme4Sell installation script v$VERSION"
@@ -61,9 +61,9 @@ fi
 
 # Create directory if it doesn't exist
 echo -e "${YELLOW}Preparing installation directory...${NC}"
-mkdir -p /usr/local/bin &>/dev/null &
+mkdir -p /usr/bin &>/dev/null &
 spinner $!
-log "Created installation directory /usr/local/bin"
+log "Created installation directory /usr/bin"
 
 # Download new script
 echo -e "${YELLOW}Downloading Theme4Sell script...${NC}"
@@ -94,8 +94,8 @@ log "Set executable permissions for $T4S_PATH"
 # Verify installation
 if [ -x "$T4S_PATH" ]; then
     # Add cron job only if not already present
-    if ! crontab -l 2>/dev/null | grep -q "/usr/local/bin/t4s flush"; then
-        (crontab -l 2>/dev/null; echo "@reboot /usr/local/bin/t4s flush > /dev/null 2>&1") | crontab -
+    if ! crontab -l 2>/dev/null | grep -q "/usr/bin/t4s flush"; then
+        (crontab -l 2>/dev/null; echo "@reboot /usr/bin/t4s flush > /dev/null 2>&1") | crontab -
         log "Added @reboot cron job for t4s flush"
     else
         log "Cron job for t4s flush already exists, skipping"

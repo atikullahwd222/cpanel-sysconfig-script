@@ -130,7 +130,7 @@ while true; do
         7)
             echo -e "${YELLOW}You selected: Init t4s Server Fixer${NC}"
             echo -e "${YELLOW}Installing systemd service for t4s Server Care...${NC}"
-            bash <(curl -fsSL https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/install-t4s-server-care-service.sh)
+            bash <(curl -fsSL $SCRIPT_URI/scripts/install-t4s-server-care-service.sh)
 
             echo -e "${GREEN}t4s Server Care service installed and started!${NC}"
             echo -e "${BLUE}Manage with:${NC} systemctl status t4s-server-care | systemctl restart t4s-server-care"

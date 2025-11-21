@@ -2,16 +2,22 @@
 set -euo pipefail
 
 # Installer for systemd service to run the WHM Auto Fixer at boot
-# - Installs script to /usr/local/bin/t4s_server_care
+# - Installs script to /usr/bin/t4s_server_care
 # - Creates /etc/default/t4s_server_care for configuration (if missing)
 # - Creates/updates systemd unit t4s-server-care.service
 # - Enables and starts the service
 
 SERVICE_NAME="t4s-server-care.service"
-BIN_PATH="/usr/local/bin/t4s_server_care"
+BIN_PATH="/usr/bin/t4s_server_care"
 ENV_FILE="/etc/default/t4s_server_care"
 UNIT_PATH="/etc/systemd/system/${SERVICE_NAME}"
 REPO_SCRIPT_PATH="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/whm-auto-fixer.sh"
+
+# Updater artifacts
+UPDATER_BIN="/usr/bin/update-t4s-server-care"
+UPDATER_SERVICE="/etc/systemd/system/t4s-server-care-update.service"
+UPDATER_TIMER="/etc/systemd/system/t4s-server-care-update.timer"
+UPDATER_URL="https://raw.githubusercontent.com/atikullahwd222/cpanel-sysconfig-script/refs/heads/main/new/scripts/update-t4s-server-care.sh"
 
 require_root() {
   if [ "${EUID:-$(id -u)}" -ne 0 ]; then
@@ -122,6 +128,47 @@ main() {
   create_env_file
   create_unit
   reload_enable_start
+
+  # Deploy updater
+  echo "Installing updater to $UPDATER_BIN"
+  curl -fsSL "$UPDATER_URL" -o "$UPDATER_BIN"
+  chmod 0755 "$UPDATER_BIN"
+
+  # Create updater service
+  cat > "$UPDATER_SERVICE" << EOF
+[Unit]
+Description=Auto-update Theme4Sell WHM Auto Fixer
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+EnvironmentFile=$ENV_FILE
+ExecStart=$UPDATER_BIN
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+  # Create updater timer (daily at 03:15)
+  cat > "$UPDATER_TIMER" << EOF
+[Unit]
+Description=Daily update for t4s_server_care
+
+[Timer]
+OnCalendar=*-*-* 03:15:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
+  chmod 0644 "$UPDATER_SERVICE" "$UPDATER_TIMER"
+  systemctl daemon-reload
+  systemctl enable --now t4s-server-care-update.timer
+  systemctl status --no-pager -n 10 t4s-server-care-update.timer || true
   echo
   echo "Installation complete. Logs: tail -f /var/log/check-whm.log"
 }
